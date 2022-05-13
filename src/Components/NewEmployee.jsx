@@ -1,0 +1,406 @@
+import React, { useState, useEffect } from 'react'
+// import { Link,useHistory } from 'react-router-dom'
+// import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+// import {pink} from '@mui/material/colors';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+// import Datepicker from './SubComponents/Heading';
+import { Button } from '@mui/material';
+import Heading from './SubComponents/Heading'
+
+
+const NewEmployee = () => {
+
+
+    
+    //--------------------- STEP 1: ---------------------
+
+    const [marStatus, setMarStatus] = useState('');
+
+    const handleMarStatus = (event) => {
+        setMarStatus(event.target.value);
+        
+    };
+    const [eduStatus, setEduStatus] = useState('');
+
+    const handleEduStatus = (event) => {
+        setEduStatus(event.target.value);
+    };
+    
+    
+    const [selectedDate,setSelectedDate] = useState('0000-00-00');
+    const [age,setAge] = useState();
+    
+    const changeDate=(e)=>{
+        setSelectedDate(e.target.value);
+    }
+    
+    const findAge=(dob)=>{
+        let date = new Date();
+        // console.log(date);
+        let yr = date.getFullYear();
+        let mm = date.getMonth()+1;
+        // console.log(yr + " " + mm );
+        let selDate = dob;
+        let selDateArr = selDate.split("-");
+        // console.log(selDateArr);
+        let age=0; 
+        if(dob==='0000-00-00'){
+            age=0;
+        }else if(selDateArr[1]<= mm && selDateArr[0]!= yr){
+                age = yr-selDateArr[0]+1;
+        }else{
+            age = yr-selDateArr[0];
+        }
+                // console.log(age);
+                
+        setAge(age);        
+    }
+        
+            
+            //---------------- STEP 2: --------------------
+
+    const [dep, setDep] = useState('');
+
+    const handleDep = (event) => {
+        setDep(event.target.value);
+        console.log(dep);
+    };
+    const [role, setRole] = useState('');
+
+    const handleRole = (event) => {
+        setRole(event.target.value);
+        console.log(role);
+    };
+    const [empType, setEmpType]  = useState('');
+
+    const handleEmpType = (event) => {
+        setEmpType(event.target.value);
+        console.log(empType);
+    };
+    
+    const [stat, setStat]  = useState('');
+
+    const handleStat = (event) => {
+        setStat(event.target.value);
+        console.log(stat);
+    };
+    const [perPos, setPerPos]  = useState('');
+
+    const handlePerPos = (event) => {
+        setPerPos(event.target.value);
+        console.log(perPos);
+    };
+    
+    const [dateJoin,setDateJoin] = useState();
+
+    const dateOfJoining = (e) =>{
+        setDateJoin(e.target.value)
+        console.log(dateJoin);
+    }
+    
+
+    // Main Page
+    // const history = useHistory();
+
+    console.log(selectedDate)
+    
+    
+    // USE EFFECT
+    useEffect(() =>{
+        findAge(selectedDate);
+    },[selectedDate])
+    
+    
+    
+    return (
+        <>
+            <div className="container bg-light mb-5 mt-5 nempMain">
+          
+          {/* --------------Step 1------------------ */}
+
+                <Heading 
+                    heading="Add Employees"
+                />
+
+                <div className="container mt-5 mb-5">
+                    <div className="d-flex mt-3 align-items-center">
+                        <h4>Step 1 : <span className="empHead"> Personal details </span> </h4>
+                    </div>
+                    <hr />
+                    <div className="container mt-5" >
+                        
+                    {/* ---------------- Full Name ----------------- */}
+
+                        <div className="form-group row justify-content-center">
+                            <label className="col-md-2 control-label"> Full Name: </label>
+                            <div className="col-md-3" >
+                                <TextField id="outlined" label="First Name" required fullWidth /> 
+                            </div>        
+                            <div className="col-md-3">
+                                <TextField id="outlined" label="Middle Name" fullWidth />
+                            </div>        
+                            <div className="col-md-3">
+                                <TextField id="outlined" label="Last Name" fullWidth required />
+                            </div>
+                        </div>        
+                        <br />
+
+
+                       {/* ------------------- Address ----------------------  */}
+                        <div className="form-group row justify-content-around">
+                            <label className="col-md-1 control-label"> Address: </label>
+                            <div className="col-md-9" >
+                                <TextField id="outlined" label=" Street Address" fullWidth required />
+                            </div>     
+                        </div>
+                        <br />
+                        <div className="form-group row justify-content-around me-4 ps-2 pe-3 ms-4">   
+                            <div className="col-md-4">
+                                <TextField id="outlined" fullWidth  label="City" required />
+                            </div>        
+                            <div className="col-md-4">
+                                <TextField id="outlined" fullWidth label="State" required />
+                            </div>        
+                            <div className="col-md-4">
+                                <TextField id="outlined" fullWidth label="Zip Code" required />
+                            </div>        
+                        </div>
+                        <br />
+
+                    {/* ----------------------- Gender & Birthday ---------------------- */}
+
+                        <div className="form-group row justify-content-between me-4 ps-2 pe-3 ms-4">   
+                            <label className="col-md-1 control-label"> Gender:  </label>
+                            <div className="col-md-3">
+                                <RadioGroup
+                                    row
+                                    aria-labelledby="demo-row-radio-buttons-group-label"
+                                    name="row-radio-buttons-group"
+                                >
+                                    <FormControlLabel value="female" color="success" control={<Radio />} label="Female" />
+                                    <FormControlLabel value="male" control={<Radio />} label="Male" />
+                                    <FormControlLabel value="other" control={<Radio />} label="Other" />
+                                </RadioGroup>
+                            </div>
+                            <label className="col-md-1">  Birthday:  </label>
+                            <div className="col-md-3 ">
+                                <input type="date" className="form-control " onChange={changeDate} />
+                            </div>
+                            <label className="col-md-1 control-label">Age: </label>
+                            <div className="col-md-3">
+                                <input type="text" value={age} className="form-control text-center" id="age" disabled placeholder="Age"/>
+                            </div> 
+                        </div>
+                        <br />
+
+                    {/* ---------------------- Contact ---------------------- */}
+
+                        <div className="form-group row justify-content-center">
+                            <label className="col-md-2 control-label"> Contact: </label>
+                            <div className="col-md-3" >
+                                <TextField id="outlined" label="Email" required fullWidth /> 
+                            </div>        
+                            <div className="col-md-3">
+                                <TextField id="outlined" label="Contact" fullWidth />
+                            </div>        
+                            <div className="col-md-3">
+                                <TextField id="outlined" label="Telephone" fullWidth />
+                            </div>
+                        </div>       
+                        <br />
+
+                    {/* --------------------------Maritial Status & Education Level----------------------- */}
+
+                        <div className="form-group row justify-content-around">
+                            <label className="col-md-1 control-label"> Maritial Status: </label>
+                            <div className="col-md-4" >
+                                <FormControl fullWidth>
+                                    <InputLabel id="demo-simple-select-label">Select Status: </InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={marStatus}
+                                        label="Select Status:"
+                                        onChange={handleMarStatus}
+                                    >
+                                        <MenuItem value={"single"}>Single</MenuItem>
+                                        <MenuItem value={"married"}>Married</MenuItem>
+                                        <MenuItem value={"divorced"}>Divorced</MenuItem>
+                                        <MenuItem value={"widowed"}>Widowed</MenuItem>
+                                    </Select>   
+                                </FormControl>
+                            </div>        
+                            <div className="col-md-4">
+                                <FormControl fullWidth>
+                                        <InputLabel id="demo-simple-select-label">Select Education Level: </InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={eduStatus}
+                                            label="Select Education Level:"
+                                            onChange={handleEduStatus}
+                                        >
+                                            <MenuItem value={"associate degree"}>Associate Degree</MenuItem>
+                                            <MenuItem value={"bachelor's degree"}>Bachelor's Degree</MenuItem>
+                                            <MenuItem value={"master's degree"}>Master's Degree</MenuItem>
+                                            <MenuItem value={"doctoral degree"}>Doctoral Degree</MenuItem>
+                                        </Select>   
+                                    </FormControl> 
+                            </div>        
+                        </div>       
+                </div>
+                <br />
+                <hr />
+
+{/*------------------------- Step 2 ------------------------*/}
+                
+                <div className="d-flex mt-5 mb-3 align-items-center">
+                        <h4>Step 2 : <span className="empHead"> Employment details </span> </h4>
+                </div>
+                <hr />
+                <div className="container mb-5 mt-5">
+                    
+                    {/* ----------------------- Employee ID & Department --------------------- */}
+                    
+                    <div className="form-group row justify-content-around">
+                        <label className="col-md-1 control-label"> Employee ID: </label>
+                        <div className="col-md-4" >
+                            <TextField id="outlined" label="Employee ID" required fullWidth /> 
+                        </div> 
+                        <label className="col-md-1 control-label"> Department: </label>
+                        <div className="col-md-4">
+                                <FormControl fullWidth>
+                                        <InputLabel id="demo-simple-select-label">Select Department </InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={dep}
+                                            label="Select Department"
+                                            onChange={handleDep}
+                                        >
+                                            <MenuItem value={"associate engineer"}>Associate Engineer</MenuItem>
+                                            <MenuItem value={"it engineer"}>IT Engineer</MenuItem>
+                                            <MenuItem value={"software engineer"}>Software Engineer</MenuItem>
+                                        </Select>   
+                                    </FormControl> 
+                            </div>        
+                    </div>
+                    <br />
+                    <div className="form-group row justify-content-around">
+                        <label className="col-md-1 control-label"> Date of Joining </label>
+                        <div className="col-md-4" >
+                            <input type="date" className="form-control" onChange={dateOfJoining}/>
+                        </div> 
+                        <label className="col-md-1 control-label"> Role: </label>
+                        <div className="col-md-4">
+                            <FormControl fullWidth>
+                                    <InputLabel id="demo-simple-select-label">Role </InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={role}
+                                        label="Select Department"
+                                        onChange={handleRole}
+                                    >
+                                        <MenuItem value={"faculty"}>Faculty</MenuItem>
+                                        <MenuItem value={"employee"}>Employee</MenuItem>
+                                    </Select>   
+                                </FormControl> 
+                        </div>        
+                    </div>
+                    <br />
+
+
+                    {/* ----------------------------- Employment Type & Status --------------------------- */}
+
+
+                    <div className="form-group row justify-content-around">
+                        <label className="col-md-1 control-label"> Employment Type: </label>
+                        <div className="col-md-4">
+                            <FormControl fullWidth>
+                                    <InputLabel id="demo-simple-select-label">Select Employment Type: </InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={empType}
+                                        label="Select Employment Typr"
+                                        onChange={handleEmpType}
+                                    >
+                                        <MenuItem value={"full time"}>Full Time</MenuItem>
+                                        <MenuItem value={"part time"}>Part Time</MenuItem>
+                                    </Select>   
+                                </FormControl> 
+                        </div>        
+                        <label className="col-md-1 control-label"> Status: </label>
+                        <div className="col-md-4">
+                            <FormControl fullWidth>
+                                    <InputLabel id="demo-simple-select-label">Status </InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={stat}
+                                        label="Select Department"
+                                        onChange={handleStat}
+                                    >
+                                        <MenuItem value={"active"}>Active</MenuItem>
+                                        <MenuItem value={"inactive"}>Inacive</MenuItem>
+                                    </Select>   
+                                </FormControl> 
+                        </div>        
+                    </div>
+                    <br />
+                    
+                    {/* ------------------ Permanent & Salary ---------------- */}
+                    
+                    <div className="form-group row justify-content-around">
+                        <label className="col-md-1 control-label"> Permanent: </label>
+                        <div className="col-md-4">
+                            <FormControl fullWidth>
+                                    <InputLabel id="demo-simple-select-label">Permanent Position: </InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={perPos}
+                                        label="Permanent Position"
+                                        onChange={handlePerPos}
+                                    >
+                                        <MenuItem value={"no"}>No</MenuItem>
+                                        <MenuItem value={"yes"}>Yes</MenuItem>
+                                    </Select>   
+                                </FormControl> 
+                        </div>        
+                        <label className="col-md-1 control-label"> Salary: </label>
+                        <div className="col-md-4">
+                            <TextField id="outlined" label="Salary" required fullWidth /> 
+                        </div>        
+                    </div>
+                    <br />
+
+                </div>
+            </div>
+            <br />
+           
+        
+         
+            {/* ---------------- Submit Button ------------- */}
+
+            <div className='me-5  empSubDiv '>
+                <Button variant="contained" href="#" className="mb-5 empSubBtn">
+                    Submit
+                </Button>
+            </div>
+
+
+            </div>
+        </>
+    )
+}
+
+export default NewEmployee;
