@@ -8,6 +8,9 @@ import ManualAttendance from './Components/ManualAttendance';
 import NewUser from './Components/NewUser';
 import ViewUser from './Components/ViewUser';
 import EditUser from './Components/EditUser';
+import ReportAttendance from './Components/ReportAttendance';
+import ViewAttendance from './Components/ViewAttendance';
+import ViewLeave from './Components/ViewLeave';
 
 
 
@@ -23,7 +26,10 @@ const App = () => {
           <Route exact path='/attendance' component={ManualAttendance} />
           <Route exact path='/adduser' component={NewUser} />
           <Route exact path='/viewuser' component={ViewUser} />
+          <Route exact path='/viewattendance' component={ViewAttendance} />
+          <Route exact path='/viewleave' component={ViewLeave} />
           <Route exact path='/viewuser/edituser' component={EditUser} />
+          <Route exact path='/reports/attendance' component={ReportAttendance} />
         </Switch>
     </> 
   )
