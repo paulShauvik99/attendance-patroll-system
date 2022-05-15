@@ -135,7 +135,7 @@ const Sidebar = () => {
               </NavLink>
               <ul className="sub-menu blank">
                 <li><NavLink className="link_name" to="#">Users</NavLink></li>
-                <li><NavLink to="#">View Users </NavLink></li>
+                <li><NavLink to="viewuser">View Users </NavLink></li>
                 <li><NavLink to="adduser">Add Admins</NavLink></li>
               </ul>
             </li>

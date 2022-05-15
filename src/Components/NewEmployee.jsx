@@ -53,10 +53,10 @@ const NewEmployee = () => {
         let age=0; 
         if(dob==='0000-00-00'){
             age=0;
-        }else if(selDateArr[1]<= mm && selDateArr[0]!= yr){
-                age = yr-selDateArr[0]+1;
-        }else{
+        }else if(mm>=selDateArr[1] && selDateArr[0]!= yr){
             age = yr-selDateArr[0];
+        }else if(mm<=selDateArr[1] && selDateArr[0]!= yr){
+            age = yr-selDateArr[0]-1;
         }
                 // console.log(age);
                 
