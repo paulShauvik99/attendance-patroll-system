@@ -13,11 +13,12 @@ import InputLabel from '@mui/material/InputLabel';
 // import Datepicker from './SubComponents/Heading';
 import { Button } from '@mui/material';
 import Heading from './SubComponents/Heading'
+import axios from "axios"
 
 
 const NewEmployee = () => {
 
-
+   
     
     //--------------------- STEP 1: ---------------------
 
@@ -116,7 +117,48 @@ const NewEmployee = () => {
     useEffect(() =>{
         findAge(selectedDate);
     },[selectedDate])
+
+
+
+    // sending to backend
+
+    const addEmployee = async() => { 
+        // firstname, lastname, streetAdd, city, state, zip, gender, birthday,
+        //     email, phone, marital, education, employeeID,
+        //     role, joinDate, employmentType
+
+        // const res = await axios.post("http://localhost:5000/addEmployee",{
+        //     firstname : 
+        // })
+        
     
+    }
+    
+    let name , value
+
+    // Name
+    const [sname, setName] = useState({
+        fullname : "",
+        middlename : "",
+        lastname : ""
+    })
+
+    const [address,setAddress] = useState({
+        street : "",
+        city : "",
+        state : "",
+        zip : ""
+    })
+
+    const handleInputs = (event) => {
+        name = event.target.name
+        value = event.target.value
+
+        setName({...sname,[name]:value})
+        setAddress({...address,[name]:value})
+    }
+
+
     
     
     return (
@@ -141,13 +183,13 @@ const NewEmployee = () => {
                         <div className="form-group row justify-content-center">
                             <label className="col-md-2 control-label"> Full Name: </label>
                             <div className="col-md-3" >
-                                <TextField id="outlined" label="First Name" required fullWidth /> 
+                                <TextField id="outlined" label="First Name" name="fullname" required fullWidth value={sname.fullname} onChange={handleInputs}/> 
                             </div>        
                             <div className="col-md-3">
-                                <TextField id="outlined" label="Middle Name" fullWidth />
+                                <TextField id="outlined" label="Middle Name" name="middlename" fullWidth value={sname.middlename} onChange={handleInputs}/>
                             </div>        
                             <div className="col-md-3">
-                                <TextField id="outlined" label="Last Name" fullWidth required />
+                                <TextField id="outlined" label="Last Name" name="lastname" fullWidth required value={sname.lastname} onChange={handleInputs}/>
                             </div>
                         </div>        
                         <br />
@@ -157,19 +199,19 @@ const NewEmployee = () => {
                         <div className="form-group row justify-content-around">
                             <label className="col-md-1 control-label"> Address: </label>
                             <div className="col-md-9" >
-                                <TextField id="outlined" label=" Street Address" fullWidth required />
+                                <TextField id="outlined" label=" Street Address" name="street" fullWidth required value={address.street} onChange={handleInputs}/>
                             </div>     
                         </div>
                         <br />
                         <div className="form-group row justify-content-around me-4 ps-2 pe-3 ms-4">   
                             <div className="col-md-4">
-                                <TextField id="outlined" fullWidth  label="City" required />
+                                <TextField id="outlined" fullWidth  label="City" name="city" required value={address.city} onChange={handleInputs}/>
                             </div>        
                             <div className="col-md-4">
-                                <TextField id="outlined" fullWidth label="State" required />
+                                <TextField id="outlined" fullWidth label="State" name="state" required value={address.state} onChange={handleInputs}/>
                             </div>        
                             <div className="col-md-4">
-                                <TextField id="outlined" fullWidth label="Zip Code" required />
+                                <TextField type="number" id="outlined" fullWidth label="Zip Code" name="zip" required value={address.zip} onChange={handleInputs}/>
                             </div>        
                         </div>
                         <br />
@@ -247,10 +289,10 @@ const NewEmployee = () => {
                                             label="Select Education Level:"
                                             onChange={handleEduStatus}
                                         >
-                                            <MenuItem value={"associate degree"}>Associate Degree</MenuItem>
-                                            <MenuItem value={"bachelor's degree"}>Bachelor's Degree</MenuItem>
-                                            <MenuItem value={"master's degree"}>Master's Degree</MenuItem>
-                                            <MenuItem value={"doctoral degree"}>Doctoral Degree</MenuItem>
+                                            <MenuItem value={"Associate Degree"}>Associate Degree</MenuItem>
+                                            <MenuItem value={"Bachelors Degree"}>Bachelor's Degree</MenuItem>
+                                            <MenuItem value={"Masters Degree"}>Master's Degree</MenuItem>
+                                            <MenuItem value={"Doctoral Degree"}>Doctoral Degree</MenuItem>
                                         </Select>   
                                     </FormControl> 
                             </div>        
@@ -392,7 +434,7 @@ const NewEmployee = () => {
             {/* ---------------- Submit Button ------------- */}
 
             <div className='me-5  empSubDiv '>
-                <Button variant="contained" href="#" className="mb-5 empSubBtn">
+                <Button variant="contained" href="#" className="mb-5 empSubBtn" onClick={addEmployee}>
                     Submit
                 </Button>
             </div>
