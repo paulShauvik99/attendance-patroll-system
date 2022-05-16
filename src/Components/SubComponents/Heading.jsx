@@ -6,6 +6,7 @@ const Heading = (props) => {
   const history = useHistory();
 
 
+  console.log(history.location.pathname);
   return (
         <>
             <div className="mb-2 d-flex justify-content-between align-items-center" >

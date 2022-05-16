@@ -63,7 +63,7 @@ const ViewUser = () => {
                   </button>
                   <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     
-                    <Link className="dropdown-item" to="viewuser/edituser"><i className="fa fa-edit"></i>  Edit Role</Link>
+                    <Link className="dropdown-item" to="edituser"><i className="fa fa-edit"></i>  Edit Role</Link>
                     <Link className="dropdown-item" to="#"><i className="fa fa-trash"></i>  Delete</Link>
                   </div>
                 </div>

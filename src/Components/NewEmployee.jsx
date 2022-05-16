@@ -309,32 +309,34 @@ const NewEmployee = () => {
                 <hr />
                 <div className="container mb-5 mt-5">
                     
-                    {/* ----------------------- Employee ID & Department --------------------- */}
+                    {/* ----------------------- Employee ID & Permanent Status --------------------- */}
                     
                     <div className="form-group row justify-content-around">
                         <label className="col-md-1 control-label"> Employee ID: </label>
                         <div className="col-md-4" >
                             <TextField id="outlined" label="Employee ID" required fullWidth /> 
                         </div> 
-                        <label className="col-md-1 control-label"> Department: </label>
+                        <label className="col-md-1 control-label"> Permanent: </label>
                         <div className="col-md-4">
-                                <FormControl fullWidth>
-                                        <InputLabel id="demo-simple-select-label">Select Department </InputLabel>
-                                        <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            value={dep}
-                                            label="Select Department"
-                                            onChange={handleDep}
-                                        >
-                                            <MenuItem value={"associate engineer"}>Associate Engineer</MenuItem>
-                                            <MenuItem value={"it engineer"}>IT Engineer</MenuItem>
-                                            <MenuItem value={"software engineer"}>Software Engineer</MenuItem>
-                                        </Select>   
-                                    </FormControl> 
-                            </div>        
+                            <FormControl fullWidth>
+                                    <InputLabel id="demo-simple-select-label">Permanent Position: </InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={perPos}
+                                        label="Permanent Position"
+                                        onChange={handlePerPos}
+                                    >
+                                        <MenuItem value={"no"}>No</MenuItem>
+                                        <MenuItem value={"yes"}>Yes</MenuItem>
+                                    </Select>   
+                                </FormControl> 
+                        </div>        
+                          
                     </div>
                     <br />
+            {/* ------------------ Date of Joining && Role -------------------------- */}
+
                     <div className="form-group row justify-content-around">
                         <label className="col-md-1 control-label"> Date of Joining </label>
                         <div className="col-md-4" >
@@ -360,7 +362,7 @@ const NewEmployee = () => {
                     <br />
 
 
-                    {/* ----------------------------- Employment Type & Status --------------------------- */}
+                    {/* ----------------------------- Employment Type & Salary --------------------------- */}
 
 
                     <div className="form-group row justify-content-around">
@@ -380,50 +382,14 @@ const NewEmployee = () => {
                                     </Select>   
                                 </FormControl> 
                         </div>        
-                        <label className="col-md-1 control-label"> Status: </label>
-                        <div className="col-md-4">
-                            <FormControl fullWidth>
-                                    <InputLabel id="demo-simple-select-label">Status </InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={stat}
-                                        label="Select Department"
-                                        onChange={handleStat}
-                                    >
-                                        <MenuItem value={"active"}>Active</MenuItem>
-                                        <MenuItem value={"inactive"}>Inacive</MenuItem>
-                                    </Select>   
-                                </FormControl> 
-                        </div>        
-                    </div>
-                    <br />
-                    
-                    {/* ------------------ Permanent & Salary ---------------- */}
-                    
-                    <div className="form-group row justify-content-around">
-                        <label className="col-md-1 control-label"> Permanent: </label>
-                        <div className="col-md-4">
-                            <FormControl fullWidth>
-                                    <InputLabel id="demo-simple-select-label">Permanent Position: </InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={perPos}
-                                        label="Permanent Position"
-                                        onChange={handlePerPos}
-                                    >
-                                        <MenuItem value={"no"}>No</MenuItem>
-                                        <MenuItem value={"yes"}>Yes</MenuItem>
-                                    </Select>   
-                                </FormControl> 
-                        </div>        
                         <label className="col-md-1 control-label"> Salary: </label>
                         <div className="col-md-4">
                             <TextField id="outlined" label="Salary" required fullWidth /> 
-                        </div>        
+                        </div>     
                     </div>
                     <br />
+                    
+                   
 
                 </div>
             </div>

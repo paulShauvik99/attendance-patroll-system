@@ -110,8 +110,8 @@ const Sidebar = () => {
               </div>
               <ul className="sub-menu">
                 <li><NavLink className="link_name" to="#">Reports</NavLink></li>
-                <li><NavLink to="/reports/attendance">Attendance</NavLink></li>
-                <li><NavLink to="/reports/leaves">Leaves</NavLink></li>
+                <li><NavLink to="/reportattendance">Attendance</NavLink></li>
+                <li><NavLink to="/reportleaves">Leaves</NavLink></li>
               </ul>
             </li>
             <li>
@@ -121,8 +121,8 @@ const Sidebar = () => {
               </NavLink>
               <ul className="sub-menu blank">
                 <li><NavLink className="link_name" to="#">Roles</NavLink></li>
-                <li><NavLink to="#">View Role</NavLink></li>
-                <li><NavLink to="#">Add Role</NavLink></li>
+                <li><NavLink to="/viewrole">View Role</NavLink></li>
+                <li><NavLink to="/addrole">Add Role</NavLink></li>
               </ul>
             </li>
             <li>

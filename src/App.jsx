@@ -11,6 +11,8 @@ import EditUser from './Components/EditUser';
 import ReportAttendance from './Components/ReportAttendance';
 import ViewAttendance from './Components/ViewAttendance';
 import ViewLeave from './Components/ViewLeave';
+import ReportLeave from './Components/ReportLeave';
+import AddRole from './Components/AddRole';
 
 
 
@@ -25,11 +27,13 @@ const App = () => {
           <Route exact path='/newemployee' component={NewEmployee} />
           <Route exact path='/attendance' component={ManualAttendance} />
           <Route exact path='/adduser' component={NewUser} />
+          <Route exact path='/addrole' component={AddRole} />
           <Route exact path='/viewuser' component={ViewUser} />
           <Route exact path='/viewattendance' component={ViewAttendance} />
           <Route exact path='/viewleave' component={ViewLeave} />
           <Route exact path='/viewuser/edituser' component={EditUser} />
-          <Route exact path='/reports/attendance' component={ReportAttendance} />
+          <Route exact path='/reportattendance' component={ReportAttendance} />
+          <Route exact path='/reportleaves' component={ReportLeave} />
         </Switch>
     </> 
   )
