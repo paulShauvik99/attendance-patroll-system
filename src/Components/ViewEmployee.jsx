@@ -1,8 +1,21 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, NavLink, useHistory } from 'react-router-dom';
 import Heading from './SubComponents/Heading';
+import axios from "axios"
 
 const ViewEmployee = () => {
+
+  const [list, setList] = useState([])
+  const getList = async () => {
+    const res = await axios.get("http://localhost:5000/findEmployee")
+    console.log(res.data);
+    setList(res.data)
+  }
+
+  useEffect(() => {
+    getList();
+  }, [])
+
 
 
   return (
@@ -15,153 +28,68 @@ const ViewEmployee = () => {
           <h4> Employee Table </h4>
         </div>
         <hr />
-        
-    <table id="dtBasicExample" className="mt-5 mb-5 table table-hover table-responsive table-bordered" >
-      <thead>
-        <tr className='text-center'>
-          <th class="th-sm">Name
-          </th>
-          <th class="th-sm">Position
-          </th>
-          <th class="th-sm">Department
-          </th>
-          <th class="th-sm">Salary
-          </th>
-          <th class="th-sm">Email
-          </th>
-          <th class="th-sm">Status
-          </th>
-          <th class="th-sm">Actions
-          </th>
-        </tr>
-      </thead>
-        <tbody>
-          <tr className="text-center">
-            <td>Tiger Nixon</td>
-            <td>System Architect</td>
-            <td>Edinburgh</td>
-            <td>$320,800</td>
-            <td>example@gmail.com</td>
-            <td>Active</td>
-            <td>
-              <div className="dropdown">
-                <button className="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Action
-                </button>
-                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <Link className="dropdown-item" to="#"> <i className="fa fa-user"></i>  Profile</Link>
-                  <Link className="dropdown-item" to="#"><i className="fa fa-edit"></i>  Edit</Link>
-                  <Link className="dropdown-item" to="#"><i className="fa fa-trash"></i>  Delete</Link>
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr className="text-center">
-            <td>Tiger Nixon</td>
-            <td>System Architect</td>
-            <td>Edinburgh</td>
-            <td>$320,800</td>
-            <td>example@gmail.com</td>
-            <td>Active</td>
-            <td>
-              <div className="dropdown">
-                <button className="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Action
-                </button>
-                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <Link className="dropdown-item" to="#"> <i className="fa fa-user"></i>  Profile</Link>
-                  <Link className="dropdown-item" to="#"><i className="fa fa-edit"></i>  Edit</Link>
-                  <Link className="dropdown-item" to="#"><i className="fa fa-trash"></i>  Delete</Link>
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr className="text-center">
-            <td>Tiger Nixon</td>
-            <td>System Architect</td>
-            <td>Edinburgh</td>
-            <td>$320,800</td>
-            <td>example@gmail.com</td>
-            <td>Active</td>
-            <td>
-              <div className="dropdown">
-                <button className="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Action
-                </button>
-                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <Link className="dropdown-item" to="#"> <i className="fa fa-user"></i>  Profile</Link>
-                  <Link className="dropdown-item" to="#"><i className="fa fa-edit"></i>  Edit</Link>
-                  <Link className="dropdown-item" to="#"><i className="fa fa-trash"></i>  Delete</Link>
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr className="text-center">
-            <td>Tiger Nixon</td>
-            <td>System Architect</td>
-            <td>Edinburgh</td>
-            <td>$320,800</td>
-            <td>example@gmail.com</td>
-            <td>Active</td>
-            <td>
-              <div className="dropdown">
-                <button className="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Action
-                </button>
-                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <Link className="dropdown-item" to="#"> <i className="fa fa-user"></i>  Profile</Link>
-                  <Link className="dropdown-item" to="#"><i className="fa fa-edit"></i>  Edit</Link>
-                  <Link className="dropdown-item" to="#"><i className="fa fa-trash"></i>  Delete</Link>
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr className="text-center">
-            <td>Tiger Nixon</td>
-            <td>System Architect</td>
-            <td>Edinburgh</td>
-            <td>$320,800</td>
-            <td>example@gmail.com</td>
-            <td>Active</td>
-            <td>
-              <div className="dropdown">
-                <button className="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Action
-                </button>
-                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <Link className="dropdown-item" to="#"> <i className="fa fa-user"></i>  Profile</Link>
-                  <Link className="dropdown-item" to="#"><i className="fa fa-edit"></i>  Edit</Link>
-                  <Link className="dropdown-item" to="#"><i className="fa fa-trash"></i>  Delete</Link>
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr className="text-center">
-            <td>Tiger Nixon</td>
-            <td>System Architect</td>
-            <td>Edinburgh</td>
-            <td>$320,800</td>
-            <td>example@gmail.com</td>
-            <td>Active</td>
-            <td>
-              <div className="dropdown">
-                <button className="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Action
-                </button>
-                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <Link className="dropdown-item" to="#"> <i className="fa fa-user"></i>  Profile</Link>
-                  <Link className="dropdown-item" to="#"><i className="fa fa-edit"></i>  Edit</Link>
-                  <Link className="dropdown-item" to="#"><i className="fa fa-trash"></i>  Delete</Link>
-                </div>
-              </div>
-            </td>
-          </tr>
-          
-          
-          
-          
-        </tbody>
-  
+
+        <table id="dtBasicExample" className="mt-5 mb-5 table table-hover table-responsive table-bordered" >
+          <thead>
+            <tr className='text-center'>
+              <th class="th-sm">Name
+              </th>
+              <th class="th-sm">Joining Date
+              </th>
+              <th class="th-sm">Address
+              </th>
+              <th class="th-sm">Email
+              </th>
+              <th class="th-sm">Mobile</th>
+              <th class="th-sm">Department
+              </th>
+              <th class="th-sm">Gender
+              </th>
+              <th class="th-sm">Employment Type
+              </th>
+              <th class="th-sm">Salary (in Rs.)
+              </th>
+
+
+              <th class="th-sm">Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+
+            {
+              list.map((curr, index) => {
+                return (
+                  <tr className="text-center" key={index}>
+                    <td>{curr.firstname} {curr.lastname}</td>
+                    <td>{curr.joinDate}</td>
+                    <td>{curr.streetAdd} {curr.city} {curr.state}</td>
+                    <td>{curr.email}</td>
+                    <td>{curr.mobile}</td>
+                    <td>{curr.role}</td>
+                    <td>{curr.gender}</td>
+                    <td>{curr.employmentType}</td>
+                    <td>{curr.salary}</td>
+                    <td>
+                      <div className="dropdown">
+                        <button className="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Action
+                        </button>
+                        <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <Link className="dropdown-item" to="#"> <i className="fa fa-user"></i>  Profile</Link>
+                          <Link className="dropdown-item" to="#"><i className="fa fa-edit"></i>  Edit</Link>
+                          <Link className="dropdown-item" to="#"><i className="fa fa-trash"></i>  Delete</Link>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                )
+              })
+            }
+
+
+          </tbody>
+
         </table>
         <div className='pagination'>
           <nav aria-label="Page navigation example">

@@ -1,11 +1,16 @@
 import Button from '@mui/material/Button';
 import React, { useState } from 'react'
 import Heading from './SubComponents/Heading';
+import axios from "axios"
 
 
 const ManualAttendance = () => {
+
+  
   
   // const history = useHistory();
+
+  const name = "Anil Roy"
   
   const [values,setValues] = useState({
     date:'',
@@ -19,6 +24,26 @@ const ManualAttendance = () => {
       [prop] : e.target.value
     })
   }
+
+
+  const addAttendance = async (event) => {
+    const res = await axios.post("http://localhost:5000/addAttendance",{
+      // name, date, time_in, time_out
+      name : name,
+      date : values.date, 
+      time_in : values.intime,
+      time_out : values.outtime
+
+    })
+    console.log(res);
+    if(res.status===201){
+      window.alert(res.data.message)
+    }else{
+      window.alert(res.data.message)
+    }
+  }
+
+
   return (
     <>  
       
@@ -54,7 +79,7 @@ const ManualAttendance = () => {
               </div>
               <br />
               <div className='mt-3 justify-content-center d-flex'>
-                <Button variant='contained attSub' href="#" className="mb-5">
+                <Button variant='contained attSub' href="#" className="mb-5" onClick={addAttendance}>
                     Submit
                 </Button>
               </div>

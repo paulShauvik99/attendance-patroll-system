@@ -13,6 +13,8 @@ import ViewAttendance from './Components/ViewAttendance';
 import ViewLeave from './Components/ViewLeave';
 import ReportLeave from './Components/ReportLeave';
 import AddRole from './Components/AddRole';
+import Logout from "./Components/LogOut"
+import Login from "./Components/LogIn"
 
 
 
@@ -31,9 +33,11 @@ const App = () => {
           <Route exact path='/viewuser' component={ViewUser} />
           <Route exact path='/viewattendance' component={ViewAttendance} />
           <Route exact path='/viewleave' component={ViewLeave} />
-          <Route exact path='/viewuser/edituser' component={EditUser} />
+          <Route exact path='/viewuser/edituser/:id' component={EditUser} />
           <Route exact path='/reportattendance' component={ReportAttendance} />
           <Route exact path='/reportleaves' component={ReportLeave} />
+          <Route exact path='/login' component={Login} />
+          <Route exact path='/logout' component={Logout} />
         </Switch>
     </> 
   )
