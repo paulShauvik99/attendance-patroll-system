@@ -15,7 +15,8 @@ const ViewLeave = () => {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 700,
+        width: '700px',
+        height:'380px',
         bgcolor: 'background.paper',
         border: '2px solid #000',
         boxShadow: 24,
@@ -94,6 +95,10 @@ const ViewLeave = () => {
                                     <p>Reason: Fever</p>
                                     <p>Number of Days: 5</p>
                                 </div>
+                                <div className="conatainer mb-2 mt-2 d-flex justify-content-end">
+                            <Button variant='contained' onCLick={handleClose} > Close </Button>
+
+                                </div>
                             </div>
                         </Box>
                         </Modal>
@@ -136,6 +141,10 @@ const ViewLeave = () => {
                                     <p>Description: Leave due to Fever</p>
                                     <p>Reason: Fever</p>
                                     <p>Number of Days: 5</p>
+                                </div>
+                                <div className="conatainer mb-2 mt-2 d-flex justify-content-end">
+                            <Button variant='contained' onClick={handleClose} > Close </Button>
+
                                 </div>
                             </div>
                             </Box>
@@ -180,6 +189,9 @@ const ViewLeave = () => {
                                     <p>Reason: Fever</p>
                                     <p>Number of Days: 5</p>
                                 </div>
+                                <div className="conatainer mb-2 mt-2 d-flex justify-content-end">
+                                    <Button variant='contained'  onClick={handleClose} > Close </Button>
+                                </div>
                             </div>
                         </Box>
                         </Modal>
@@ -223,6 +235,9 @@ const ViewLeave = () => {
                                     <p>Reason: Fever</p>
                                     <p>Number of Days: 5</p>
                                 </div>
+                                <div className="conatainer mb-2 mt-2 d-flex justify-content-end">
+                                    <Button variant='contained'  onClick={handleClose} > Close </Button>
+                                </div>
                             </div>
                             </Box>
                         </Modal>
@@ -265,6 +280,9 @@ const ViewLeave = () => {
                                     <p>Reason: Fever</p>
                                     <p>Number of Days: 5</p>
                                 </div>
+                                <div className="conatainer mb-2 mt-2 d-flex justify-content-end">
+                                    <Button variant='contained'  onClick={handleClose} > Close </Button>
+                                </div>
                             </div>
                             </Box>
                         </Modal>
@@ -305,6 +323,9 @@ const ViewLeave = () => {
                                     <p>Description: Leave due to Fever</p>
                                     <p>Reason: Fever</p>
                                     <p>Number of Days: 5</p>
+                                </div>
+                                <div className="conatainer mb-2 mt-2 d-flex justify-content-end">
+                                    <Button variant='contained'  onClick={handleClose} > Close </Button>
                                 </div>
                             </div>
                             </Box>

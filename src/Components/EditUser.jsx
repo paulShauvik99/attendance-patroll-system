@@ -86,7 +86,7 @@ const EditUser = () => {
                             </div>
                             <br />
                             <div className='mt-3 justify-content-center d-flex'>
-                            <Button variant='contained attSub' href="#" className="mb-5">
+                            <Button variant='contained'  className="mb-5">
                                 Update
                             </Button>
                         </div>

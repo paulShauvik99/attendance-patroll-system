@@ -156,7 +156,7 @@ const NewUser = () => {
                         </div>
                         <br />
                         <div className='mt-3 justify-content-center d-flex'>
-                            <Button variant='contained attSub' href="#" className="mb-5">
+                            <Button variant='contained' style={{width:'180px'}}className="mb-5">
                                 Register
                             </Button>
                         </div>

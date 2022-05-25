@@ -44,15 +44,21 @@ const ViewEmployee = () => {
             <td>example@gmail.com</td>
             <td>Active</td>
             <td>
-              <div className="dropdown">
-                <button className="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <div class="dropdown">
+                <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                   Action
                 </button>
-                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <Link className="dropdown-item" to="#"> <i className="fa fa-user"></i>  Profile</Link>
-                  <Link className="dropdown-item" to="#"><i className="fa fa-edit"></i>  Edit</Link>
-                  <Link className="dropdown-item" to="#"><i className="fa fa-trash"></i>  Delete</Link>
-                </div>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                  <li>
+                    <Link className="dropdown-item" to="viewemployee/profile"> <i className="fa fa-user"></i>  Profile</Link>
+                  </li>
+                  <li>     
+                    <Link className="dropdown-item" to="viewemployee/edit"><i className="fa fa-edit"></i>  Edit</Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to="#"><i className="fa fa-trash"></i>  Delete</Link>
+                  </li>
+                </ul>
               </div>
             </td>
           </tr>
@@ -64,16 +70,22 @@ const ViewEmployee = () => {
             <td>example@gmail.com</td>
             <td>Active</td>
             <td>
-              <div className="dropdown">
-                <button className="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Action
-                </button>
-                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <Link className="dropdown-item" to="#"> <i className="fa fa-user"></i>  Profile</Link>
-                  <Link className="dropdown-item" to="#"><i className="fa fa-edit"></i>  Edit</Link>
-                  <Link className="dropdown-item" to="#"><i className="fa fa-trash"></i>  Delete</Link>
-                </div>
-              </div>
+              <div class="dropdown">
+                  <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    Action
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li>
+                      <Link className="dropdown-item" to="viewemployee/profile"> <i className="fa fa-user"></i>  Profile</Link>
+                    </li>
+                    <li>     
+                      <Link className="dropdown-item" to="viewemployee/edit"><i className="fa fa-edit"></i>  Edit</Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="#"><i className="fa fa-trash"></i>  Delete</Link>
+                    </li>
+                  </ul>
+               </div>
             </td>
           </tr>
           <tr className="text-center">
@@ -84,16 +96,22 @@ const ViewEmployee = () => {
             <td>example@gmail.com</td>
             <td>Active</td>
             <td>
-              <div className="dropdown">
-                <button className="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Action
-                </button>
-                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <Link className="dropdown-item" to="#"> <i className="fa fa-user"></i>  Profile</Link>
-                  <Link className="dropdown-item" to="#"><i className="fa fa-edit"></i>  Edit</Link>
-                  <Link className="dropdown-item" to="#"><i className="fa fa-trash"></i>  Delete</Link>
+              <div class="dropdown">
+                  <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    Action
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li>
+                      <Link className="dropdown-item" to="viewemployee/profile"> <i className="fa fa-user"></i>  Profile</Link>
+                    </li>
+                    <li>     
+                      <Link className="dropdown-item" to="viewemployee/edit"><i className="fa fa-edit"></i>  Edit</Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="#"><i className="fa fa-trash"></i>  Delete</Link>
+                    </li>
+                  </ul>
                 </div>
-              </div>
             </td>
           </tr>
           <tr className="text-center">
@@ -104,16 +122,22 @@ const ViewEmployee = () => {
             <td>example@gmail.com</td>
             <td>Active</td>
             <td>
-              <div className="dropdown">
-                <button className="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Action
-                </button>
-                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <Link className="dropdown-item" to="#"> <i className="fa fa-user"></i>  Profile</Link>
-                  <Link className="dropdown-item" to="#"><i className="fa fa-edit"></i>  Edit</Link>
-                  <Link className="dropdown-item" to="#"><i className="fa fa-trash"></i>  Delete</Link>
+              <div class="dropdown">
+                  <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    Action
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li>
+                      <Link className="dropdown-item" to="viewemployee/profile"> <i className="fa fa-user"></i>  Profile</Link>
+                    </li>
+                    <li>     
+                      <Link className="dropdown-item" to="viewemployee/edit"><i className="fa fa-edit"></i>  Edit</Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="#"><i className="fa fa-trash"></i>  Delete</Link>
+                    </li>
+                  </ul>
                 </div>
-              </div>
             </td>
           </tr>
           <tr className="text-center">
@@ -124,16 +148,22 @@ const ViewEmployee = () => {
             <td>example@gmail.com</td>
             <td>Active</td>
             <td>
-              <div className="dropdown">
-                <button className="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Action
-                </button>
-                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <Link className="dropdown-item" to="#"> <i className="fa fa-user"></i>  Profile</Link>
-                  <Link className="dropdown-item" to="#"><i className="fa fa-edit"></i>  Edit</Link>
-                  <Link className="dropdown-item" to="#"><i className="fa fa-trash"></i>  Delete</Link>
+              <div class="dropdown">
+                  <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    Action
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li>
+                      <Link className="dropdown-item" to="viewemployee/profile"> <i className="fa fa-user"></i>  Profile</Link>
+                    </li>
+                    <li>     
+                      <Link className="dropdown-item" to="viewemployee/edit"><i className="fa fa-edit"></i>  Edit</Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="#"><i className="fa fa-trash"></i>  Delete</Link>
+                    </li>
+                  </ul>
                 </div>
-              </div>
             </td>
           </tr>
           <tr className="text-center">
@@ -144,25 +174,27 @@ const ViewEmployee = () => {
             <td>example@gmail.com</td>
             <td>Active</td>
             <td>
-              <div className="dropdown">
-                <button className="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Action
-                </button>
-                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <Link className="dropdown-item" to="#"> <i className="fa fa-user"></i>  Profile</Link>
-                  <Link className="dropdown-item" to="#"><i className="fa fa-edit"></i>  Edit</Link>
-                  <Link className="dropdown-item" to="#"><i className="fa fa-trash"></i>  Delete</Link>
+              <div class="dropdown">
+                  <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    Action
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li>
+                      <Link className="dropdown-item" to="viewemployee/profile"> <i className="fa fa-user"></i>  Profile</Link>
+                    </li>
+                    <li>     
+                      <Link className="dropdown-item" to="viewemployee/edit"><i className="fa fa-edit"></i>  Edit</Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="#"><i className="fa fa-trash"></i>  Delete</Link>
+                    </li>
+                  </ul>
                 </div>
-              </div>
             </td>
-          </tr>
-          
-          
-          
-          
+          </tr>  
         </tbody>
   
-        </table>
+      </table>
         <div className='pagination'>
           <nav aria-label="Page navigation example">
             <ul class="pagination">
