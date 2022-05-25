@@ -3,13 +3,17 @@ import React, { useState } from 'react'
 import Heading from './SubComponents/Heading'
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import axios from "axios"
 
 const NewUser = () => {
+
+    const Id ="Ad"+Math.trunc(performance.now())
 
     const [values,setValues] = useState({
         fullName:'',
         email:'',
         role:'',
+        
         password:'',
         confirmPassword:'',
         showPassword:false,
@@ -35,6 +39,20 @@ const NewUser = () => {
           showConPassword: !values.showConPassword,
         });
       };
+
+      const addAdmin = async() =>{
+          const res = await axios.post("http://localhost:5000/addAdmin",{
+            //    name, email, role, password, conpassword
+            name : values.fullName,
+            email : values.email,
+            role : values.role,
+            id : Id,
+            password : values.password,
+            conpassword : values.confirmPassword 
+          })
+
+          window.alert(res.data.message)
+      }
 
     return (
         <>
@@ -72,6 +90,19 @@ const NewUser = () => {
                                     label="Email"
                                     fullWidth
                                     onChange={handleChange('email')}
+                                    // value={values.email}
+                                />
+                            </div>
+                        </div>
+                        <br />
+                        <div className="row form-group justify-content-center d-flex">
+                            <label className="col-md-3 ps-5 text-center control-label"> Admin Id: </label>
+                            <div className="col-md-5 me-5">
+                                <TextField
+                                    variant='outlined'
+                                    required
+                                    fullWidth
+                                    value={Id}
                                     // value={values.email}
                                 />
                             </div>
@@ -127,7 +158,7 @@ const NewUser = () => {
                         </div>
                         <br />
                         <div className="row form-group justify-content-center d-flex">
-                            <label className="col-md-3 text-center ps-5 control-label"> Password </label>
+                            <label className="col-md-3 text-center ps-5 control-label">Confirm Password </label>
                             <div className="col-md-5 me-5">
                                 
                                 <FormControl sx={{  width: '50ch' }} variant="outlined">

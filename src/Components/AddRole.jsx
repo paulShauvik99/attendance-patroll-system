@@ -2,6 +2,8 @@ import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@m
 import React, { useState } from 'react'
 import Heading from './SubComponents/Heading'
 
+import axios from "axios"
+
 
 
 
@@ -21,6 +23,21 @@ const AddRole = () => {
             ...values,
             [prop] : e.target.value
         })
+    }
+
+
+    const addRole = async (event) =>{
+        const res = await axios.post("http://localhost:5000/addRole",{
+            name : values.role,
+            description : values.description,
+            head : values.hod
+        })
+
+        if(res.status===200){
+            window.alert(res.data.message)
+        }else{
+            window.alert(res.data.error)
+        }
     }
 
     return (
@@ -53,19 +70,8 @@ const AddRole = () => {
                   <label className="col-md-2 control-label"> Head of Department: </label>
                   <div className="col-md-4">
                         <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">Select Head of Department: </InputLabel>
-                            <Select
-                             labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={values.hod}
-                                label="Select Head of Department:"
-                                onChange={handleChange('hod')}
-                            >
-                                <MenuItem value={"Harish"}>Harish</MenuItem>
-                                <MenuItem value={"Kartik"}>Kartik</MenuItem>
-                                <MenuItem value={"Aryan"}>Aryan</MenuItem>
-                                <MenuItem value={"Sonali"}>Sonali</MenuItem>
-                            </Select>   
+                            
+                            <TextField id="outlined" label="Head of Department" fullWidth value={values.hod} onChange={handleChange('hod')} /> 
                         </FormControl>
                   </div>
               </div>

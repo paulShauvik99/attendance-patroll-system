@@ -3,12 +3,7 @@ import Cards from './Components/Cards';
 import { DashboardCard } from './Data/DashboardCard';
 
 
-
-
 const Dashboard = () => {
-  
-
-  
   
   return (
     <>

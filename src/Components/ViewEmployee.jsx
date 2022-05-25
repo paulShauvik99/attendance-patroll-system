@@ -1,8 +1,21 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, NavLink, useHistory } from 'react-router-dom';
 import Heading from './SubComponents/Heading';
+import axios from "axios"
 
 const ViewEmployee = () => {
+
+  const [list, setList] = useState([])
+  const getList = async () => {
+    const res = await axios.get("http://localhost:5000/findEmployee")
+    console.log(res.data);
+    setList(res.data)
+  }
+
+  useEffect(() => {
+    getList();
+  }, [])
+
 
 
   return (
