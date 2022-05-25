@@ -123,6 +123,7 @@ const EditUser = () => {
 
                 </div>
             </div>
+            </div>
         </>
     )
 }
