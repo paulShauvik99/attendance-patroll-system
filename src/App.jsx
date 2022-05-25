@@ -13,15 +13,10 @@ import ViewAttendance from './Components/ViewAttendance';
 import ViewLeave from './Components/ViewLeave';
 import ReportLeave from './Components/ReportLeave';
 import AddRole from './Components/AddRole';
-<<<<<<< HEAD
 import ViewRole from './Components/ViewRole';
 import Payroll from './Components/Payroll';
 import EmployeeProfile from './Components/EmployeeProfile';
 import ProfileEdit from './Components/ProfileEdit';
-=======
-import Logout from "./Components/LogOut"
-import Login from "./Components/LogIn"
->>>>>>> 83b901f3eee03fee36f38f3a892e99e62ea84725
 
 
 
@@ -69,15 +64,7 @@ const App = () => {
 
           {/* ------------------------ VIEW LEAVE ---------------------- */}
           <Route exact path='/viewleave' component={ViewLeave} />
-<<<<<<< HEAD
-
-          {/* --------------------- VIEW USER ---> EDIT USER ---------------------------  */}
-          <Route exact path='/viewuser/edituser' component={EditUser} />
-
-          {/* ------------------ REPORT ----> ATTENDANCE -------------------------  */}
-=======
           <Route exact path='/viewuser/edituser/:id' component={EditUser} />
->>>>>>> 83b901f3eee03fee36f38f3a892e99e62ea84725
           <Route exact path='/reportattendance' component={ReportAttendance} />
           
           {/* --------------------- REPORT -----> LEAVES ---------------------- */}
