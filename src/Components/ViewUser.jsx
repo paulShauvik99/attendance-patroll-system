@@ -68,13 +68,18 @@ const ViewUser = () => {
                       
                       <td>
                         <div className="dropdown">
-                          <button className="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <button className="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown"  aria-expanded="false">
                             Action
                           </button>
-                          <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-
-                            <Link className="dropdown-item" to={`/viewuser/edituser/${curr._id}`}><i className="fa fa-edit"></i>  Edit Role</Link>
-                            <Link className="dropdown-item" to="#"><i className="fa fa-trash"></i>  Delete</Link>
+                          <div className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                              <li>
+                                <Link className="dropdown-item" to={`/viewuser/edituser/${curr._id}`}><i className="fa fa-edit"></i>  Edit Role</Link>
+                              </li>
+                              <li>
+                                <Link className="dropdown-item" to="#"><i className="fa fa-trash"></i>  Delete</Link>
+                              </li>
+                            </ul>
                           </div>
                         </div>
                       </td>
