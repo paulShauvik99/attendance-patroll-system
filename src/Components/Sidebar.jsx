@@ -51,52 +51,6 @@ const Sidebar = () => {
             {/* <ul className="sub-menu blank">
                 <li><NavLink className="link_name" to="#">Dashboard</NavLink></li>
               </ul> */}
-<<<<<<< HEAD
-            </li>
-            <li>
-              <div className="iocn-link">
-                <NavLink to='#'>
-                  <i className='bx bxs-user'></i>
-                  <span className="link_name">Employee</span>
-                </NavLink>
-                <i className='bx bxs-chevron-down arrow' onClick={arrow} ></i>
-              </div>
-              <ul className="sub-menu">
-                <li><NavLink className="link_name" to="#">Employee</NavLink></li>
-                <li><NavLink to="/viewemployee">View Employee</NavLink></li>
-                <li><NavLink to="/newemployee">New Employee</NavLink></li>
-              </ul>
-            </li>
-            <li>
-              <div className="iocn-link">
-                <NavLink to="#">
-                  <i className='bx bxs-time'></i>
-                  <span className="link_name">Attendance</span>
-                </NavLink>
-                <i className='bx bxs-chevron-down arrow' onClick={arrow} ></i>
-              </div>
-              <ul className="sub-menu">
-                <li><NavLink className="link_name" to="#">Attendance</NavLink></li>
-                <li><NavLink to="/viewattendance">View Attendance</NavLink></li>
-                <li><NavLink to="/attendance">Manual</NavLink></li>
-              </ul>
-            </li>
-            <li>
-              <div className="iocn-link">
-                <NavLink to="#">
-                  <i className="fa fa-bed"></i>
-                  <span className="link_name">Leaves</span>
-                </NavLink>
-                <i className='bx bxs-chevron-down arrow' onClick={arrow} ></i>
-              </div>
-              <ul className="sub-menu">
-                <li><NavLink className="link_name" to="#">Leaves</NavLink></li>
-                <li><NavLink to="/viewleave">View Leaves</NavLink></li>
-                {/* <li><NavLink to="#">Leave Calender</NavLink></li> */}
-              </ul>
-            </li>
-            <li>
-=======
           </li>
           <li>
             <div className="iocn-link">
@@ -114,32 +68,10 @@ const Sidebar = () => {
           </li>
           <li>
             <div className="iocn-link">
->>>>>>> 83b901f3eee03fee36f38f3a892e99e62ea84725
               <NavLink to="#">
                 <i className='bx bxs-time'></i>
                 <span className="link_name">Attendance</span>
               </NavLink>
-<<<<<<< HEAD
-              <ul className="sub-menu blank">
-                <li><NavLink className="link_name" to="/payroll">Payroll</NavLink></li>
-              </ul>
-            </li>
-            <li>
-              <div className="iocn-link">
-                <NavLink to="#">
-                  <i className='bx bxs-bar-chart-alt-2'></i>
-                  <span className="link_name">Reports</span>
-                </NavLink>
-                <i className='bx bxs-chevron-down arrow' onClick={arrow} ></i>
-              </div>
-              <ul className="sub-menu">
-                <li><NavLink className="link_name" to="#">Reports</NavLink></li>
-                <li><NavLink to="/reportattendance">Attendance</NavLink></li>
-                <li><NavLink to="/reportleaves">Leaves</NavLink></li>
-              </ul>
-            </li>
-            <li>
-=======
               <i className='bx bxs-chevron-down arrow' onClick={arrow} ></i>
             </div>
             <ul className="sub-menu">
@@ -150,7 +82,6 @@ const Sidebar = () => {
           </li>
           <li>
             <div className="iocn-link">
->>>>>>> 83b901f3eee03fee36f38f3a892e99e62ea84725
               <NavLink to="#">
                 <i className="fa fa-bed"></i>
                 <span className="link_name">Leaves</span>
@@ -160,7 +91,6 @@ const Sidebar = () => {
             <ul className="sub-menu">
               <li><NavLink className="link_name" to="#">Leaves</NavLink></li>
               <li><NavLink to="/viewleave">View Leaves</NavLink></li>
-              <li><NavLink to="#">Leave Calender</NavLink></li>
             </ul>
           </li>
           <li>
@@ -169,7 +99,7 @@ const Sidebar = () => {
               <span className="link_name">Payroll</span>
             </NavLink>
             <ul className="sub-menu blank">
-              <li><NavLink className="link_name" to="#">Payroll</NavLink></li>
+              <li><NavLink className="link_name" to="/payroll">Payroll</NavLink></li>
             </ul>
           </li>
           <li>

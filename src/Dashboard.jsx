@@ -1,7 +1,7 @@
 import React from 'react'
 import Cards from './Components/Cards';
 import { DashboardCard } from './Data/DashboardCard';
-
+import './Images/treva.png'
 
 const Dashboard = () => {
   

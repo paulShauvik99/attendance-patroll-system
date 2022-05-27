@@ -158,6 +158,7 @@ const NewEmployee = () => {
 
     const empId = Math.trunc( performance.now()+Math.random())
    ;
+   console.log(performance.now());
 
 
 
@@ -358,7 +359,7 @@ const NewEmployee = () => {
                         <div className="form-group row justify-content-around">
                             <label className="col-md-1 control-label"> Employee ID: </label>
                             <div className="col-md-4" >
-                                <TextField id="outlined"  required fullWidth value={empId} readOnly={true} />
+                                <TextField id="outlined" label="Employee ID" disabled required fullWidth value={empId} readOnly={true} />
                             </div>
                             <label className="col-md-1 control-label"> Permanent: </label>
                             <div className="col-md-4">

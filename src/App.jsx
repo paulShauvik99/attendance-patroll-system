@@ -17,12 +17,18 @@ import ViewRole from './Components/ViewRole';
 import Payroll from './Components/Payroll';
 import EmployeeProfile from './Components/EmployeeProfile';
 import ProfileEdit from './Components/ProfileEdit';
-
+import Login from './Components/LogIn';
+import Logout from './Components/LogOut';
+import Payslip from './Components/Payslip';
 
 
 const App = () => {
   return (
     <>
+        {/* <Payslip /> */}
+        
+   
+        
         <Sidebar />
         
         <Switch>
@@ -69,6 +75,8 @@ const App = () => {
           
           {/* --------------------- REPORT -----> LEAVES ---------------------- */}
           <Route exact path='/reportleaves' component={ReportLeave} />
+          <Route exact path='/payroll/payslip' component={Payslip} />
+
           <Route exact path='/login' component={Login} />
           <Route exact path='/logout' component={Logout} />
         </Switch>
