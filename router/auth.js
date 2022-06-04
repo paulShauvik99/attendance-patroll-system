@@ -8,7 +8,7 @@ require("../DB/connection")
 const User = require("../models/user")
 const Attendance = require("../models/attendance");
 const Leave = require("../models/leave");
-const Payment = require("../models/payment.js")
+const Salary = require("../models/payment.js")
 const Admin = require("../models/admin.js");
 const Role = require("../models/department")
 
@@ -24,14 +24,52 @@ router.get("/findEmployee", async (req, res) => {
     res.send(Employee)
 })
 
+// find selected employee
+router.post("/findSpecificEmployee", async (req, res) => {
+    const {name, role} = req.body
+    const first = name.split(" ")[0];
+    const last = name.split(" ")[1];
+
+    try {
+        if(role == ""){
+            const respond = await User.find({
+                firstname : first,
+                lastname : last
+            })
+            // console.log(1)
+            // console.log(respond);
+            res.send(respond)
+        }else if(name == ""){
+            const respond = await User.find({
+                role : role
+            })
+            // console.log(2)
+            // console.log(respond)
+            res.send(respond)
+        }else{
+            const respond = await User.find({
+                firstname : first,
+                lastname : last,
+                role : role
+            })
+            // console.log(3)
+            // console.log(respond);
+            res.send(respond)
+        }
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+
 // new Employee
 
 router.post("/addEmployee", async (req, res) => {
-    
+
     try {
         const { firstname, lastname, streetAdd, city, state, zip, gender, birthday,
             email, mobile, phone, marital, education, employeeID,
-            role, joinDate, employmentType } = req.body;
+            role, joinDate, employmentType, salary, date } = req.body;
 
         console.log(req.body)
 
@@ -50,16 +88,30 @@ router.post("/addEmployee", async (req, res) => {
 
             const user = new User({
                 firstname, lastname, streetAdd, city, state, zip, gender, birthday,
-                email,mobile, phone, marital, education, employeeID,
-                role, joinDate, employmentType, password: hashedPassword
+                email, mobile, phone, marital, education, employeeID,
+                role, joinDate, employmentType, password: hashedPassword, salary: salary
             })
 
-            const userSave = await user.save()
+            // const name = firstname + " " + lastname
+            // const basic = (0.4 * (salary / 12));
+            // const hra = (0.2 * (salary / 12));
+            // const special = (0.17 * (salary / 12));
+            // const pf = (0.08 * (salary / 12));
+            // const it = (0.05 * (salary / 12));
+            // const gratuity = (0.05 * (salary / 12));
+            // const insurance = (0.05 * (salary / 12));
+            // const userSalary = new Salary({
+            //     name: name, date: date, amount: salary, basic: basic, hra: hra,
+            //     special: special, pf: pf, it: it, gratuity: gratuity, medical: insurance
+            // });
 
-            const roleEdit = await Role.updateOne({name : role},{
-               $inc : {
-                   no_of_employee : 1
-               }
+            const userSave = await user.save()
+            // const empSalary = await userSalary.save();
+
+            const roleEdit = await Role.updateOne({ name: role }, {
+                $inc: {
+                    no_of_employee: 1
+                }
             })
 
             if (userSave && roleEdit) {
@@ -77,13 +129,15 @@ router.post("/addEmployee", async (req, res) => {
 // new admin
 router.post("/addAdmin", async (req, res) => {
     try {
-        const { name, email, id, role, password, conpassword} = req.body;
+        const { name, email, id, role, password, conpassword } = req.body;
         if (password !== conpassword) {
             return res.json({ message: "Password and Confirm Password must be same" })
         } else {
             const hashedPassword = await bcrypt.hash(password, 12);
-            const response = new Admin({ name: name, email: email, adminId : id,
-                role: role, password: hashedPassword });
+            const response = new Admin({
+                name: name, email: email, adminId: id,
+                role: role, password: hashedPassword
+            });
             const admin = await response.save();
             if (admin) {
                 return res.status(201).json({ message: "Added Successfully" })
@@ -98,11 +152,11 @@ router.post("/addAdmin", async (req, res) => {
 
 // single employee
 
-router.post("/empInfo" ,async (req, res)=>{
-    const {id} = req.body;
+router.post("/empInfo", async (req, res) => {
+    const { id } = req.body;
     try {
-       const response = await User.findOne({_id : id})
-       res.send(response)
+        const response = await User.findOne({ _id: id })
+        res.send(response)
     } catch (error) {
         console.log(error)
     }
@@ -349,10 +403,10 @@ router.get("/getAllRoles", async (req, res) => {
 })
 
 // dept employee name
-router.post("/getRoleEmployeeName", async (req, res)=>{
+router.post("/getRoleEmployeeName", async (req, res) => {
     try {
-        const {name} = req.body;
-        const response = await User.find({role : name})
+        const { name } = req.body;
+        const response = await User.find({ role: name })
         res.send(response);
     } catch (error) {
         console.log(error);
@@ -361,17 +415,39 @@ router.post("/getRoleEmployeeName", async (req, res)=>{
 
 // employee attendance
 
-router.post("/viewEmployeeAttendance", async (req,res)=>{
-    const {name} = req.body;
+router.post("/viewEmployeeAttendance", async (req, res) => {
+    const { name } = req.body;
     console.log(556);
     console.log(name);
 
-    Attendance.find({name:name},(error, response) => {
+    Attendance.find({ name: name }, (error, response) => {
         if (error) {
             console.log(error)
         }
         res.send(response)
     })
+})
+
+
+// 
+
+router.post("/updateSalary", async (req, res) => {
+    const { id,  salary } = req.body;
+    console.log(id)
+    console.log(salary)
+    
+    try {
+        const respond = await User.updateOne({_id : id}, {
+            $set : {
+                salary : salary
+            }
+        })
+        console.log(respond)
+        res.send(respond)
+    } catch (error) {
+        console.log(error);
+    }
+
 })
 
 

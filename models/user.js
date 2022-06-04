@@ -44,7 +44,7 @@ const userSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    phone : {
+    phone: {
         type: Number,
     },
     marital: {
@@ -71,14 +71,13 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    password : {
-        type :String,
-        required : true
+    password: {
+        type: String,
+        required: true
     },
-    salary : {
-        type : Number,
+    salary: {
+        type: Number
     },
-
     tokens: [
         {
             token: {

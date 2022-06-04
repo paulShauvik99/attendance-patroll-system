@@ -1,24 +1,16 @@
 const mongoose = require('mongoose');
 
-const paymentSchema = mongoose.Schema({
-    date : {
-        type : Date,
-        required : true
-    },
-    name : {
-        type: String,
-        required: true,
-    },
-    amount : {
-        type : Number,
-        required : true
-    }
+const leaveSettingSchema = mongoose.Schema({
+   leaveType : { 
+       type : String,
+       max_days : Number
+   }
 },
 {
     timestamps: true
 
 })
 
-const payment = new mongoose.model("payment",paymentSchema);
+const leave = new mongoose.model("Leave Setting",leaveSettingSchema);
 
-module.exports = payment;
+module.exports = leave;
