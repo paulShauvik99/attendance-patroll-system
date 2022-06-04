@@ -75,7 +75,7 @@ const App = () => {
           
           {/* --------------------- REPORT -----> LEAVES ---------------------- */}
           <Route exact path='/reportleaves' component={ReportLeave} />
-          <Route exact path='/payroll/payslip' component={Payslip} />
+          <Route exact path='/payroll/payslip/:id' component={Payslip} />
 
           <Route exact path='/login' component={Login} />
           <Route exact path='/logout' component={Logout} />
