@@ -17,7 +17,7 @@ const Payslip = () => {
         })
 
         console.log(res.data.firstname);
-        // setList(res.data)
+        setList(res.data)
     }
 
     useEffect(() => {
@@ -39,10 +39,10 @@ const Payslip = () => {
                         </div>
                         <br />
                         <div class="">
-                            <h6>Employee Name</h6>
-                            <p>Designation</p>
-                            <p>Employee ID</p>
-                            <p>Joining Date: 1st April'22</p>
+                            <h6>{list.firstname} {list.lastname}</h6>
+                            <p>{list.role}</p>
+                            <p>{list.employeeID}</p>
+                            <p>Joining Date: {list.joinDate}</p>
                         </div>
                     </div>
                     <div class="col-md-4 text-center" >
