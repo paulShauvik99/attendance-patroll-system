@@ -44,14 +44,15 @@ const ViewEmployee = () => {
         <hr />
 
         <table id="dtBasicExample" className="mt-5 mb-5 table table-hover table-responsive table-bordered" >
-          <thead>
+          <thead className="bg-dark text-light">
 
             <tr className='text-center'>
               <th class="th-sm">Name
               </th>
               <th class="th-sm">Birthday
               </th>
-              <th class="th-sm">Address</th>
+              <th class="th-sm">Address
+              </th>
               <th class="th-sm">Email
               </th>
               <th class="th-sm">Phone

@@ -83,9 +83,30 @@
   justify-content: flex-end;
 }
 
+//Payslip
 
 
+.payslipRight{
+  margin-top:100px !important;
+}
 
+
+//Dropdown 
+
+.css-11qvwfa-MuiFormLabel-root-MuiInputLabel-root{
+  display:none !important;
+  // border-bottom: none !important;
+}
+
+.css-1gzkxga-MuiSelect-select-MuiInputBase-input-MuiFilledInput-input {
+  padding-top: 5px !important;
+  padding-bottom: 9px !important;
+
+}
+
+.css-1gzkxga-MuiSelect-select-MuiInputBase-input-MuiFilledInput-input::before {
+  padding-top: 0px !important;
+}
 
 //SideBar CSS
 
@@ -298,7 +319,7 @@
       font-weight: 500;
       white-space: no wrap;
     }
-    &.close .profile-details i,
+    // &.close .profile-details i,
     &.close .profile-details .profile_name,
     &.close .profile-details .job{
       display: none;

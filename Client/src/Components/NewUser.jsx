@@ -102,8 +102,11 @@ const NewUser = () => {
                                     variant='outlined'
                                     required
                                     fullWidth
+                                    label="Admin Id:"
                                     value={Id}
-                                    // value={values.email}
+                                    inputProps={
+                                        { readOnly: true, }
+                                    }
                                 />
                             </div>
                         </div>

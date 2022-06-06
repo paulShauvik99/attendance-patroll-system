@@ -261,11 +261,11 @@ const Payroll = () => {
                                                     </button>
                                                     <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                                         <li>
-                                                            <Button className="dropdown-item" onClick={() => { handleOpen(curr._id, curr.firstname, curr.lastname) }}><i className="fa fa-edit"></i> Edit</Button>
+                                                            <Link className="dropdown-item" onClick={() => { handleOpen(curr._id, curr.firstname, curr.lastname) }}><i className="fa fa-edit"></i> Edit</Link>
 
                                                         </li>
                                                         <li>
-                                                            <Link className="dropdown-item" to={`payroll/payslip/${curr._id}`}><i className="fa fa-trash"></i> Generate Payslip</Link>
+                                                            <Link className="dropdown-item" to={`payroll/payslip/${curr._id}`}><i className="fa fa-file-text-o"></i> Generate Payslip</Link>
 
                                                         </li>
                                                     </ul>
@@ -407,3 +407,6 @@ const Payroll = () => {
 }
 
 export default Payroll
+
+
+

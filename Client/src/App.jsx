@@ -20,6 +20,7 @@ import ProfileEdit from './Components/ProfileEdit';
 import Login from './Components/LogIn';
 import Logout from './Components/LogOut';
 import Payslip from './Components/Payslip';
+import LeaveSettings from './Components/LeaveSettings';
 
 
 const App = () => {
@@ -70,6 +71,7 @@ const App = () => {
 
           {/* ------------------------ VIEW LEAVE ---------------------- */}
           <Route exact path='/viewleave' component={ViewLeave} />
+          <Route exact path='/leavesetting' component={LeaveSettings} />
           <Route exact path='/viewuser/edituser/:id' component={EditUser} />
           <Route exact path='/reportattendance' component={ReportAttendance} />
           
