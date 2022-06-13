@@ -1,10 +1,10 @@
 import React from 'react'
 
-const Cards = (props) => {
+const AdminCards = (props) => {
   return (
         <>
-            <div className="col-md-4 ">
-                <div className="card" style={{width:'400px'}}>
+            
+                <div className="card mt-2 mb-2" >
                     <div className="card-body p-4">
                         <div className="d-flex justify-content-between">
                             <h2 className="card-title" style={{fontSize:'50px'}} >{props.num}</h2>
@@ -14,9 +14,8 @@ const Cards = (props) => {
                         <p className="card-text" style={{fontSize:'12px'}}>{props.para}</p>
                     </div>
                 </div>
-            </div>
         </>
   )
 }
 
-export default Cards
+export default AdminCards

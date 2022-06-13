@@ -4,13 +4,7 @@ import React, {  useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Heading from './SubComponents/Heading'
 
-
 const Payroll = () => {
-
-
-
-
-
     
     const [open, setOpen] = useState(false);
     const handleOpen = () => {
@@ -207,7 +201,7 @@ const Payroll = () => {
                                         </button>
                                         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">    
                                         <li>     
-                                            <Button className="dropdown-item" onClick={handleOpen}><i className="fa fa-edit"></i>  Edit</Button>
+                                            <Link className="dropdown-item" onClick={handleOpen}><i className="fa fa-edit"></i>  Edit</Link>
                                             <Modal
                                                 
                                                 open={open}
@@ -352,7 +346,7 @@ const Payroll = () => {
                                                 </Box>
                                             </Modal> */}
                                             {/* <PayslipDet.Provider value={salBreak.basic}> */}
-                                                <Link className="dropdown-item" to="payroll/payslip"><i className="fa fa-trash"></i> Generate Payslip</Link>
+                                                <Link className="dropdown-item" to="payroll/payslip"><i className="fa fa-file-text-o"></i> Generate Payslip</Link>
                                             {/* </PayslipDet.Provider> */}
                                         </li>
                                         </ul>
@@ -369,4 +363,3 @@ const Payroll = () => {
 }
 
 export default Payroll
-export {PayslipDet} 

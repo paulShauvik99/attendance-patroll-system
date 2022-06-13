@@ -96,7 +96,7 @@ const ViewLeave = () => {
                                     <p>Number of Days: 5</p>
                                 </div>
                                 <div className="conatainer mb-2 mt-2 d-flex justify-content-end">
-                            <Button variant='contained' onCLick={handleClose} > Close </Button>
+                                 <Button variant='contained' onClick={handleClose} > Close </Button>
 
                                 </div>
                             </div>

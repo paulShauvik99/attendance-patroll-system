@@ -1,7 +1,7 @@
 import React from 'react';
 import {Route,Switch} from 'react-router-dom';
 import Sidebar from './Components/Sidebar';
-import Dashboard from './Dashboard';
+import Dashboard from './Components/Dashboard';
 import ViewEmployee from './Components/ViewEmployee';
 import NewEmployee from './Components/NewEmployee';
 import ManualAttendance from './Components/ManualAttendance';
@@ -20,6 +20,12 @@ import ProfileEdit from './Components/ProfileEdit';
 import Login from './Components/LogIn';
 import Logout from './Components/LogOut';
 import Payslip from './Components/Payslip';
+import EmployeeSidebar from './Components/EmployeeSidebar';
+import EmployeeDashboard from './Components/EmployeeDashboard';
+import LeaveApplication from './Components/LeaveApplication';
+import EmployeeViewAttendance from './Components/EmployeeViewAttendance';
+import EmployeeEditAttendance from './Components/EmployeeEditAttendance';
+import LeaveSettings from './Components/LeaveSettings';
 
 
 const App = () => {
@@ -30,10 +36,14 @@ const App = () => {
    
         
         <Sidebar />
-        
+        {/* <EmployeeSidebar /> */}
         <Switch>
           {/* -------------- DASHBOARD ---------------- */}
-          <Route exact path='/' component={Dashboard} />
+          {/* <Route exact path='/' component={Dashboard} /> */}
+          <Route exact path='/' component={EmployeeDashboard} />
+          <Route exact path='/leaveapplication' component={LeaveApplication} />
+          <Route exact path='/employeeviewattendance' component={EmployeeViewAttendance} />
+          <Route exact path='/employeeviewattendance/edit' component={EmployeeEditAttendance} />
 
           {/* ---------------- VIEW EMPLOYEE ----------------- */}
           <Route exact path='/viewemployee' component={ViewEmployee} />
@@ -70,6 +80,7 @@ const App = () => {
 
           {/* ------------------------ VIEW LEAVE ---------------------- */}
           <Route exact path='/viewleave' component={ViewLeave} />
+          <Route exact path='/leavesetting' component={LeaveSettings} />
           <Route exact path='/viewuser/edituser/:id' component={EditUser} />
           <Route exact path='/reportattendance' component={ReportAttendance} />
           

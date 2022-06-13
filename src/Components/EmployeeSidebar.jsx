@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 
 
-const Sidebar = () => {
+const EmployeeSidebar = () => {
 
 
 
@@ -53,20 +53,7 @@ const Sidebar = () => {
                 <li><NavLink className="link_name" to="#">Dashboard</NavLink></li>
               </ul> */}
           </li>
-          <li>
-            <div className="iocn-link">
-              <NavLink to='#'>
-                <i className='bx bxs-user'></i>
-                <span className="link_name">Employee</span>
-              </NavLink>
-              <i className='bx bxs-chevron-down arrow' onClick={arrow} ></i>
-            </div>
-            <ul className="sub-menu">
-              <li><NavLink className="link_name" to="#">Employee</NavLink></li>
-              <li><NavLink to="/viewemployee">View Employee</NavLink></li>
-              <li><NavLink to="/newemployee">New Employee</NavLink></li>
-            </ul>
-          </li>
+          
           <li>
             <div className="iocn-link">
               <NavLink to="#">
@@ -77,7 +64,7 @@ const Sidebar = () => {
             </div>
             <ul className="sub-menu">
               <li><NavLink className="link_name" to="#">Attendance</NavLink></li>
-              <li><NavLink to="/viewattendance">View Attendance</NavLink></li>
+              <li><NavLink to="/employeeviewattendance">View Attendance</NavLink></li>
               <li><NavLink to="/attendance">Manual</NavLink></li>
             </ul>
           </li>
@@ -92,7 +79,7 @@ const Sidebar = () => {
             <ul className="sub-menu">
               <li><NavLink className="link_name" to="#">Leaves</NavLink></li>
               <li><NavLink to="/viewleave">View Leaves</NavLink></li>
-              <li><NavLink to="/leavesetting">Leave Settings</NavLink></li>
+              <li><NavLink to="/leaveapplication">Leave Application </NavLink></li>
             </ul>
           </li>
           <li>
@@ -104,7 +91,7 @@ const Sidebar = () => {
               <li><NavLink className="link_name" to="/payroll">Payroll</NavLink></li>
             </ul>
           </li>
-          <li>
+          {/* <li>
             <div className="iocn-link">
               <NavLink to="#">
                 <i className='bx bxs-bar-chart-alt-2'></i>
@@ -117,8 +104,8 @@ const Sidebar = () => {
               <li><NavLink to="/reportattendance">Attendance</NavLink></li>
               <li><NavLink to="/reportleaves">Leaves</NavLink></li>
             </ul>
-          </li>
-          <li>
+          </li> */}
+          {/* <li>
             <NavLink to="#">
               <i className='bx bxs-user-circle'></i>
               <span className="link_name">Department</span>
@@ -128,8 +115,8 @@ const Sidebar = () => {
               <li><NavLink to="/viewrole">View Role</NavLink></li>
               <li><NavLink to="/addrole">Add Role</NavLink></li>
             </ul>
-          </li>
-          <li>
+          </li> */}
+          {/* <li>
             <NavLink to="#">
               <i className='bx bxs-user-rectangle'></i>
               <span className="link_name">Users</span>
@@ -139,11 +126,11 @@ const Sidebar = () => {
               <li><NavLink to="/viewuser">View Users </NavLink></li>
               <li><NavLink to="/adduser">Add Admins</NavLink></li>
             </ul>
-          </li>
+          </li> */}
         </ul>
       </div>
     </>
   )
 }
 
-export default Sidebar
+export default EmployeeSidebar

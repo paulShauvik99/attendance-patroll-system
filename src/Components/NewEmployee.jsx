@@ -359,7 +359,9 @@ const NewEmployee = () => {
                         <div className="form-group row justify-content-around">
                             <label className="col-md-1 control-label"> Employee ID: </label>
                             <div className="col-md-4" >
-                                <TextField id="outlined" label="Employee ID" disabled required fullWidth value={empId} readOnly={true} />
+                                <TextField id="outlined" label="Employee ID" inputProps={
+                                   { readOnly: true}
+                                } required fullWidth value={empId}  />
                             </div>
                             <label className="col-md-1 control-label"> Permanent: </label>
                             <div className="col-md-4">
