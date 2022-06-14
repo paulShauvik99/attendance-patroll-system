@@ -39,15 +39,15 @@ const ProfileEdit = () => {
             <div className="container">
             <nav>
                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    {/* <button class="nav-link active" id="edit-personal-tab" data-bs-toggle="tab" data-bs-target="#edit-personal" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Personal Details</button>
-                    <button class="nav-link" id="edit-employment-tab" data-bs-toggle="tab" data-bs-target="#edit-employment" type="button" role="tab" aria-controls="edit-employment" aria-selected="false">Employment Details</button> */}
+                    <button class="nav-link active" id="edit-personal-tab" data-bs-toggle="tab" data-bs-target="#edit-personal" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Personal Details</button>
+                    <button class="nav-link" id="edit-employment-tab" data-bs-toggle="tab" data-bs-target="#edit-employment" type="button" role="tab" aria-controls="edit-employment" aria-selected="false">Employment Details</button>
                     
                 </div>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
 
                     {/* ----------------- PERSONAL DETAILS ------------------ */}
-{/* 
+
                     <div class="tab-pane fade show active" id="edit-personal" role="tabpanel" aria-labelledby="edit-personal-tab">
                         <div className="container mt-4 mb-5 ">
                                 <div className="row justify-content-center">
@@ -186,14 +186,13 @@ const ProfileEdit = () => {
                             <Button variant="contained" style={{width:"180px"}} > Update </Button>
                         </div>
                         <br />
-                    </div> */}
+                    </div>
 
 
                     {/* --------------------- EMPLOYMENT DETAILS ---------------------  */}
 
 
-                    {/* <div class="tab-pane fade" id="edit-employment" role="tabpanel" aria-labelledby="edit-employment-tab"> */}
-                           <h3>Update Employee Details</h3>
+                    <div class="tab-pane fade" id="edit-employment" role="tabpanel" aria-labelledby="edit-employment-tab">
                             <div className="container mt-4 mb-5">
 
                                 <div className="row justify-content-center">
@@ -339,7 +338,7 @@ const ProfileEdit = () => {
                         <br />
                     </div>
                     </div>
-            {/* </div> */}
+            </div>
             
 
 
