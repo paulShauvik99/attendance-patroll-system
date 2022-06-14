@@ -88,6 +88,7 @@ const Sidebar = () => {
             <ul className="sub-menu">
               <li><NavLink className="link_name" to="#">Leaves</NavLink></li>
               <li><NavLink to="/viewleave">View Leaves</NavLink></li>
+              <li><NavLink to="/leavesetting">Leave Settings</NavLink></li>
             </ul>
           </li>
           <li>
