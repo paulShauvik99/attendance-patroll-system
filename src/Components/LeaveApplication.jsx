@@ -34,8 +34,12 @@ const LeaveApplication = () => {
                 <Heading
                     heading="Leave Application"
                 />
+
                 
                 <div className="container main_div mt-5 mb-5 justify-content-center">
+                    <h4>Leave Status</h4>
+                    <hr />
+                    
                     <div className="row">
                             {
                                 LeaveDetails.map((currEle,ind)=>{
@@ -99,21 +103,27 @@ const LeaveApplication = () => {
                        <div className="row">
                             <div className="col-md-5">
                                 <label className="control-label mb-3"> Start Date </label>
-                                <input
-                                    // label="Start Date"
-                                    // focused
-                                    className="form-controlcd"
-                                    value={values.startDate}
+                                <TextField
+                                    label="Start Date"
+                                    autoFocus
+                                    InputLabelProps={{
+                                        shrink: true
+                                    }}
+                                    value={values.endDate}
                                     varient="outlined"
-                                    // fullWidth
-                                    onChange={handleChange('startDate')}
+                                    fullWidth
+                                    onChange={handleChange('endDate')}
                                     type="date"
                                 />
                             </div>   
                             <div className="col-md-5">
                                 <label className="control-label mb-3"> End Date </label>
                                 <TextField
-                                    // label="End Date"
+                                    label="End Date"
+                                    autoFocus
+                                    InputLabelProps={{
+                                        shrink: true
+                                    }}
                                     value={values.endDate}
                                     varient="outlined"
                                     fullWidth
@@ -144,7 +154,10 @@ const LeaveApplication = () => {
                             <div className="col-md-5">
                                     <label className="control-label mb-3"> Upload Documents </label>
                                     <TextField 
-                                        // label="Upload Documents"
+                                        label="Upload Documents"
+                                        InputLabelProps={{
+                                            shrink: true
+                                        }}
                                         type="file"
 
                                     />
@@ -156,107 +169,42 @@ const LeaveApplication = () => {
 
 
                     
-                    <div className="col-md-5 bg-light scrollableDivLeave mb-5">
+                    <div className="col-md-5  bg-light scrollableDivLeave mb-5">
                         <h4>Leave Balance</h4>
-                        <div className="app">
-                            akshdahf
+                        <hr />
+                        <div className="app container row">
+                            <div className="col-md-8">
+                                <h5><b><i> Sick Leave </i></b></h5>
+                            </div>
+                            <div className="col-md-4">
+                                <h6><b><i> 5 / 10 </i></b></h6>
+                            </div>
                         </div>
-                        <div className="app">
-                            akshdahf
+                        <div className="app container row">
+                            <div className="col-md-8">
+                                <h5><b><i> Casual Leave </i></b></h5>
+                            </div>
+                            <div className="col-md-4">
+                                <h6><b><i> 2 / 10 </i></b></h6>
+                            </div>
                         </div>
-                        <div className="app">
-                            akshdahf
+                        <div className="app container row">
+                            <div className="col-md-8">
+                                <h5><b><i> Sick Leave </i></b></h5>
+                            </div>
+                            <div className="col-md-4">
+                                <h6><b><i> 5 / 10 </i></b></h6>
+                            </div>
                         </div>
-                        <div className="app">
-                            akshdahf
+                        <div className="app container row">
+                            <div className="col-md-8">
+                                <h5><b><i> Sick Leave </i></b></h5>
+                            </div>
+                            <div className="col-md-4">
+                                <h6><b><i> 5 / 10 </i></b></h6>
+                            </div>
                         </div>
-                        <div className="app">
-                            akshdahf
-                        </div>
-                        <div className="app">
-                            akshdahf
-                        </div>
-                        <div className="app">
-                            akshdahf
-                        </div>
-                        <div className="app">
-                            akshdahf
-                        </div>
-                        <div className="app">
-                            akshdahf
-                        </div>
-                        <div className="app">
-                            akshdahf
-                        </div>
-                        <div className="app">
-                            akshdahf
-                        </div>
-                        <div className="app">
-                            akshdahf
-                        </div>
-                        <div className="app">
-                            akshdahf
-                        </div>
-                        <div className="app">
-                            akshdahf
-                        </div>
-                        <div className="app">
-                            akshdahf
-                        </div>
-                        <div className="app">
-                            akshdahf
-                        </div>
-                        <div className="app">
-                            akshdahf
-                        </div>
-                        <div className="app">
-                            akshdahf
-                        </div>
-                        <div className="app">
-                            akshdahf
-                        </div>
-                        <div className="app">
-                            akshdahf
-                        </div>
-                        <div className="app">
-                            akshdahf
-                        </div>
-                        <div className="app">
-                            akshdahf
-                        </div>
-                        <div className="app">
-                            akshdahf
-                        </div>
-                        <div className="app">
-                            akshdahf
-                        </div>
-                        <div className="app">
-                            akshdahf
-                        </div>
-                        <div className="app">
-                            akshdahf
-                        </div>
-                        <div className="app">
-                            akshdahf
-                        </div>
-                        <div className="app">
-                            akshdahf
-                        </div>
-                        <div className="app">
-                            akshdahf
-                        </div>
-                        <div className="app">
-                            akshdahf
-                        </div>
-                        <div className="app">
-                            akshdahf
-                        </div>
-                        <div className="app">
-                            akshdahf
-                        </div>
-                        <div className="app">
-                            akshdahf
-                        </div>
+                        
                     </div>         
                 </div>
 

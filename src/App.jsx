@@ -35,8 +35,8 @@ const App = () => {
         
    
         
-        <Sidebar />
-        {/* <EmployeeSidebar /> */}
+        {/* <Sidebar /> */}
+        <EmployeeSidebar />
         <Switch>
           {/* -------------- DASHBOARD ---------------- */}
           {/* <Route exact path='/' component={Dashboard} /> */}

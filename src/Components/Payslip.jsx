@@ -9,13 +9,15 @@ import { Button } from '@mui/material';
 
 
 
-
 const Payslip = () => {
-
-
-    const printPage =() =>{
+    
+    const printPage = () =>{
+        
+        
+        console.log('clicked')
+        
         var content = document.getElementById('content').innerHTML;
-        var origin = document.body.innerHTML;
+        var original = document.body.innerHTML;
         
         document.body.innerHTML = content;
         // var a = window.open('', '', 'height=1000, width=1000');
@@ -26,12 +28,19 @@ const Payslip = () => {
         // a.document.close();
         // a.print();
         // var a = window.open('','', 'height:500 ' )
-
+    
         window.print(); 
         
-
-        document.body.innerHTML = origin;
+    
+        document.body.innerHTML = original;
     }
+    
+    
+    // const print = document.getElementById('printBtn');
+    
+    // print.addEventListener("click", printPage)
+    
+    
 
 
     const toWords = new ToWords({
@@ -195,8 +204,8 @@ const Payslip = () => {
                         <p><b>Monthly Gross : &nbsp; Rs. {`${salBreak.grosstot}`}</b>({`${salInWord}`})</p>
                     </div>
                 </div>
-                    <div className="container d-flex justify-content-center mt-2 mb-5">
-                        <Button variant='contained' onClick={printPage}> Print </Button>
+                    <div className="container d-flex justify-content-end mt-2 mb-5">
+                        <Button variant='contained' onClick={printPage} > Print </Button>
                     </div>
 
                 
