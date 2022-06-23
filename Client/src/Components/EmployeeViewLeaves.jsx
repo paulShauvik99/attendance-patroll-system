@@ -1,14 +1,49 @@
 import { Backdrop, Box, Button, FormControl, InputLabel, MenuItem, Modal, Select } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import Heading from './SubComponents/Heading'
+import { viewEmployeeLeaves,singleEmployeeleaveDetails } from "../Apis/apis"
+import pdfImg from "../Images/file-pdf-solid-24.png"
 
 
 
 const EmployeeViewLeaves = () => {
 
     const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const [opens, setOpens] = useState(false);
+    const [showLeaveDetails, setShowLeaveDetails] = useState([])
+    const [toggle, setToggle] = useState(false)
+
+    const handleOpen = async (id) => {
+        console.log(id);
+        const res = await singleEmployeeleaveDetails(id);
+        console.log(res.data);
+        setShowLeaveDetails(res.data)
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false)
+        setOpens(false)
+    };
+
+    const noOfDays = (dayFrom, dayTo) => {
+
+        const day1 = new Date(dayFrom)
+        const day2 = new Date(dayTo)
+
+        console.log(day1);
+        console.log(day2);
+        var total_seconds = Math.abs(day2 - day1) / 1000;
+        var days_difference = Math.floor(total_seconds / (60 * 60 * 24));
+
+        console.log(days_difference);
+        return days_difference;
+    }
+
+    const [id, setId] = useState('')
+    const updateLeaveStatus = async (id) => {
+        setOpens(true);
+        setId(id);
+    }
 
     const [status, setStatus] = useState();
     const handleChange = (e) => setStatus(e.target.value)
@@ -25,16 +60,55 @@ const EmployeeViewLeaves = () => {
         p: 4,
         fontSize: 14,
     };
+    const styles = {
+        position: 'absolute',
+        top: '58%',
+        left: '50%',
+        transform: 'translate(-50%, -58%)',
+        width: '540px',
+        height: '270px',
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+        fontSize: 14,
+    };
 
+    const [leaveStatus, setLeaveStatus] = useState("Pending")
+    const onChange = (e) => {
+        setLeaveStatus(e.target.value)
+    }
+
+
+
+    const [filePath, setFilePath] = useState([])
+    let images = []
+    const getLeaveList = async () => {
+        const res = await viewEmployeeLeaves("858575");
+        setFilePath(res.data)
+        console.log(res.data);
+    }
+
+
+
+    useEffect(() => {
+        getLeaveList();
+    }, [])
+
+    useEffect(() => {
+        getLeaveList();
+    }, [toggle])
 
 
 
     return (
         <>
+
             <div className="container mt-5 mb-5 nempMain bg-light">
                 <Heading
                     heading="Leaves"
                 />
+
                 <div className="container mb-3 mt-5">
                     <h4>Leave Applications</h4>
                 </div>
@@ -53,240 +127,85 @@ const EmployeeViewLeaves = () => {
                                 </th>
                                 <th class="th-sm">To
                                 </th>
-                                <th class="th-sm statusLeave">Status
+                                <th class="th-sm">Status
                                 </th>
                                 <th class="th-sm">Action
                                 </th>
                             </tr>
                         </thead>
                         <tbody className="mb-1">
-                            
-                            <tr className="text-center">
-                                <td>2022-11-14</td>
-                                <td> Gautam </td>
-                                <td>Fever</td>
-                                <td>2022-05-10</td>
-                                <td>2022-05-15</td>
-                                <td> <span className="badge rounded-pill bg-rejected"> Rejected </span> </td>
-                                <td>
-                                    <Button onClick={handleOpen} variant="contained" >
-                                        View
-                                    </Button>
-                                    <Modal
-                                        open={open}
-                                        onClose={handleClose}
-                                        aria-labelledby="modal-modal-title"
-                                        aria-describedby="modal-modal-description"
-                                        BackdropComponent={Backdrop}
-                                        BackdropProps={{
-                                            timeout: 500,
-                                        }}
-                                    >
-                                        <Box sx={style}>
 
-                                            <div className="container">
-                                                <h5>
-                                                    Leave Details
-                                                </h5>
-                                                <hr />
-                                                <div className="container">
-                                                    <p>Name: Anonymous</p>
-                                                    <p>Date: 2022-05-12</p>
-                                                    <p>Status: Pending</p>
-                                                    <p>Description: Leave due to Fever</p>
-                                                    <p>Reason: Fever</p>
-                                                    <p>Number of Days: 5</p>
-                                                </div>
-                                                <div className="conatainer mb-2 mt-2 d-flex justify-content-end">
-                                                    <Button variant='contained' onClick={handleClose} > Close </Button>
+                            {
+                                filePath.map((curr, index) => {
+                                    if (curr.status == "Pending") {
+                                        return (
+                                            <>
+                                                <tr className="text-center">
+                                                    <td>{curr.date}</td>
+                                                    <td>{curr.name}</td>
+                                                    <td>{curr.leaveType}</td>
+                                                    <td>{curr.issuedFrom}</td>
+                                                    <td>{curr.issuedUpto}</td>
+                                                    <td className="statusLeave">
+                                                        <div className="bg-warningdropdown">
+                                                            Pending
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <Button onClick={() => { handleOpen(curr._id) }} variant="contained" >
+                                                            View
+                                                        </Button>
+                                                    </td>
+                                                </tr>
+                                            </>
+                                        )
+                                    } else if (curr.status == "Accepted") {
+                                        return (
+                                            <>
+                                                <tr className="text-center">
+                                                    <td>{curr.date}</td>
+                                                    <td>{curr.name}</td>
+                                                    <td>{curr.leaveType}</td>
+                                                    <td>{curr.issuedFrom}</td>
+                                                    <td>{curr.issuedUpto}</td>
+                                                    <td className="statusLeave">
+                                                        <span className="bg-acceptdropdown"> {curr.status}</span>
+                                                    </td>
+                                                    <td>
+                                                        <Button onClick={() => { handleOpen(curr._id) }} variant="contained" >
+                                                            View
+                                                        </Button>
+                                                    </td>
+                                                </tr>
+                                            </>
+                                        )
+                                    } else {
+                                        return (
+                                            <>
+                                                <tr className="text-center">
+                                                    <td>{curr.date}</td>
+                                                    <td>{curr.name}</td>
+                                                    <td>{curr.leaveType}</td>
+                                                    <td>{curr.issuedFrom}</td>
+                                                    <td>{curr.issuedUpto}</td>
+                                                    <td className="statusLeave">
+                                                        <span className="bg-rejectdropdown"> {curr.status}</span>
+                                                    </td>
+                                                    <td>
+                                                        <Button onClick={() => { handleOpen(curr._id) }} variant="contained" >
+                                                            View
+                                                        </Button>
+                                                    </td>
+                                                </tr>
+                                            </>
+                                        )
+                                    }
 
-                                                </div>
-                                            </div>
-                                        </Box>
-                                    </Modal>
-                                </td>
-
-
-                            </tr>
-                            <tr className="text-center">
-                                <td>2022-11-14</td>
-                                <td> Abhishek </td>
-                                <td>Fever</td>
-                                <td>2022-05-10</td>
-                                <td>2022-05-15</td>
-                                <td> <span className="badge rounded-pill bg-accepted"> Accepted </span></td>
-                                <td>
-                                    <Button onClick={handleOpen} variant="contained" >
-                                        View
-                                    </Button>
-                                    <Modal
-                                        open={open}
-                                        onClose={handleClose}
-                                        aria-labelledby="modal-modal-title"
-                                        aria-describedby="modal-modal-description"
-                                        BackdropComponent={Backdrop}
-                                        BackdropProps={{
-                                            timeout: 500,
-                                        }}
-                                    >
-                                        <Box sx={style}>
-
-                                            <div className="container">
-                                                <h5>
-                                                    Leave Details
-                                                </h5>
-                                                <hr />
-                                                <div className="container">
-                                                    <p>Name: Anonymous</p>
-                                                    <p>Date: 2022-05-12</p>
-                                                    <p>Status: Pending</p>
-                                                    <p>Description: Leave due to Fever</p>
-                                                    <p>Reason: Fever</p>
-                                                    <p>Number of Days: 5</p>
-                                                </div>
-                                                <div className="conatainer mb-2 mt-2 d-flex justify-content-end">
-                                                    <Button variant='contained' onClick={handleClose} > Close </Button>
-                                                </div>
-                                            </div>
-                                        </Box>
-                                    </Modal>
-                                </td>
+                                })
+                            }
 
 
-                            </tr>
-                            <tr className="text-center">
-                                <td>2022-11-14</td>
-                                <td> Gautam </td>
-                                <td>Fever</td>
-                                <td>2022-05-10</td>
-                                <td>2022-05-15</td>
-                                <td> <span className="badge rounded-pill bg-warning"> Pending </span> </td>
-                                <td>
-                                    <Button onClick={handleOpen} variant="contained" >
-                                        View
-                                    </Button>
-                                    <Modal
-                                        open={open}
-                                        onClose={handleClose}
-                                        aria-labelledby="modal-modal-title"
-                                        aria-describedby="modal-modal-description"
-                                        BackdropComponent={Backdrop}
-                                        BackdropProps={{
-                                            timeout: 500,
-                                        }}
-                                    >
-                                        <Box sx={style}>
 
-                                            <div className="container">
-                                                <h5>
-                                                    Leave Details
-                                                </h5>
-                                                <hr />
-                                                <div className="container">
-                                                    <p>Name: Anonymous</p>
-                                                    <p>Date: 2022-05-12</p>
-                                                    <p>Status: Pending</p>
-                                                    <p>Description: Leave due to Fever</p>
-                                                    <p>Reason: Fever</p>
-                                                    <p>Number of Days: 5</p>
-                                                </div>
-                                                <div className="conatainer mb-2 mt-2 d-flex justify-content-end">
-                                                    <Button variant='contained' onClick={handleClose} > Close </Button>
-                                                </div>
-                                            </div>
-                                        </Box>
-                                    </Modal>
-                                </td>
-
-                            </tr>
-                            <tr className="text-center">
-                                <td>2022-11-14</td>
-                                <td> Gautam </td>
-                                <td>Fever</td>
-                                <td>2022-05-10</td>
-                                <td>2022-05-15</td>
-                                <td> <span className="badge rounded-pill bg-warning"> Pending </span> </td>
-                                <td>
-                                    <Button onClick={handleOpen} variant="contained" >
-                                        View
-                                    </Button>
-                                    <Modal
-                                        open={open}
-                                        onClose={handleClose}
-                                        aria-labelledby="modal-modal-title"
-                                        aria-describedby="modal-modal-description"
-                                        BackdropComponent={Backdrop}
-                                        BackdropProps={{
-                                            timeout: 500,
-                                        }}
-                                    >
-                                        <Box sx={style}>
-
-                                            <div className="container">
-                                                <h5>
-                                                    Leave Details
-                                                </h5>
-                                                <hr />
-                                                <div className="container">
-                                                    <p>Name: Anonymous</p>
-                                                    <p>Date: 2022-05-12</p>
-                                                    <p>Status: Pending</p>
-                                                    <p>Description: Leave due to Fever</p>
-                                                    <p>Reason: Fever</p>
-                                                    <p>Number of Days: 5</p>
-                                                </div>
-                                                <div className="conatainer mb-2 mt-2 d-flex justify-content-end">
-                                                    <Button variant='contained' onClick={handleClose} > Close </Button>
-                                                </div>
-                                            </div>
-                                        </Box>
-                                    </Modal>
-                                </td>
-                            </tr>
-                            <tr className="text-center">
-                                <td>2022-11-14</td>
-                                <td> Gautam </td>
-                                <td>Fever</td>
-                                <td>2022-05-10</td>
-                                <td>2022-05-15</td>
-                                <td><span className="badge rounded-pill bg-warning"> Pending </span> </td>
-                                <td>
-                                    <Button onClick={handleOpen} variant="contained" >
-                                        View
-                                    </Button>
-                                    <Modal
-                                        open={open}
-                                        onClose={handleClose}
-                                        aria-labelledby="modal-modal-title"
-                                        aria-describedby="modal-modal-description"
-                                        BackdropComponent={Backdrop}
-                                        BackdropProps={{
-                                            timeout: 500,
-                                        }}
-                                    >
-                                        <Box sx={style}>
-
-                                            <div className="container">
-                                                <h5>
-                                                    Leave Details
-                                                </h5>
-                                                <hr />
-                                                <div className="container">
-                                                    <p>Name: Anonymous</p>
-                                                    <p>Date: 2022-05-12</p>
-                                                    <p>Status: Pending</p>
-                                                    <p>Description: Leave due to Fever</p>
-                                                    <p>Reason: Fever</p>
-                                                    <p>Number of Days: 5</p>
-                                                </div>
-                                                <div className="conatainer mb-2 mt-2 d-flex justify-content-end">
-                                                    <Button variant='contained' onClick={handleClose} > Close </Button>
-                                                </div>
-                                            </div>
-                                        </Box>
-                                    </Modal>
-                                </td>
-                            </tr>
                         </tbody>
 
                     </table>
@@ -315,6 +234,58 @@ const EmployeeViewLeaves = () => {
 
 
             </div>
+
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 500,
+                }}
+            >
+                <Box sx={style}>
+
+                    <div className="container">
+                        <h5>
+                            Leave Details
+                        </h5>
+                        <hr />
+                        <div className="row container detailedLeave">
+                            {
+                                showLeaveDetails.map((curr, index) => {
+                                    let noDays = noOfDays(curr.issuedFrom, curr.issuedUpto)
+                                    return (<>
+                                        <div className="col-sm-6 col-md-6">
+                                            <p><b>Name:</b> {curr.name} </p>
+                                            <p><b>Date:</b> {curr.date}</p>
+                                            <p><b>Status:</b> {curr.status}</p>
+                                            {/* <p><b>Description:</b></p> */}
+                                            <p><b>File:</b> <a href={`http://localhost:5000/${curr.filePath}`}><img src={pdfImg} alt="" /></a> </p>
+                                            <p style={{ overflowY: "scroll", height: "60px" }}><b>Reason:</b>  {curr.description} </p>
+
+                                        </div>
+                                        <div className="col-sm-6 col-md-6">
+                                            <p><b>Mode:</b> {curr.mode}</p>
+                                            <p><b>From:</b> {curr.issuedFrom}</p>
+                                            <p><b>To:</b> {curr.issuedUpto}</p>
+                                            <p><b>Reference:</b>{curr.reference}</p>
+                                            <p><b>Leave Type :</b> {curr.leaveType}</p>
+                                            <p><b>Number of Days:</b>{noDays}</p>
+                                        </div>
+                                    </>)
+                                })
+                            }
+                        </div>
+                        <div className="conatainer mb-2 d-flex justify-content-end">
+                            <Button variant='contained' onClick={handleClose} > Close </Button>
+                        </div>
+                    </div>
+                </Box>
+            </Modal>
+
+            
         </>
     )
 }

@@ -707,30 +707,43 @@ router.get("/allLeaves", async (req, res) => {
 })
 
 
-router.post("/example", async (req, res) => {
-    const getLeaveTypes = await LeaveType.find({})
-    console.log(getLeaveTypes);
-    const addEmployeeCount = new LeaveCount({
-        empId: '113538',
-        counts: getLeaveTypes
-    })
-    const show = await addEmployeeCount.save();
-    console.log(show)
+// router.post("/example", async (req, res) => {
+//     const getLeaveTypes = await LeaveType.find({})
+//     console.log(getLeaveTypes);
+//     const addEmployeeCount = new LeaveCount({
+//         empId: '113538',
+//         counts: getLeaveTypes
+//     })
+//     const show = await addEmployeeCount.save();
+//     console.log(show)
 
-    // await updateLeaveCount();
+//     // await updateLeaveCount();
+// })
+
+// const updateLeaveCount = async () => {
+//     const getLeaveTypes = await LeaveType.find({})
+//     const response = await LeaveCount.updateOne({ empId: '113538' }, {
+//         $set: {
+//             count: getLeaveTypes
+//         }
+//     })
+//     console.log(789)
+
+//     console.log(response);
+// }
+
+// single employee leave list
+
+router.post ("/sendEmployeeLeaveList", async (req, res) => {
+    const {empId} = req.body;
+    try {
+        const response = await Leave.find({empId:empId});
+        console.log(response);
+        res.send(response);
+    } catch (error) {
+        console.log(error);
+    }
 })
-
-const updateLeaveCount = async () => {
-    const getLeaveTypes = await LeaveType.find({})
-    const response = await LeaveCount.updateOne({ empId: '113538' }, {
-        $set: {
-            count: getLeaveTypes
-        }
-    })
-    console.log(789)
-
-    console.log(response);
-}
 
 router.get("/logout", (req, res) => {
     res.clearCookie("lmstoken", { path: '/' })

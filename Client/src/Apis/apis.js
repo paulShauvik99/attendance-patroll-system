@@ -28,3 +28,12 @@ export const updateLeaveStatuses = async (data) => {
     // console.log(res)
     return res;
 }
+
+export const viewEmployeeLeaves = async(data) => {
+    console.log(data)
+    const res = await axios.post("http://localhost:5000/sendEmployeeLeaveList", { 
+        empId : data
+    })
+    // console.log(res)
+    return res
+}
