@@ -135,15 +135,15 @@ const ReportAttendance = () => {
             <tbody className="mb-1">
               {
                 list.map((curr, index) => {
-                  const [hoursin, minutein] = curr.time_in.split(':');
-                  const [hoursout, minuteout] = curr.time_out.split(':');
+                  {/* const [hoursin, minutein] = curr.time_in.split(':');
+                  const [hoursout, minuteout] = curr.time_out.split(':'); */}
                   return (<>
                     <tr className="text-center">
                       <td>{curr.name}</td>
-                      <td>{(curr.date).substring(0, 10)}</td>
+                      {/* <td>{(curr.date).substring(0, 10)}</td> */}
                       <td>{curr.time_in}</td>
                       <td>{curr.time_out}</td>
-                      <td>{hoursout - hoursin} hours {minuteout - minutein} minutes</td>
+                      {/* <td>{hoursout - hoursin} hours {minuteout - minutein} minutes</td> */}
                     </tr>
                   </>)
                 })

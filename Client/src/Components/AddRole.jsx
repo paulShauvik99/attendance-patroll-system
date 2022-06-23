@@ -5,9 +5,6 @@ import Heading from './SubComponents/Heading'
 import axios from "axios"
 
 
-
-
-
 const AddRole = () => {
     
 

@@ -45,7 +45,7 @@ const EmployeeSidebar = () => {
             </div>
           </li>
           <li>
-            <NavLink to='/'>
+            <NavLink to='/employee/Dashboard'>
               <i className='bx bxs-grid-alt'></i>
               <span className="link_name">Dashboard</span>
             </NavLink>
@@ -78,7 +78,7 @@ const EmployeeSidebar = () => {
             </div>
             <ul className="sub-menu">
               <li><NavLink className="link_name" to="#">Leaves</NavLink></li>
-              <li><NavLink to="/viewleave">View Leaves</NavLink></li>
+              <li><NavLink to="/employeeviewleaves">View Leaves</NavLink></li>
               <li><NavLink to="/leaveapplication">Leave Application </NavLink></li>
             </ul>
           </li>
@@ -88,7 +88,7 @@ const EmployeeSidebar = () => {
               <span className="link_name">Payroll</span>
             </NavLink>
             <ul className="sub-menu blank">
-              <li><NavLink className="link_name" to="/payroll">Payroll</NavLink></li>
+              <li><NavLink className="link_name" to="/employee/payroll">Payroll</NavLink></li>
             </ul>
           </li>
           {/* <li>

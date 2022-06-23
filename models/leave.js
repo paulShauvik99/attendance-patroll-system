@@ -2,8 +2,12 @@ const mongoose = require('mongoose');
 
 const leaveSchema = mongoose.Schema({
     date : {
-        type : Date,
+        type : String,
         required : true
+    },
+    empId : {
+        type: String,
+        required: true,
     },
     name : {
         type: String,
@@ -13,13 +17,17 @@ const leaveSchema = mongoose.Schema({
         type : String,
         required : true
     },
+    mode : {
+        type : String,
+        required : true
+    },
     issuedFrom : {
-        type: Date,
+        type: String,
         required: true,
        
     },
     issuedUpto : {
-        type : Date,
+        type : String,
         required: true,
     },
     status : {
@@ -29,7 +37,30 @@ const leaveSchema = mongoose.Schema({
     },
     description :{
         type : String,
-        required : true,
+        
+    },
+    reference : {
+        type : String,
+        default : "N/A",
+    },
+    emergency : {
+        type : String,
+    },
+    fileName: {
+        type: String,
+        // required: true
+    },
+    filePath: {
+        type: String,
+        // required: true
+    },
+    fileType: {
+        type: String,
+        // required: true
+    },
+    fileSize: {
+        type: String,
+        // required: true
     }
 },
 {

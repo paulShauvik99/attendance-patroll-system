@@ -25,7 +25,9 @@ import EmployeeDashboard from './Components/EmployeeDashboard';
 import LeaveApplication from './Components/LeaveApplication';
 import EmployeeViewAttendance from './Components/EmployeeViewAttendance';
 import EmployeeEditAttendance from './Components/EmployeeEditAttendance';
-import LeaveSettings from './Components/LeaveSettings';
+import LeaveSettings from './Components/LeaveSettings'
+import EmployeePayroll from "./Components/EmployeePayroll"
+import EmployeeViewLeaves from './Components/EmployeeViewLeaves'
 
 
 const App = () => {
@@ -38,10 +40,13 @@ const App = () => {
         <Switch>
           {/* -------------- DASHBOARD ---------------- */}
           {/* <Route exact path='/' component={Dashboard} /> */}
-          <Route exact path='/' component={EmployeeDashboard} />
+          <Route exact path='/' component={Dashboard} />
+          <Route exact path='/employee/Dashboard' component={EmployeeDashboard} />
           <Route exact path='/leaveapplication' component={LeaveApplication} />
+          <Route exact path='/employee/payroll' component={EmployeePayroll} />
           <Route exact path='/employeeviewattendance' component={EmployeeViewAttendance} />
           <Route exact path='/employeeviewattendance/edit' component={EmployeeEditAttendance} />
+          <Route exact path='/employeeviewleaves' component={EmployeeViewLeaves} />
 
           {/* ---------------- VIEW EMPLOYEE ----------------- */}
           <Route exact path='/viewemployee' component={ViewEmployee} />
@@ -85,7 +90,7 @@ const App = () => {
           {/* --------------------- REPORT -----> LEAVES ---------------------- */}
           <Route exact path='/reportleaves' component={ReportLeave} />
           <Route exact path='/payroll/payslip/:id' component={Payslip} />
-
+          <Route exact path='/employee/payroll/payslip/:id' component={Payslip} />
           <Route exact path='/login' component={Login} />
           <Route exact path='/logout' component={Logout} />
         </Switch>
