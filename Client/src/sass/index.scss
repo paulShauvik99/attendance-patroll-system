@@ -703,3 +703,20 @@ select option {
 .stopScroll{
   overflow-x: hidden;
 }
+
+.custom-tooltip {
+  --bs-tooltip-bg: var(--bs-primary);
+}
+
+@media print {
+
+  @page {
+    size: A4 portrait;
+  }
+  .payslipRight{
+    margin-top: 0 !important;
+    // float:right !important;
+  }
+
+
+}

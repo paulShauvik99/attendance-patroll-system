@@ -188,7 +188,7 @@ const NewEmployee = () => {
             role : role, 
             joinDate : dateJoin,
             employmentType : empType,
-            salary : 0
+            salary : salary
 
         })
 

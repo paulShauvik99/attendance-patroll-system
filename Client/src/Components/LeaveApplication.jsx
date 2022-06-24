@@ -46,8 +46,8 @@ const LeaveApplication = () => {
         formData.append("file", file)
 
         const res = await axios.post("http://localhost:5000/addNewLeave", {
-            name: "user2 Two",
-            empId : "858575",
+            name: "User Five",
+            empId : "530280",
             leaveType: values.leaveType,
             mode: values.leaveMode,
             startDate: values.startDate,

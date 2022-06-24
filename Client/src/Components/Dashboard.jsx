@@ -117,7 +117,7 @@ const Dashboard = () => {
         name: 'Department Chart',
         type: 'pie',
         radius: [50, 180],
-        center: ['55%', '40%'],
+        center: ['60%', '40%'],
         // roseType: 'area',
         itemStyle: {
           borderRadius: 8
@@ -154,7 +154,7 @@ const Dashboard = () => {
           }
         </div>
       </div>
-      <div className="stopScroll">
+      <div className="stopScroll mt-5">
         <div className="row">
           <div className="col-sm-6 col-md-6">
             <h2 className="moveRight">No of employees per department</h2>

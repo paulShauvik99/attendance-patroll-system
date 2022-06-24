@@ -52,3 +52,10 @@ export const employeeLeaveCalculator = async (data) => {
     })
     return res;
 }
+
+
+export const getLeaveStats = async (data) => {
+    const res = await axios.post("http://localhost:5000/getEachLeaveStats", {
+        empId : data
+    })
+}

@@ -52,10 +52,10 @@ const App = () => {
           <Route exact path='/viewemployee' component={ViewEmployee} />
           
           {/* ------------------- VIEW EMPLOYEE ---> PROFILE ------------------ */}
-          <Route exact path='/viewemployee/profile' component={EmployeeProfile} />
+          <Route exact path='/viewemployee/profile/:id' component={EmployeeProfile} />
 
           {/* ---------------------- VIEW EMPLOYEE ---> EDIT PROFILE ------------------ */}
-          <Route exact path='/viewemployee/edit' component={ProfileEdit} />
+          <Route exact path='/viewemployee/edit/:id' component={ProfileEdit} />
           
           {/* ------------------ NEW EMPLOYEE ------------------ */}
           <Route exact path='/newemployee' component={NewEmployee} />

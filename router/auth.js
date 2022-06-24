@@ -642,7 +642,19 @@ router.get("/allLeaveTypes", async (req, res) => {
 
 
 // Employee Leave Application
+const noOfDays = (a, b) => {
 
+    const day1 = new Date(a)
+    const day2 = new Date(b)
+
+    console.log(day1);
+    console.log(day2);
+    var total_seconds = Math.abs(day2 - day1) / 1000;
+    var days_difference = Math.floor(total_seconds / (60 * 60 * 24));
+
+    console.log(days_difference);
+    return days_difference;
+}
 
 // New Leave Applications
 router.post("/addNewLeave", upload.single("file"), async (req, res, next) => {
@@ -685,6 +697,7 @@ router.post("/addNewLeave", upload.single("file"), async (req, res, next) => {
             }
         }
 
+        const noOFDays = noOfDays(req.body.startDate,req.body.endDate)
         const leaveNo = await LeaveCount.findOne({ empId: req.body.empId })
         console.log("here", leaveNo.counts);
         const dataValue = leaveNo.counts.filter(obj => { return obj.name === req.body.leaveType })
@@ -692,7 +705,7 @@ router.post("/addNewLeave", upload.single("file"), async (req, res, next) => {
         const upateLeaveCount = await LeaveCount.updateMany({ empId: req.body.empId, "counts.name": req.body.leaveType },
             {
                 $set: {
-                    "counts.$.daysTaken": dataValue[0].daysTaken + 1
+                    "counts.$.daysTaken": dataValue[0].daysTaken + noOFDays
                 }
             })
 
@@ -700,7 +713,7 @@ router.post("/addNewLeave", upload.single("file"), async (req, res, next) => {
         const response = new Leave(data);
         const saveRes = await response.save();
 
-        // console.log("here", upateLeaveCount);
+        console.log("here", upateLeaveCount);
 
         res.send({ message: "Applied for leave" })
 
@@ -822,6 +835,20 @@ router.post("/employeeAttendanceStats", async (req, res) => {
             {$match : {empId : req.body.empId}},
             {$unwind : "$records"},
             {$group : {"_id":"$records.day", "value" : {$sum : 1}}}
+        ])
+        console.log(response);
+        res.send(response)
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+
+router.post("/getEachLeaveStats", async (req, res) => {
+    try {
+        const response = await Leave.aggregate([
+            {$match : {empId : req.body.empId}},
+            {$group : {"_id" : "$status",  value : { $sum: 1 } }}
         ])
         console.log(response);
         res.send(response)

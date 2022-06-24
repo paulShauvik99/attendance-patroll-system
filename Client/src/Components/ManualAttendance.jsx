@@ -10,7 +10,7 @@ const ManualAttendance = () => {
 
   // const history = useHistory();
 
-  const name = "Ana Roy"
+  const name = "Anil Roy"
 
 
   const [values, setValues] = useState({
@@ -31,7 +31,7 @@ const ManualAttendance = () => {
     const res = await axios.post("http://localhost:5000/addAttendance", {
       // name, date, time_in, time_out
       name: name,
-      empId : "23145",
+      empId : "a123",
       date: date,
       time_in: timeIn,
       time_out: timeOut
