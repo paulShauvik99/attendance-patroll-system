@@ -113,7 +113,7 @@ router.post("/addEmployee", async (req, res) => {
 
             const show = await addEmployeeCount.save();
 
-            console.log("response ",show);
+            console.log("response ", show);
 
             if (userSave && roleEdit) {
                 return res.status(201).json({ message: "Added Successfully" })
@@ -281,6 +281,7 @@ router.post("/deleteUser", async (req, res) => {
 // add attendance
 
 const dayIndex = new Date().getUTCDay()
+console.log(dayIndex);
 const getDayName = (dayIndex) => {
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     return days[dayIndex];
@@ -289,17 +290,47 @@ const getDayName = (dayIndex) => {
 router.post("/addAttendance", async (req, res) => {
     const { name, date, time_in, time_out } = req.body;
     try {
+        console.log(time_in);
+        console.log(time_out);
         const [hoursin, minutein] = time_in.split(':');
         const [hoursout, minuteout] = time_out.split(':');
-
+        console.log(hoursin);
+        console.log(minutein);
+        console.log(hoursout);
+        console.log(minuteout);
         const findEmployee = await Attendance.findOne({ name: name });
         console.log(findEmployee)
         if (!findEmployee) {
+            console.log(21456);
             if (hoursin > hoursout) {
                 return res.send({ message: "Time in cannot be after time out" })
             } else if (hoursin == hoursout) {
                 if (minutein > minuteout) {
                     return res.send({ message: "Time in cannot be after time out" })
+                } else {
+                    const hours = hoursout - hoursin
+                    const minute = minuteout - minutein
+                    const workingHour = hours + " hours " + minute + " minutes"
+                    const dayName = getDayName(dayIndex)
+                    console.log(dayName);
+                    const response = await new Attendance({
+                        name: name, records: [
+                            {
+                                day: dayName,
+                                date: date,
+                                time_in: time_in,
+                                time_out: time_out,
+                                workingHours: workingHour
+                            }
+                        ]
+                    });
+                    const attendance = await response.save();
+    
+                    if (attendance) {
+                        return res.status(201).json({ message: "Attendance Recorded Successfully" })
+                    } else {
+                        return res.send({ message: "Attendance failed to record" })
+                    }
                 }
             } else {
                 const hours = hoursout - hoursin
@@ -311,7 +342,7 @@ router.post("/addAttendance", async (req, res) => {
                     name: name, records: [
                         {
                             day: dayName,
-                            date: date.substring(0, 10),
+                            date: date,
                             time_in: time_in,
                             time_out: time_out,
                             workingHours: workingHour
@@ -331,12 +362,36 @@ router.post("/addAttendance", async (req, res) => {
             if (hoursin > hoursout) {
                 return res.send({ message: "Time in cannot be after time out" })
             } else if (hoursin == hoursout) {
+                console.log("object");
                 if (minutein > minuteout) {
                     return res.send({ message: "Time in cannot be after time out" })
+                } else {
+                    const hours = hoursout - hoursin
+                    console.log(hours);
+                    const minute = minuteout - minutein
+                    console.log(minute);
+                    const workingHour = hours + " hours " + minute + " minutes"
+                    const dayName = getDayName(dayIndex)
+                    console.log(dayName);
+                    var data = {
+                        day: dayName,
+                        date: date,
+                        time_in: time_in,
+                        time_out: time_out,
+                        workingHours: workingHour
+                    }
+
+                    const response = await findEmployee.newAttendance(data)
+                    console.log(response);
+
+                    return res.status(201).json({ message: "Attendance Recorded Successfully" })
                 }
-            } else {
+            } else if (hoursin < hoursout) {
+
                 const hours = hoursout - hoursin
+                console.log(hours);
                 const minute = minuteout - minutein
+                console.log(minute);
                 const workingHour = hours + " hours " + minute + " minutes"
                 const dayName = getDayName(dayIndex)
                 console.log(dayName);
@@ -352,9 +407,8 @@ router.post("/addAttendance", async (req, res) => {
                 console.log(response);
 
                 return res.status(201).json({ message: "Attendance Recorded Successfully" })
-
             }
-            return res.send({ message: " here i am 4587" })
+            return res.send({ message: "Failed to add attendance" })
         }
 
 
@@ -633,8 +687,8 @@ router.post("/addNewLeave", upload.single("file"), async (req, res, next) => {
 
         const leaveNo = await LeaveCount.findOne({ empId: req.body.empId })
         console.log("here", leaveNo.counts);
-        const dataValue = leaveNo.counts.filter(obj => {return obj.name === req.body.leaveType})
-        console.log("give me ",dataValue[0].daysTaken);
+        const dataValue = leaveNo.counts.filter(obj => { return obj.name === req.body.leaveType })
+        console.log("give me ", dataValue[0].daysTaken);
         const upateLeaveCount = await LeaveCount.updateMany({ empId: req.body.empId, "counts.name": req.body.leaveType },
             {
                 $set: {
@@ -734,12 +788,43 @@ router.get("/allLeaves", async (req, res) => {
 
 // single employee leave list
 
-router.post ("/sendEmployeeLeaveList", async (req, res) => {
-    const {empId} = req.body;
+router.post("/sendEmployeeLeaveList", async (req, res) => {
+    const { empId } = req.body;
     try {
-        const response = await Leave.find({empId:empId});
+        const response = await Leave.find({ empId: empId });
         console.log(response);
         res.send(response);
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+// Count all fields
+router.get("/getCount", async (req, res) => {
+    const employeeInDept = await User.aggregate([
+        { $group: { _id: "$role", count: { $sum: 1 } } }
+    ])
+
+    const statusLeaves = await Leave.aggregate([
+        { $group: { _id: "$status", count: { $sum: 1 } } }
+    ])
+
+    const totalLeaveApplication = await Leave.find({}).count()
+
+    console.log(totalLeaveApplication);
+    res.json({ value: totalLeaveApplication, employeeInDept: employeeInDept, statusLeaves: statusLeaves })
+})
+
+router.post("/employeeAttendanceStats", async (req, res) => {
+    try {
+        // const response = await Attendance.findOne({_id : '62ae21c06743c3baf3fadcfc'})
+        const response = await Attendance.aggregate([
+            {$match : {empId : req.body.empId}},
+            {$unwind : "$records"},
+            {$group : {"_id":"$records.day", "value" : {$sum : 1}}}
+        ])
+        console.log(response);
+        res.send(response)
     } catch (error) {
         console.log(error);
     }

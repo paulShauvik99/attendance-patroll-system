@@ -7,6 +7,11 @@ const attendanceSchema = mongoose.Schema({
         required: true,
         
     },
+    empId : {
+        type: String,
+        required: true,
+        
+    },
     records : [
         {
             day :{

@@ -37,3 +37,18 @@ export const viewEmployeeLeaves = async(data) => {
     // console.log(res)
     return res
 }
+
+
+export const getCount = async () => {
+  const res = await axios.get("http://localhost:5000/getCount");
+  console.log(res)
+  return res;
+}
+
+
+export const employeeLeaveCalculator = async (data) => {
+    const res = await axios.post("http://localhost:5000/employeeAttendanceStats", {
+        empId : data
+    })
+    return res;
+}

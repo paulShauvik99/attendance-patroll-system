@@ -656,3 +656,50 @@ select option {
   color : white;
   cursor: pointer;
 }
+
+.moveRight{
+  margin-top: 30px;
+  position: relative;
+  left: 20%;
+}
+
+.moveRights{
+  margin-top: 30px;
+  position: relative;
+  left: 32%;
+}
+
+.btnClickHeres,.btnClickHeress{
+  display: flex;
+  justify-content: center;
+  padding-right: 0px !important;
+  width: 100% !important;
+  // padding-top: 6px; 
+  /* padding-left: 55px; */
+  color: #1409fb;
+  /* background: blue; */
+  border-radius: 10px;
+  border: 1px solid !important;
+  height: 38px;
+  padding-top: 6px;
+}
+
+.btnClickHeres:hover, .btnClickHeress:hover{
+  background : #1409fb;
+  color: white;
+  cursor: pointer;
+}
+
+.btnClickHeres[disabled]:hover {
+  background : #ffff;
+  color: #1409fb;
+  cursor : no-drop;
+}
+.btnClickHeress[disabled]:hover{
+  background : #ffff;
+  color: #1409fb;
+  cursor : no-drop;
+}
+.stopScroll{
+  overflow-x: hidden;
+}

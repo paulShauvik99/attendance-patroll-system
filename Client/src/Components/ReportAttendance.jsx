@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Heading from './SubComponents/Heading'
 import axios from "axios"
+import {employeeLeaveCalculator} from "../Apis/apis"
 
 
 
@@ -25,10 +26,6 @@ const ReportAttendance = () => {
   }
 
 
-  useEffect(() => {
-    getEmployees()
-    getAttendance()
-  }, [])
 
   const [values, setValues] = useState({
     employee: '',
@@ -42,23 +39,36 @@ const ReportAttendance = () => {
     })
   }
 
+  const [lists, setLists] = useState([])
 
   console.log(values.employee)
   const getEmployeeAttendance = async (event) => {
-   
+
     const res = await axios.post("http://localhost:5000/viewEmployeeAttendance", {
       name: values.employee
     })
 
     console.log(res);
-    setList(res.data)
+    setLists(res.data)
   }
+
+
+  useEffect(() => {
+    getEmployees()
+    getAttendance()
+  }, [])
+
 
   useEffect(() => {
     getEmployeeAttendance();
-  },[values.employee] )
-  
-  console.log(list);
+  }, [values])
+
+  const showStats = async(id)=> {
+    // console.log(id)
+    const res = await employeeLeaveCalculator(id);
+    console.log(res);
+  }
+
 
   return (
     <>
@@ -87,7 +97,7 @@ const ReportAttendance = () => {
                     empList.map((curr, index) => {
                       return (
                         <MenuItem key={index}
-                          value={curr.firstname+ " " +curr.lastname}
+                          value={curr.firstname + " " + curr.lastname}
                         >
                           {curr.firstname} {curr.lastname}
                         </MenuItem>
@@ -115,38 +125,105 @@ const ReportAttendance = () => {
             </div>
           </div>
         </div>
+
+
         <div className="container">
           <table id="dtBasicExample" className="mt-5 mb-5 table table-hover table-responsive table-bordered" >
             <thead className="bg-dark text-light">
               <tr className='text-center'>
                 <th class="th-sm">Name
                 </th>
-                <th class="th-sm">Date
-                </th>
-                <th class="th-sm">Time In
-                </th>
-                <th class="th-sm">Time Out
-                </th>
-                <th class="th-sm">Working Hours
-                </th>
 
               </tr>
             </thead>
             <tbody className="mb-1">
               {
-                list.map((curr, index) => {
-                  {/* const [hoursin, minutein] = curr.time_in.split(':');
-                  const [hoursout, minuteout] = curr.time_out.split(':'); */}
-                  return (<>
-                    <tr className="text-center">
-                      <td>{curr.name}</td>
-                      {/* <td>{(curr.date).substring(0, 10)}</td> */}
-                      <td>{curr.time_in}</td>
-                      <td>{curr.time_out}</td>
-                      {/* <td>{hoursout - hoursin} hours {minuteout - minutein} minutes</td> */}
-                    </tr>
-                  </>)
-                })
+                (lists.length == 0) ?
+                  list.map((curr, index) => {
+
+                    return (<>
+                      <tr className="text-center">
+                        <td className="attendanceNameHeading" onClick={() =>{(showStats(curr.empId))}}>{curr.name}</td>
+                        <table className="mb-5 table table-hover table-responsive " >
+                          <thead className="bg-dark text-light">
+                            <tr className='text-center'>
+
+                              <th class="th-sm">Day
+                              </th>
+                              <th class="th-sm">Date
+                              </th>
+                              <th class="th-sm">Time In
+                              </th>
+                              <th class="th-sm">Time Out
+                              </th>
+                              <th class="th-sm">Working Hours
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody className="mb-1">
+                            {
+                              curr.records.map((val, index) => {
+                                return (
+                                  <>
+                                    <tr className="text-center">
+                                      <td>{val.day}</td>
+                                      <td>{val.date}</td>
+                                      <td>{val.time_in}</td>
+                                      <td>{val.time_out}</td>
+                                      <td>{val.workingHours}</td>
+                                    </tr>
+
+                                  </>
+                                )
+                              })
+                            }
+                          </tbody>
+                        </table>
+                      </tr>
+                    </>)
+                  }) : lists.map((curr, index) => {
+
+                    return (<>
+                      <tr className="text-center">
+                        <td className="attendanceNameHeading">{curr.name}</td>
+                        <table className="mb-5 table table-hover table-responsive " >
+                          <thead className="bg-dark text-light">
+                            <tr className='text-center'>
+
+                              <th class="th-sm">Day
+                              </th>
+                              <th class="th-sm">Date
+                              </th>
+                              <th class="th-sm">Time In
+                              </th>
+                              <th class="th-sm">Time Out
+                              </th>
+                              <th class="th-sm">Working Hours
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody className="mb-1">
+                            {
+                              curr.records.map((val, index) => {
+                                return (
+                                  <>
+                                    <tr className="text-center">
+                                      <td>{val.day}</td>
+                                      <td>{val.date}</td>
+                                      <td>{val.time_in}</td>
+                                      <td>{val.time_out}</td>
+                                      <td>{val.workingHours}</td>
+                                    </tr>
+
+                                  </>
+                                )
+                              })
+                            }
+                          </tbody>
+                        </table>
+                      </tr>
+                    </>)
+                  })
               }
 
             </tbody>
