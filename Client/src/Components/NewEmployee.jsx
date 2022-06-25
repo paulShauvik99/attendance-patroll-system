@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-// import { Link,useHistory } from 'react-router-dom'
+import { Link,useHistory } from 'react-router-dom'
 // import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 // import {pink} from '@mui/material/colors';
@@ -16,8 +16,10 @@ import Heading from './SubComponents/Heading'
 import axios from "axios"
 
 
+
 const NewEmployee = () => {
 
+    const history = useHistory();
     //--------------------- STEP 1: ---------------------
 
     const [marStatus, setMarStatus] = useState('');
@@ -194,6 +196,7 @@ const NewEmployee = () => {
 
        if(res.status===201){
            window.alert("Employee added successfully")
+           history.push("/viewemployee");
        }else{
         window.alert("Failed to add")
        }

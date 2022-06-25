@@ -592,6 +592,8 @@ router.post("/addLeave", async (req, res) => {
     }
 })
 
+
+
 // update leaveTypes
 
 router.post("/updateLeaveTypes", async (req, res) => {
@@ -670,6 +672,7 @@ router.post("/addNewLeave", upload.single("file"), async (req, res, next) => {
                 date: date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate(),
                 name: req.body.name,
                 leaveType: req.body.leaveType,
+                dept : req.body.dept,
                 mode: req.body.mode,
                 issuedFrom: req.body.startDate,
                 issuedUpto: req.body.endDate,
@@ -687,6 +690,7 @@ router.post("/addNewLeave", upload.single("file"), async (req, res, next) => {
                 date: date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate(),
                 name: req.body.name,
                 leaveType: req.body.leaveType,
+                dept : req.body.dept,
                 mode: req.body.mode,
                 empId: req.body.empId,
                 issuedFrom: (req.body.startDate).substring(0, 10),
@@ -774,31 +778,6 @@ router.get("/allLeaves", async (req, res) => {
 })
 
 
-// router.post("/example", async (req, res) => {
-//     const getLeaveTypes = await LeaveType.find({})
-//     console.log(getLeaveTypes);
-//     const addEmployeeCount = new LeaveCount({
-//         empId: '113538',
-//         counts: getLeaveTypes
-//     })
-//     const show = await addEmployeeCount.save();
-//     console.log(show)
-
-//     // await updateLeaveCount();
-// })
-
-// const updateLeaveCount = async () => {
-//     const getLeaveTypes = await LeaveType.find({})
-//     const response = await LeaveCount.updateOne({ empId: '113538' }, {
-//         $set: {
-//             count: getLeaveTypes
-//         }
-//     })
-//     console.log(789)
-
-//     console.log(response);
-// }
-
 // single employee leave list
 
 router.post("/sendEmployeeLeaveList", async (req, res) => {
@@ -828,6 +807,9 @@ router.get("/getCount", async (req, res) => {
     res.json({ value: totalLeaveApplication, employeeInDept: employeeInDept, statusLeaves: statusLeaves })
 })
 
+
+
+
 router.post("/employeeAttendanceStats", async (req, res) => {
     try {
         // const response = await Attendance.findOne({_id : '62ae21c06743c3baf3fadcfc'})
@@ -844,18 +826,86 @@ router.post("/employeeAttendanceStats", async (req, res) => {
 })
 
 
-router.post("/getEachLeaveStats", async (req, res) => {
+// get single employee leave informations
+router.post("/getSingleEmployeeLeave", async(req, res)=>{
+    try {
+      const response = await Leave.find({name : req.body.name})
+      console.log(response);
+      res.send(response)
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+// get single Leave stats
+router.post("/getEachLeaveStats", async(req, res)=>{
     try {
         const response = await Leave.aggregate([
             {$match : {empId : req.body.empId}},
-            {$group : {"_id" : "$status",  value : { $sum: 1 } }}
+            {$group : {"_id" : "$status", "value" : {$sum : 1}}}
         ])
+        
+        const totalCount = await Leave.aggregate([
+            {$match : {empId : req.body.empId}}
+        ])
+        console.log(response);
+        res.json({stats : response, total : totalCount})
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+
+router.post("/getSingleEmployeeLeave", async (req, res) => {
+    try {
+        const response = await Leave.find({name : req.body.name})
         console.log(response);
         res.send(response)
     } catch (error) {
         console.log(error);
     }
 })
+
+
+router.get("/dashboardCount", async (req, res) => {
+    try {
+        const totalEmployee = await User.find({}).count()
+        const totalDept = await Role.find({}).count()
+        const totalPending = await Leave.find({status : "Pending"}).count()
+        console.log(totalEmployee);
+        res.json({employeeCount : totalEmployee, totalDept : totalDept, totalPending : totalPending})
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+
+// group working hours
+router.get("/totalWorkingHours", async(req,res)=>{
+    try {
+      const response = await Attendance.aggregate([
+        {$group : {_id : "$dept", total : { $sum : 1}, rounds: { $push: "$records" } }}
+      ])
+      console.log(response);
+      res.send(response)
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+// get dept wise leaves
+router.get("/totalDeptLeaves", async(req,res)=>{
+    try {
+      const response = await Leave.aggregate([
+        {$group : {_id : "$dept", total : { $sum : 1}, rounds: { $push: "$status" } }}
+      ])
+      console.log(response);
+      res.send(response)
+    } catch (error) {
+        console.log(error);
+    }
+})
+
 
 router.get("/logout", (req, res) => {
     res.clearCookie("lmstoken", { path: '/' })

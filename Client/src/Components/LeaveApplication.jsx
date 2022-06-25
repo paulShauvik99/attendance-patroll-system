@@ -48,6 +48,7 @@ const LeaveApplication = () => {
         const res = await axios.post("http://localhost:5000/addNewLeave", {
             name: "User Five",
             empId : "530280",
+            dept : "Technical Lead",
             leaveType: values.leaveType,
             mode: values.leaveMode,
             startDate: values.startDate,

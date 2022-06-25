@@ -1,29 +1,110 @@
 import React, { useState, useEffect } from 'react'
 import Cards from './SubComponents/Cards';
-import { DashboardCard } from '../Data/DashboardCard';
-// import '../Images/treva.png'
+
 import ReactECharts from 'echarts-for-react';
-// import { department, Leave } from "../EchartsOptions/options"
 import { getCount } from "../Apis/apis"
-import Heading from './SubComponents/Heading';
+import { getDashboardCount, getWorkingHours } from "../Apis/apis"
 
 const Dashboard = () => {
+
+  const [data, setData] = useState({})
+  const [work, setWork] = useState([])
+  
+  const getDasboardTotal = async () => {
+    const res = await getDashboardCount();
+    // console.log(res.data);
+    setData(res.data)
+    const response = await getWorkingHours();
+    // console.log(typeof(response.data));
+    // console.log(response.data);
+    setWork(response.data)
+   
+  }
+
+  const arrayDept = work.map((curr,index)=>{
+    return {
+      name: curr._id, records: curr.rounds[0], key: index
+    }
+  })
+  let arrWorkHour = []
+  // console.log(arrayDept)
+  arrayDept.map((curr,index)=>{
+   
+    var time = 0;
+    curr.records.map((val,index)=>{
+      const data = val.workingHours.split(" ");
+      const hours = data[0] * 60;
+      const minutes = data[2];
+      const total = parseInt(hours) + parseInt(minutes);
+      time = time + total
+     
+    })
+    // console.log(time);
+    const obj = { name: curr.name, time: time / 60 + time % 60 }
+    // console.log(obj);
+    arrWorkHour.push(obj)
+
+  })
+
+  var name = []
+  var values = []
+  console.log(arrWorkHour);
+  const colorPalette = ['#198754', '#dc3545', '#ffc107', '#0d6efd','#f2ac08','#f20866' , '#08d7f2', '#93f208', '#f20856b8', '#7dc2a2' ,'#24c799']  // green red yellow blue
+
+  arrWorkHour.map((curr,index)=>{
+    name.push(curr.name)
+    values.push({
+        value: curr.time,
+        itemStyle: {
+          color: colorPalette[index]
+        }
+      })
+  })
+
+
+  const DashboardCard = [
+    {
+      id: '1',
+      num: data.employeeCount,
+      heading: "Employees",
+      para: "Total employees in the organisation",
+      icon: "fa fa-users",
+
+    },
+    {
+      id: '2',
+      num: data.totalDept,
+      heading: "Department",
+      para: "Total Department in the organisation",
+      icon: "fa fa-building-o",
+    },
+    {
+      id: '3',
+      num: data.totalPending,
+      heading: "Pending Leave",
+      para: "Leave applications pending for approval",
+      icon: "fa fa-check-square-o",
+    },
+
+  ]
 
 
 
   const [dept, setDept] = useState([]);
   const [leaveStat, setLeaveStat] = useState([]);
   const [totalLeave, setTotalLeave] = useState(0);
+
+
   const getCounts = async () => {
     const res = await getCount();
     setDept(res.data.employeeInDept)
-    console.log(res.data.statusLeaves);
+    // console.log(res.data.statusLeaves);
     setLeaveStat(res.data.statusLeaves)
     setTotalLeave(res.data.value)
 
   }
 
-  const colorPalette = ['#198754', '#dc3545', '#ffc107', '#0d6efd']
+  
 
   const deptObj = dept.map((item, index) => {
     return {
@@ -41,10 +122,12 @@ const Dashboard = () => {
 
   leaveObj.push({ name: 'Total Leaves', value: totalLeave })
 
-  console.log(leaveObj);
+  // console.log(leaveObj);
 
   useEffect(() => {
-    getCounts()
+    getCounts();
+    getDasboardTotal();
+    // calculateWorkingHours();
   }, []);
 
   var x = [];
@@ -52,13 +135,42 @@ const Dashboard = () => {
 
   leaveObj.map((curr, i) => {
     x.push(curr.name)
-    y.push({
-      value: curr.value,
-      itemStyle: {
-        color: colorPalette[i]
-      }
-    })
+    if (curr.name == "Accepted") {
+      y.push({
+        value: curr.value,
+        itemStyle: {
+          color: colorPalette[0]
+        }
+      })
+    }
+    else if (curr.name == "Rejected") {
+      y.push({
+        value: curr.value,
+        itemStyle: {
+          color: colorPalette[1]
+        }
+      })
+    }
+    else if (curr.name == "Pending") {
+      y.push({
+        value: curr.value,
+        itemStyle: {
+          color: colorPalette[2]
+        }
+      })
+    }
+    else {
+      y.push({
+        value: curr.value,
+        itemStyle: {
+          color: colorPalette[3]
+        }
+      })
+    }
   })
+
+
+
 
 
   const leave = {
@@ -109,7 +221,7 @@ const Dashboard = () => {
     },
     legend: {
       bottom: '10%',
-      left: '15%'
+      left: '27%'
     },
 
     series: [

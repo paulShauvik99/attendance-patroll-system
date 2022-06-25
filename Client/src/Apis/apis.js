@@ -23,14 +23,14 @@ export const singleEmployeeleaveDetails = async (id) => {
 }
 
 export const updateLeaveStatuses = async (data) => {
-    console.log(12345)
+    // console.log(12345)
     const res = await axios.post("http://localhost:5000/updateLeaveStatus", data);
     // console.log(res)
     return res;
 }
 
 export const viewEmployeeLeaves = async(data) => {
-    console.log(data)
+    // console.log(data)
     const res = await axios.post("http://localhost:5000/sendEmployeeLeaveList", { 
         empId : data
     })
@@ -41,7 +41,7 @@ export const viewEmployeeLeaves = async(data) => {
 
 export const getCount = async () => {
   const res = await axios.get("http://localhost:5000/getCount");
-  console.log(res)
+//   console.log(res)
   return res;
 }
 
@@ -58,4 +58,31 @@ export const getLeaveStats = async (data) => {
     const res = await axios.post("http://localhost:5000/getEachLeaveStats", {
         empId : data
     })
+    return res;
 }
+
+
+export const getSingleLeaveDetails = async(data) => {
+    const res = await axios.post("http://localhost:5000/getSingleEmployeeLeave",{
+        name : data
+    })
+
+    return res;
+}
+
+
+export const getDashboardCount = async () => {
+    const res = await axios.get("http://localhost:5000/dashboardCount");
+    return res;
+}
+
+export const arrayDept= [];
+
+export const getWorkingHours = async() => {
+    const res = await axios.get("http://localhost:5000/totalWorkingHours");
+    // console.log(res.data)
+    return res;
+    
+}
+
+// console.log(arrayDept)

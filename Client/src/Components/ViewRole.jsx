@@ -109,7 +109,7 @@ const ViewRole = () => {
 
                       <td>
                         <Button onClick={() => handleOpen(curr,curr.name)} variant="contained">
-                          View
+                          Update
                         </Button>
 
                       </td>

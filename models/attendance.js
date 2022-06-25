@@ -12,6 +12,10 @@ const attendanceSchema = mongoose.Schema({
         required: true,
         
     },
+    dept : {
+        type: String,
+        required: true,
+    },
     records : [
         {
             day :{

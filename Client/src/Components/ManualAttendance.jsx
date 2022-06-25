@@ -2,15 +2,16 @@ import Button from '@mui/material/Button';
 import React, { useState, useEffect, } from 'react'
 import Heading from './SubComponents/Heading';
 import axios from "axios"
+import {useHistory} from "react-router-dom"
 
 
 const ManualAttendance = () => {
 
 
 
-  // const history = useHistory();
+  const history = useHistory();
 
-  const name = "Anil Roy"
+  const name = "Anamika Sen"
 
 
   const [values, setValues] = useState({
@@ -26,20 +27,24 @@ const ManualAttendance = () => {
     })
   }
 
+  // window.localStorage.setItem('In','00:00')
+  // window.localStorage.setItem('out','00:00')
+
 
   const addAttendance = async (event) => {
     const res = await axios.post("http://localhost:5000/addAttendance", {
       // name, date, time_in, time_out
       name: name,
-      empId : "a123",
+      empId : "23145",
       date: date,
-      time_in: timeIn,
-      time_out: timeOut
+      time_in: localStorage.getItem('In'),
+      time_out: localStorage.getItem('out')
 
     })
     console.log(res);
     if (res.status === 201) {
       window.alert(res.data.message)
+      history.push("/viewattendance")
     } else {
       window.alert(res.data.message)
     }
@@ -60,6 +65,7 @@ const ManualAttendance = () => {
     console.log(123456);
     const date = new Date();
     setTimeIn(date.getHours() + ":" + date.getMinutes() )
+    window.localStorage.setItem('In',timeIn)
     console.log(timeIn);
     setDisable(true)
   }
@@ -67,9 +73,12 @@ const ManualAttendance = () => {
     console.log(123456);
     const date = new Date();
     setTimeOut(date.getHours() + ":" + date.getMinutes())
+    window.localStorage.setItem('out',timeOut)
     console.log(timeIn);
     setDisables(true)
   }
+
+  console.log('')
 
 
   useEffect(() => {
