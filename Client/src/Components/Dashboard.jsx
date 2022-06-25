@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Cards from './SubComponents/Cards';
-
+import { Backdrop, Box, Modal } from '@mui/material'
 import ReactECharts from 'echarts-for-react';
 import { getCount } from "../Apis/apis"
 import { getDashboardCount, getWorkingHours } from "../Apis/apis"
@@ -9,7 +9,27 @@ const Dashboard = () => {
 
   const [data, setData] = useState({})
   const [work, setWork] = useState([])
-  
+  const [open, setOpen] = useState(false);
+  const handleClose = () => {
+    setOpen(false)
+  }
+
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '800px',
+    height: '550px',
+    borderRadius: '13px',
+    bgcolor: 'background.paper',
+    borderLeft: '2px solid #000',
+    borderBottom: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+    fontSize: 14,
+  };
+
   const getDasboardTotal = async () => {
     const res = await getDashboardCount();
     // console.log(res.data);
@@ -18,26 +38,26 @@ const Dashboard = () => {
     // console.log(typeof(response.data));
     // console.log(response.data);
     setWork(response.data)
-   
+
   }
 
-  const arrayDept = work.map((curr,index)=>{
+  const arrayDept = work.map((curr, index) => {
     return {
       name: curr._id, records: curr.rounds[0], key: index
     }
   })
   let arrWorkHour = []
   // console.log(arrayDept)
-  arrayDept.map((curr,index)=>{
-   
+  arrayDept.map((curr, index) => {
+
     var time = 0;
-    curr.records.map((val,index)=>{
+    curr.records.map((val, index) => {
       const data = val.workingHours.split(" ");
       const hours = data[0] * 60;
       const minutes = data[2];
       const total = parseInt(hours) + parseInt(minutes);
       time = time + total
-     
+
     })
     // console.log(time);
     const obj = { name: curr.name, time: time / 60 + time % 60 }
@@ -49,17 +69,28 @@ const Dashboard = () => {
   var name = []
   var values = []
   console.log(arrWorkHour);
-  const colorPalette = ['#198754', '#dc3545', '#ffc107', '#0d6efd','#f2ac08','#f20866' , '#08d7f2', '#93f208', '#f20856b8', '#7dc2a2' ,'#24c799']  // green red yellow blue
+  const colorPalette = ['#198754', '#dc3545', '#ffc107', '#0d6efd', '#f2ac08', '#f20866', '#08d7f2', '#93f208', '#f20856b8', '#7dc2a2', '#24c799']  // green red yellow blue
 
-  arrWorkHour.map((curr,index)=>{
+  arrWorkHour.map((curr, index) => {
     name.push(curr.name)
     values.push({
-        value: curr.time,
-        itemStyle: {
-          color: colorPalette[index]
-        }
-      })
+      value: curr.time,
+      itemStyle: {
+        color: colorPalette[index]
+      }
+    })
   })
+  const clickNothing = () => {
+
+  }
+
+  const openWorkingHours = () => {
+    console.log(120321);
+    setOpen(true)
+  }
+  const openDeptLeave = () => {
+
+  }
 
 
   const DashboardCard = [
@@ -69,6 +100,7 @@ const Dashboard = () => {
       heading: "Employees",
       para: "Total employees in the organisation",
       icon: "fa fa-users",
+      click: clickNothing
 
     },
     {
@@ -77,6 +109,7 @@ const Dashboard = () => {
       heading: "Department",
       para: "Total Department in the organisation",
       icon: "fa fa-building-o",
+      click: openWorkingHours
     },
     {
       id: '3',
@@ -84,6 +117,7 @@ const Dashboard = () => {
       heading: "Pending Leave",
       para: "Leave applications pending for approval",
       icon: "fa fa-check-square-o",
+      click: openDeptLeave
     },
 
   ]
@@ -104,7 +138,7 @@ const Dashboard = () => {
 
   }
 
-  
+
 
   const deptObj = dept.map((item, index) => {
     return {
@@ -239,7 +273,45 @@ const Dashboard = () => {
     ]
   };
 
-
+  const dashWH = {
+    legend: {
+      bottom: '10%',
+      left: '15%'
+    },
+    color: ['#00DDFF'],
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'shadow',
+        label: {
+          backgroundColor: '#00000'
+        },
+        animation: true
+      }
+    },
+    xAxis: {
+      type: 'category',
+      data: name,
+    },
+    yAxis: {
+      type: 'value',
+      nameTextStyle: {
+        fontStyle: 'oblique',
+        fontWeight: 500
+      }
+    },
+    series: [
+      {
+        // name: 'Leave Chart',
+        data: values,
+        type: 'bar',
+        showBackground: true,
+        backgroundStyle: {
+          color: 'rgba(180, 180, 180, 0.2)'
+        }
+      }
+    ]
+  };
 
 
   return (
@@ -252,14 +324,16 @@ const Dashboard = () => {
             DashboardCard.map((currEle, ind) => {
               return (
                 <div className="col-md-4">
-
-                  <Cards
-                    key={currEle.id}
-                    num={currEle.num}
-                    heading={currEle.heading}
-                    para={currEle.para}
-                    icon={currEle.icon}
-                  />
+                  <div className="card mt-2 mb-2" onClick={currEle.click} >
+                    <div className="card-body p-4">
+                      <div className="d-flex justify-content-between">
+                        <h2 className="card-title" style={{ fontSize: '50px' }} >{currEle.num}</h2>
+                        <i className={currEle.icon} style={{ fontSize: '48px' }} ></i>
+                      </div>
+                      <h5 className="card-title">{currEle.heading}</h5>
+                      <p className="card-text" style={{ fontSize: '12px' }}>{currEle.para}</p>
+                    </div>
+                  </div>
                 </div>
               )
             })
@@ -284,6 +358,28 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Box sx={style}>
+
+          <div className="container">
+            <h5>
+              Working Hours for department
+            </h5>
+            <hr />
+            <ReactECharts option={dashWH} style={{ height: '450px', width: '100%' }} />
+          </div>
+        </Box>
+      </Modal>
     </>
   )
 }

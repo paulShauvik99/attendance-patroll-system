@@ -289,15 +289,13 @@ const getDayName = (dayIndex) => {
 
 router.post("/addAttendance", async (req, res) => {
     const { name, date, time_in, time_out } = req.body;
+    console.log(req.body);
     try {
         console.log(time_in);
         console.log(time_out);
         const [hoursin, minutein] = time_in.split(':');
         const [hoursout, minuteout] = time_out.split(':');
-        console.log(hoursin);
-        console.log(minutein);
-        console.log(hoursout);
-        console.log(minuteout);
+       
         const findEmployee = await Attendance.findOne({ name: name });
         console.log(findEmployee)
         if (!findEmployee) {
@@ -314,8 +312,12 @@ router.post("/addAttendance", async (req, res) => {
                     const dayName = getDayName(dayIndex)
                     console.log(dayName);
                     const response = await new Attendance({
-                        name: name, records: [
+                        name: name, 
+                        dept : req.body.dept,
+                        empId : req.body.empId,
+                        records: [
                             {
+                                
                                 day: dayName,
                                 date: date,
                                 time_in: time_in,
@@ -339,8 +341,12 @@ router.post("/addAttendance", async (req, res) => {
                 const dayName = getDayName(dayIndex)
                 console.log(dayName);
                 const response = await new Attendance({
-                    name: name, records: [
+                    name: name, 
+                    dept : req.body.dept,
+                    empId : req.body.empId,
+                    records: [
                         {
+                           
                             day: dayName,
                             date: date,
                             time_in: time_in,
@@ -374,6 +380,7 @@ router.post("/addAttendance", async (req, res) => {
                     const dayName = getDayName(dayIndex)
                     console.log(dayName);
                     var data = {
+                        
                         day: dayName,
                         date: date,
                         time_in: time_in,
@@ -396,6 +403,7 @@ router.post("/addAttendance", async (req, res) => {
                 const dayName = getDayName(dayIndex)
                 console.log(dayName);
                 var data = {
+                   
                     day: dayName,
                     date: date,
                     time_in: time_in,

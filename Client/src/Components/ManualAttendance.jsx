@@ -2,7 +2,7 @@ import Button from '@mui/material/Button';
 import React, { useState, useEffect, } from 'react'
 import Heading from './SubComponents/Heading';
 import axios from "axios"
-import {useHistory} from "react-router-dom"
+import { useHistory } from "react-router-dom"
 
 
 const ManualAttendance = () => {
@@ -11,7 +11,7 @@ const ManualAttendance = () => {
 
   const history = useHistory();
 
-  const name = "Anamika Sen"
+  const name = "Shauvik Paul"
 
 
   const [values, setValues] = useState({
@@ -27,18 +27,77 @@ const ManualAttendance = () => {
     })
   }
 
-  // window.localStorage.setItem('In','00:00')
-  // window.localStorage.setItem('out','00:00')
+
+  // window.localStorage.setItem('In', '00:00')
+  // window.localStorage.setItem('out', '00:00')
+
+
+
+  const [date, setDate] = useState('')
+  const [timeIn, setTimeIn] = useState(window.localStorage.getItem("In"))
+  const [timeOut, setTimeOut] = useState(window.localStorage.getItem("out"))
+  const [disable, setDisable] = useState(false)
+  const [disables, setDisables] = useState(false)
+  const [disabling, setDisabling] = useState(true)
+  const [trigger, setTrigger] = useState(false)
+  const getTime = async () => {
+    const date = new Date();
+    setDate(date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate())
+    console.log(date.getHours());
+    console.log(date.getMinutes());
+  }
+
+
+  const settimesIn = () => {
+    console.log(123456);
+    const date = new Date();
+    const store = date.getHours()
+    if (store < 11 && store > 0) {
+      setTimeIn(date.getHours() + ":" + date.getMinutes())
+      setDisable(true)
+    }
+    else {
+      setDisable(false);
+      window.alert("Time In cannot be before 8 a.m. and after 11 a.m.")
+    }
+    setTrigger(!trigger)
+  }
+
+
+  const settimesOut = () => {
+    console.log(123456);
+    const date = new Date();
+    const store = date.getHours()
+    console.log(date.getHours())
+    if (store > 1 && store < 22) {
+      setTimeOut(date.getHours() + ":" + date.getMinutes())
+      setDisables(true)
+      setDisabling(false)
+    } else {
+      setDisables(false)
+      setDisabling(true)
+      window.alert("Time out cannot be before 5 p.m. and after 10p.m.")
+    }
+    setTrigger(!trigger)
+  }
+
+
+  useEffect(() => {
+    window.localStorage.setItem('In', timeIn)
+    window.localStorage.setItem('out', timeOut)
+  }, [trigger])
+ 
 
 
   const addAttendance = async (event) => {
     const res = await axios.post("http://localhost:5000/addAttendance", {
       // name, date, time_in, time_out
       name: name,
-      empId : "23145",
+      empId: "638797",
+      dept : 'UI/UX Design',
       date: date,
-      time_in: localStorage.getItem('In'),
-      time_out: localStorage.getItem('out')
+      time_in: window.localStorage.getItem("In"),
+      time_out: window.localStorage.getItem("out"),
 
     })
     console.log(res);
@@ -48,38 +107,9 @@ const ManualAttendance = () => {
     } else {
       window.alert(res.data.message)
     }
+    window.localStorage.removeItem("In")
+    window.localStorage.removeItem("out")
   }
-  const [date, setDate] = useState('')
-  const [timeIn, setTimeIn] = useState('00:00')
-  const [timeOut, setTimeOut] = useState('00:00')
-  const [disable, setDisable] = useState(false)
-  const [disables, setDisables] = useState(false)
-  const getTime = async () => {
-    const date = new Date();
-    setDate(date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate())
-    console.log(date.getHours());
-    console.log(date.getMinutes());
-  }
-
-  const settimesIn =  () => {
-    console.log(123456);
-    const date = new Date();
-    setTimeIn(date.getHours() + ":" + date.getMinutes() )
-    window.localStorage.setItem('In',timeIn)
-    console.log(timeIn);
-    setDisable(true)
-  }
-  const settimesOut =  () => {
-    console.log(123456);
-    const date = new Date();
-    setTimeOut(date.getHours() + ":" + date.getMinutes())
-    window.localStorage.setItem('out',timeOut)
-    console.log(timeIn);
-    setDisables(true)
-  }
-
-  console.log('')
-
 
   useEffect(() => {
     getTime();
@@ -130,13 +160,13 @@ const ManualAttendance = () => {
           </div>
           <br />
           <div className='mt-3 justify-content-center d-flex'>
-            <Button variant='contained' style={{ width: '180px' }} className="mb-5" onClick={addAttendance}>
+            <Button variant='contained' style={{ width: '180px' }} disabled={disabling} className="mb-5" onClick={addAttendance}>
               Submit
             </Button>
           </div>
         </div>
 
-      
+
       </div>
 
     </>
