@@ -35,8 +35,8 @@ const App = () => {
     <>
         {/* <Payslip /> */}
         
-        <Sidebar />
-        {/* <EmployeeSidebar /> */}
+        {/* <Sidebar /> */}
+        <EmployeeSidebar />
         <Switch>
           {/* -------------- DASHBOARD ---------------- */}
           {/* <Route exact path='/' component={Dashboard} /> */}

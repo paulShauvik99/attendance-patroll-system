@@ -69,7 +69,7 @@ const ManualAttendance = () => {
     const date = new Date();
     const store = date.getHours()
     console.log(date.getHours())
-    if (store > 1 && store < 22) {
+    if (store > 17 && store < 22) {
       setTimeOut(date.getHours() + ":" + date.getMinutes())
       setDisables(true)
       setDisabling(false)
