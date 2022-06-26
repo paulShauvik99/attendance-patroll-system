@@ -4,7 +4,7 @@ import { LeaveDetails } from '../Data/DashboardCard'
 import { Link, useHistory } from "react-router-dom"
 import Cards from './SubComponents/Cards'
 import { FormControl, InputLabel, MenuItem, Select, TextField, Button } from '@mui/material'
-import { getLeaveTypes, allEmployeeList } from "../Apis/apis"
+import { getLeaveTypes, allEmployeeList, getEmployeeData } from "../Apis/apis"
 import axios from "axios"
 
 
@@ -117,11 +117,68 @@ const LeaveApplication = () => {
         setAllEmployee(res.data)
     }
 
+    const [requested, setRequested] = useState(0)
+    const [accepted, setAccepted] = useState(0)
+    const [rejected, setRejected] = useState(0)
+    const [pending, setPending] = useState(0)
+
+    const [employeeLeave, setemployeeLeave] = useState([])
+    const [leftBalance, setLeftBalance] = useState([])
+    const [balanceStats, setBalanceStats] = useState([])
+    const [trigger, setTrigger] = useState(false)
+
+    const balance = async () => {
+        const data = {
+            empId : '858575'
+        }
+        const response = await getEmployeeData(data)
+        console.log(response);
+
+        setemployeeLeave(response.employeeLeave)
+        setLeftBalance(response.leftBalance)
+        setBalanceStats(response.balanceStats[0].counts)
+
+    }
+
+    console.log(employeeLeave);
+    console.log(leftBalance);
+    console.log(balanceStats);
+    
+
+    const leftBalanceFunc = () => {
+        console.log(8888888888);
+        var total = 0
+        leftBalance.map((curr,i)=>{
+            if(curr._id === 'Pending'){
+                setPending(curr.value)
+            }
+            else if(curr._id === 'Accepted'){
+                setAccepted(curr.value)
+            }
+            else if(curr._id === 'Rejected'){
+                setRejected(curr.value)
+            }
+            total = total + curr.value
+        })
+
+        setRequested(total)
+        setTrigger(!trigger)
+    }
+
+    
+
 
     useEffect(() => {
         allLeaveTypes();
         getAllEmployeeList();
+        balance();
+        setTrigger(!trigger)
     }, [])
+
+    useEffect(() => {
+        leftBalanceFunc();
+    }, [trigger])
+    
 
 
     return (
@@ -159,7 +216,7 @@ const LeaveApplication = () => {
                                             </div>
                                             <hr className="seperators" />
 
-                                            <p className="card-text statusNumbers">0</p>
+                                            <p className="card-text statusNumbers">{requested}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -171,7 +228,7 @@ const LeaveApplication = () => {
 
                                             </div>
                                             <hr className="seperators" />
-                                            <p className="card-text statusNumbers">0</p>
+                                            <p className="card-text statusNumbers">{accepted}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -183,7 +240,7 @@ const LeaveApplication = () => {
 
                                             </div>
                                             <hr className="seperator" />
-                                            <p className="card-text statusNumber">0</p>
+                                            <p className="card-text statusNumber">{pending}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -195,7 +252,7 @@ const LeaveApplication = () => {
 
                                             </div>
                                             <hr className="seperator" />
-                                            <p className="card-text statusNumber">0</p>
+                                            <p className="card-text statusNumber">{rejected}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -204,7 +261,7 @@ const LeaveApplication = () => {
                         <div className="col-sm-7 col-md-7 leaveBalanaceScrollable">
                             <div className="designStatus">
                                 {
-                                    allLeaveType.map((curr, index) => {
+                                    balanceStats.map((curr, index) => {
                                         return (<>
                                             <div className="">
                                                 <div className="col-sm-3 col-md-3">
@@ -214,7 +271,7 @@ const LeaveApplication = () => {
                                                         </div>
                                                         <hr className="seperator" />
                                                         <div className="leaveLeft">
-                                                            5 / {curr.maxDays}
+                                                            {curr.daysTaken} / {curr.maxDays}
                                                         </div>
                                                     </div>
                                                 </div>

@@ -1,5 +1,5 @@
-import React from 'react';
-import {Route,Switch} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import Sidebar from './Components/Sidebar';
 import Dashboard from './Components/Dashboard';
 import ViewEmployee from './Components/ViewEmployee';
@@ -31,70 +31,140 @@ import EmployeeViewLeaves from './Components/EmployeeViewLeaves'
 
 
 const App = () => {
+  const history = useHistory();
+  const [sets, setSets] = useState(true)
   return (
+
     <>
-        {/* <Payslip /> */}
-        
-        {/* <Sidebar /> */}
-        <EmployeeSidebar />
-        <Switch>
-          {/* -------------- DASHBOARD ---------------- */}
-          {/* <Route exact path='/' component={Dashboard} /> */}
-          <Route exact path='/' component={Dashboard} />
-          <Route exact path='/employee/Dashboard' component={EmployeeDashboard} />
-          <Route exact path='/leaveapplication' component={LeaveApplication} />
-          <Route exact path='/employee/payroll' component={EmployeePayroll} />
-          <Route exact path='/employeeviewattendance' component={EmployeeViewAttendance} />
-          <Route exact path='/employeeviewattendance/edit' component={EmployeeEditAttendance} />
-          <Route exact path='/employeeviewleaves' component={EmployeeViewLeaves} />
+     
+      {
+        <div>
+          {
+            (sets === true) ?
+              <div>
+                {/* <Sidebar /> */}
+                <EmployeeSidebar/>
+                <Switch>
+                  <div>
+                    <Route exact path='/' component={Dashboard} />
+                    <Route exact path='/employee/Dashboard' component={EmployeeDashboard} />
+                    <Route exact path='/leaveapplication' component={LeaveApplication} />
+                    <Route exact path='/employee/payroll' component={EmployeePayroll} />
+                    <Route exact path='/employeeviewattendance' component={EmployeeViewAttendance} />
+                    <Route exact path='/employeeviewattendance/edit' component={EmployeeEditAttendance} />
+                    <Route exact path='/employeeviewleaves' component={EmployeeViewLeaves} />
 
-          {/* ---------------- VIEW EMPLOYEE ----------------- */}
-          <Route exact path='/viewemployee' component={ViewEmployee} />
-          
-          {/* ------------------- VIEW EMPLOYEE ---> PROFILE ------------------ */}
-          <Route exact path='/viewemployee/profile/:id' component={EmployeeProfile} />
+                    {/* ---------------- VIEW EMPLOYEE ----------------- */}
+                    <Route exact path='/viewemployee' component={ViewEmployee} />
 
-          {/* ---------------------- VIEW EMPLOYEE ---> EDIT PROFILE ------------------ */}
-          <Route exact path='/viewemployee/edit/:id' component={ProfileEdit} />
-          
-          {/* ------------------ NEW EMPLOYEE ------------------ */}
-          <Route exact path='/newemployee' component={NewEmployee} />
+                    {/* ------------------- VIEW EMPLOYEE ---> PROFILE ------------------ */}
+                    <Route exact path='/viewemployee/profile/:id' component={EmployeeProfile} />
 
-          {/* -------------- MANUAL ATTENDANCE ----------------- */}
-          <Route exact path='/attendance' component={ManualAttendance} />
+                    {/* ---------------------- VIEW EMPLOYEE ---> EDIT PROFILE ------------------ */}
+                    <Route exact path='/viewemployee/edit/:id' component={ProfileEdit} />
 
-          {/* -------------------- PAYROLL --------------------- */}
-          <Route exact path='/payroll' component={Payroll} />
+                    {/* ------------------ NEW EMPLOYEE ------------------ */}
+                    <Route exact path='/newemployee' component={NewEmployee} />
 
-          {/* ---------------- ADD NEW USER -------------------    */}
-          <Route exact path='/adduser' component={NewUser} />
+                    {/* -------------- MANUAL ATTENDANCE ----------------- */}
+                    <Route exact path='/attendance' component={ManualAttendance} />
 
-          {/* -------------------- ADD ROLE -----------------------  */}
-          <Route exact path='/addrole' component={AddRole} />
+                    {/* -------------------- PAYROLL --------------------- */}
+                    <Route exact path='/payroll' component={Payroll} />
 
-          {/* ------------------ VIEW USER -------------------- */}
-          <Route exact path='/viewuser' component={ViewUser} />
+                    {/* ---------------- ADD NEW USER -------------------    */}
+                    <Route exact path='/adduser' component={NewUser} />
 
-          {/* -------------------- VIEW ROLE --------------------  */}
-          <Route exact path='/viewrole' component={ViewRole} />
+                    {/* -------------------- ADD ROLE -----------------------  */}
+                    <Route exact path='/addrole' component={AddRole} />
 
-          {/* ------------------------- VIEW ATTENDANCE ----------------------- */}
-          <Route exact path='/viewattendance' component={ViewAttendance} />
+                    {/* ------------------ VIEW USER -------------------- */}
+                    <Route exact path='/viewuser' component={ViewUser} />
 
-          {/* ------------------------ VIEW LEAVE ---------------------- */}
-          <Route exact path='/viewleave' component={ViewLeave} />
-          <Route exact path='/leavesetting' component={LeaveSettings} />
-          <Route exact path='/viewuser/edituser/:id' component={EditUser} />
-          <Route exact path='/reportattendance' component={ReportAttendance} />
-          
-          {/* --------------------- REPORT -----> LEAVES ---------------------- */}
-          <Route exact path='/reportleaves' component={ReportLeave} />
-          <Route exact path='/payroll/payslip/:id' component={Payslip} />
-          <Route exact path='/employee/payroll/payslip/:id' component={Payslip} />
-          <Route exact path='/login' component={Login} />
-          <Route exact path='/logout' component={Logout} />
-        </Switch>
-    </> 
+                    {/* -------------------- VIEW ROLE --------------------  */}
+                    <Route exact path='/viewrole' component={ViewRole} />
+
+                    {/* ------------------------- VIEW ATTENDANCE ----------------------- */}
+                    <Route exact path='/viewattendance' component={ViewAttendance} />
+
+                    {/* ------------------------ VIEW LEAVE ---------------------- */}
+                    <Route exact path='/viewleave' component={ViewLeave} />
+                    <Route exact path='/leavesetting' component={LeaveSettings} />
+                    <Route exact path='/viewuser/edituser/:id' component={EditUser} />
+                    <Route exact path='/reportattendance' component={ReportAttendance} />
+
+                    {/* --------------------- REPORT -----> LEAVES ---------------------- */}
+                    <Route exact path='/reportleaves' component={ReportLeave} />
+                    <Route exact path='/payroll/payslip/:id' component={Payslip} />
+                    <Route exact path='/employee/payroll/payslip/:id' component={Payslip} />
+                    {/* <Route exact path='/login' component={Dashboard} /> */}
+                  </div>
+                </Switch>
+              </div>
+              :
+              <Switch>
+                <div>
+                  <Route exact path='/' component={Login} />
+                  <Route exact path='/employee/Dashboard' component={Login} />
+                  <Route exact path='/leaveapplication' component={Login} />
+                  <Route exact path='/employee/payroll' component={Login} />
+                  <Route exact path='/employeeviewattendance' component={Login} />
+                  <Route exact path='/employeeviewattendance/edit' component={Login} />
+                  <Route exact path='/employeeviewleaves' component={Login} />
+
+                  {/* ---------------- VIEW EMPLOYEE ----------------- */}
+                  <Route exact path='/viewemployee' component={Login} />
+
+                  {/* ------------------- VIEW EMPLOYEE ---> PROFILE ------------------ */}
+                  <Route exact path='/viewemployee/profile/:id' component={Login} />
+
+                  {/* ---------------------- VIEW EMPLOYEE ---> EDIT PROFILE ------------------ */}
+                  <Route exact path='/viewemployee/edit/:id' component={Login} />
+
+                  {/* ------------------ NEW EMPLOYEE ------------------ */}
+                  <Route exact path='/newemployee' component={Login} />
+
+                  {/* -------------- MANUAL ATTENDANCE ----------------- */}
+                  <Route exact path='/attendance' component={Login} />
+
+                  {/* -------------------- PAYROLL --------------------- */}
+                  <Route exact path='/payroll' component={Login} />
+
+                  {/* ---------------- ADD NEW USER -------------------    */}
+                  <Route exact path='/adduser' component={Login} />
+
+                  {/* -------------------- ADD ROLE -----------------------  */}
+                  <Route exact path='/addrole' component={Login} />
+
+                  {/* ------------------ VIEW USER -------------------- */}
+                  <Route exact path='/viewuser' component={Login} />
+
+                  {/* -------------------- VIEW ROLE --------------------  */}
+                  <Route exact path='/viewrole' component={Login} />
+
+                  {/* ------------------------- VIEW ATTENDANCE ----------------------- */}
+                  <Route exact path='/viewattendance' component={Login} />
+
+                  {/* ------------------------ VIEW LEAVE ---------------------- */}
+                  <Route exact path='/viewleave' component={Login} />
+                  <Route exact path='/leavesetting' component={Login} />
+                  <Route exact path='/viewuser/edituser/:id' component={Login} />
+                  <Route exact path='/reportattendance' component={Login} />
+
+                  {/* --------------------- REPORT -----> LEAVES ---------------------- */}
+                  <Route exact path='/reportleaves' component={Login} />
+                  <Route exact path='/payroll/payslip/:id' component={Login} />
+                  <Route exact path='/employee/payroll/payslip/:id' component={Login} />
+                  <Route exact path='/login' component={Login} />
+                </div>
+              </Switch>
+          }
+
+        </div>
+      }
+
+
+    </>
   )
 }
 

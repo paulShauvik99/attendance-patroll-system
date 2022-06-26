@@ -15,6 +15,7 @@ const LeaveType = require("../models/leaveTypes")
 const LeaveCount = require("../models/leaveCount")
 const { upload } = require("../helpers/filehelper");
 const { connections } = require('mongoose');
+const authenticate = require("../middleware/authenticate")
 
 router.get('/any', (req, res) => {
     res.cookie("test", 'hello')
@@ -88,12 +89,12 @@ router.post("/addEmployee", async (req, res) => {
         }
         else {
             const password = "Password@123"
-            const hashedPassword = await bcrypt.hash(password, 12);
+            // const hashedPassword = await bcrypt.hash(password, 12);
 
             const user = new User({
                 firstname, lastname, streetAdd, city, state, zip, gender, birthday,
                 email, mobile, phone, marital, education, employeeID,
-                role, joinDate, employmentType, password: hashedPassword, salary: salary
+                role, joinDate, employmentType, password, salary: salary
             })
 
             const userSave = await user.save()
@@ -169,32 +170,60 @@ router.post("/empInfo", async (req, res) => {
 router.post("/login", async (req, res) => {
 
     try {
-        const { email, password } = req.body;
+        const { type, employeeId, password } = req.body;
+
+
         console.log(req.body)
-        if (!email || !password) {
+        if (!employeeId || !password) {
             return (res.json({ error: "Field Required" }));
         }
 
-        const response = await User.findOne({ email: email });
+        if (type === "Employee") {
+            const response = await User.findOne({ employeeID: employeeId });
 
-        if (response) {
-            const isMatch = await bcrypt.compare(password, response.password);
-            const token = await response.generateAuthToken();
-            console.log(token);
-            res.cookie("lmstoken", token, {
-                expires: new Date(Date.now() + 3600000),
-                httpOnly: true
-            })
+            if (response) {
+                const isMatch = await bcrypt.compare(password, response.password);
 
-            if (isMatch) {
-                return res.status(201).json({ message: "success" })
+                if (isMatch) {
+                    const token = await response.generateAuthToken();
+                    console.log(token);
+                    res.cookie("lmstoken", token, {
+                        expires: new Date(Date.now() + 3600000),
+                        httpOnly: true
+                    })
+                    return res.status(201).json({ message: "success" })
+                } else {
+                    console.log(1234)
+                    return (res.json({ error: "Invalid Details1" }));   //.status(422)
+                    // return res.status(201).json({ message: " success" })    
+                }
             } else {
-                console.log(1234)
-                return (res.json({ error: "Invalid Details1" }));   //.status(422)
-                // return res.status(201).json({ message: " success" })    
+                return (res.json({ error: "Invalid Details1" }));
             }
-        } else {
-            return (res.json({ error: "Invalid Details1" }));
+
+        } else if (type === "Admin") {
+            const response = await Admin.findOne({ employeeID: employeeId });
+
+            if (response) {
+                const isMatch = await bcrypt.compare(password, response.password);
+
+                if (isMatch) {
+                    const token = await response.generateAuthToken();
+                    console.log(token);
+                    res.cookie("lmstoken", token, {
+                        expires: new Date(Date.now() + 3600000),
+                        httpOnly: true
+                    })
+                    return res.status(201).json({ message: "success" })
+                } else {
+                    console.log(1234)
+                    return (res.json({ error: "Invalid Details1" }));   //.status(422)
+                    // return res.status(201).json({ message: " success" })    
+                }
+            } else {
+                return (res.json({ error: "Invalid Details1" }));
+            }
+
         }
 
 
@@ -295,7 +324,7 @@ router.post("/addAttendance", async (req, res) => {
         console.log(time_out);
         const [hoursin, minutein] = time_in.split(':');
         const [hoursout, minuteout] = time_out.split(':');
-       
+
         const findEmployee = await Attendance.findOne({ name: name });
         console.log(findEmployee)
         if (!findEmployee) {
@@ -312,12 +341,12 @@ router.post("/addAttendance", async (req, res) => {
                     const dayName = getDayName(dayIndex)
                     console.log(dayName);
                     const response = await new Attendance({
-                        name: name, 
-                        dept : req.body.dept,
-                        empId : req.body.empId,
+                        name: name,
+                        dept: req.body.dept,
+                        empId: req.body.empId,
                         records: [
                             {
-                                
+
                                 day: dayName,
                                 date: date,
                                 time_in: time_in,
@@ -327,7 +356,7 @@ router.post("/addAttendance", async (req, res) => {
                         ]
                     });
                     const attendance = await response.save();
-    
+
                     if (attendance) {
                         return res.status(201).json({ message: "Attendance Recorded Successfully" })
                     } else {
@@ -341,12 +370,12 @@ router.post("/addAttendance", async (req, res) => {
                 const dayName = getDayName(dayIndex)
                 console.log(dayName);
                 const response = await new Attendance({
-                    name: name, 
-                    dept : req.body.dept,
-                    empId : req.body.empId,
+                    name: name,
+                    dept: req.body.dept,
+                    empId: req.body.empId,
                     records: [
                         {
-                           
+
                             day: dayName,
                             date: date,
                             time_in: time_in,
@@ -380,7 +409,7 @@ router.post("/addAttendance", async (req, res) => {
                     const dayName = getDayName(dayIndex)
                     console.log(dayName);
                     var data = {
-                        
+
                         day: dayName,
                         date: date,
                         time_in: time_in,
@@ -403,7 +432,7 @@ router.post("/addAttendance", async (req, res) => {
                 const dayName = getDayName(dayIndex)
                 console.log(dayName);
                 var data = {
-                   
+
                     day: dayName,
                     date: date,
                     time_in: time_in,
@@ -680,7 +709,7 @@ router.post("/addNewLeave", upload.single("file"), async (req, res, next) => {
                 date: date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate(),
                 name: req.body.name,
                 leaveType: req.body.leaveType,
-                dept : req.body.dept,
+                dept: req.body.dept,
                 mode: req.body.mode,
                 issuedFrom: req.body.startDate,
                 issuedUpto: req.body.endDate,
@@ -698,7 +727,7 @@ router.post("/addNewLeave", upload.single("file"), async (req, res, next) => {
                 date: date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate(),
                 name: req.body.name,
                 leaveType: req.body.leaveType,
-                dept : req.body.dept,
+                dept: req.body.dept,
                 mode: req.body.mode,
                 empId: req.body.empId,
                 issuedFrom: (req.body.startDate).substring(0, 10),
@@ -709,7 +738,7 @@ router.post("/addNewLeave", upload.single("file"), async (req, res, next) => {
             }
         }
 
-        const noOFDays = noOfDays(req.body.startDate,req.body.endDate)
+        const noOFDays = noOfDays(req.body.startDate, req.body.endDate)
         const leaveNo = await LeaveCount.findOne({ empId: req.body.empId })
         console.log("here", leaveNo.counts);
         const dataValue = leaveNo.counts.filter(obj => { return obj.name === req.body.leaveType })
@@ -822,9 +851,9 @@ router.post("/employeeAttendanceStats", async (req, res) => {
     try {
         // const response = await Attendance.findOne({_id : '62ae21c06743c3baf3fadcfc'})
         const response = await Attendance.aggregate([
-            {$match : {empId : req.body.empId}},
-            {$unwind : "$records"},
-            {$group : {"_id":"$records.day", "value" : {$sum : 1}}}
+            { $match: { empId: req.body.empId } },
+            { $unwind: "$records" },
+            { $group: { "_id": "$records.day", "value": { $sum: 1 } } }
         ])
         console.log(response);
         res.send(response)
@@ -835,29 +864,29 @@ router.post("/employeeAttendanceStats", async (req, res) => {
 
 
 // get single employee leave informations
-router.post("/getSingleEmployeeLeave", async(req, res)=>{
+router.post("/getSingleEmployeeLeave", async (req, res) => {
     try {
-      const response = await Leave.find({name : req.body.name})
-      console.log(response);
-      res.send(response)
+        const response = await Leave.find({ name: req.body.name })
+        console.log(response);
+        res.send(response)
     } catch (error) {
         console.log(error);
     }
 })
 
 // get single Leave stats
-router.post("/getEachLeaveStats", async(req, res)=>{
+router.post("/getEachLeaveStats", async (req, res) => {
     try {
         const response = await Leave.aggregate([
-            {$match : {empId : req.body.empId}},
-            {$group : {"_id" : "$status", "value" : {$sum : 1}}}
+            { $match: { empId: req.body.empId } },
+            { $group: { "_id": "$status", "value": { $sum: 1 } } }
         ])
-        
+
         const totalCount = await Leave.aggregate([
-            {$match : {empId : req.body.empId}}
+            { $match: { empId: req.body.empId } }
         ])
         console.log(response);
-        res.json({stats : response, total : totalCount})
+        res.json({ stats: response, total: totalCount })
     } catch (error) {
         console.log(error);
     }
@@ -866,7 +895,7 @@ router.post("/getEachLeaveStats", async(req, res)=>{
 
 router.post("/getSingleEmployeeLeave", async (req, res) => {
     try {
-        const response = await Leave.find({name : req.body.name})
+        const response = await Leave.find({ name: req.body.name })
         console.log(response);
         res.send(response)
     } catch (error) {
@@ -879,9 +908,9 @@ router.get("/dashboardCount", async (req, res) => {
     try {
         const totalEmployee = await User.find({}).count()
         const totalDept = await Role.find({}).count()
-        const totalPending = await Leave.find({status : "Pending"}).count()
+        const totalPending = await Leave.find({ status: "Pending" }).count()
         console.log(totalEmployee);
-        res.json({employeeCount : totalEmployee, totalDept : totalDept, totalPending : totalPending})
+        res.json({ employeeCount: totalEmployee, totalDept: totalDept, totalPending: totalPending })
     } catch (error) {
         console.log(error);
     }
@@ -889,26 +918,51 @@ router.get("/dashboardCount", async (req, res) => {
 
 
 // group working hours
-router.get("/totalWorkingHours", async(req,res)=>{
+router.get("/totalWorkingHours",authenticate, async (req, res) => {
     try {
-      const response = await Attendance.aggregate([
-        {$group : {_id : "$dept", total : { $sum : 1}, rounds: { $push: "$records" } }}
-      ])
-      console.log(response);
-      res.send(response)
+        const response = await Attendance.aggregate([
+            { $group: { _id: "$dept", total: { $sum: 1 }, rounds: { $push: "$records" } } }
+        ])
+        console.log(response);
+        res.send(response)
     } catch (error) {
         console.log(error);
     }
 })
 
 // get dept wise leaves
-router.get("/totalDeptLeaves", async(req,res)=>{
+router.get("/totalDeptLeaves", async (req, res) => {
     try {
-      const response = await Leave.aggregate([
-        {$group : {_id : "$dept", total : { $sum : 1}, rounds: { $push: "$status" } }}
-      ])
-      console.log(response);
-      res.send(response)
+        const response = await Leave.aggregate([
+            { $group: { _id: "$dept", total: { $sum: 1 }, rounds: { $push: "$status" } } }
+        ])
+        console.log(response);
+        res.send(response)
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+
+router.post("/employeeLeaveStatus", async (req,res)=> {
+    try {
+        const response = await Leave.find({empId: '858575'})
+        const responseBalance =await Leave.aggregate([
+            { $match: { empId: '858575'} },
+            { $group: { "_id": "$status", "value": { $sum: 1 } } }
+        ])
+        const balanceStatus = await LeaveCount.find({ empId : '858575'})
+        res.json({employeeLeave : response, leftBalance : responseBalance, balanceStats : balanceStatus})
+
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+router.post("/singleLeave",async (req,res)=> {
+    try {
+        const response = await Attendance.findOne({empId : req.body.empId});
+        res.send(response)
     } catch (error) {
         console.log(error);
     }

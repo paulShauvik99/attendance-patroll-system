@@ -3,15 +3,17 @@ import Cards from './SubComponents/Cards';
 import { Backdrop, Box, Modal } from '@mui/material'
 import ReactECharts from 'echarts-for-react';
 import { getCount } from "../Apis/apis"
-import { getDashboardCount, getWorkingHours } from "../Apis/apis"
+import { getDashboardCount, getWorkingHours, getDashboardPending } from "../Apis/apis"
 
 const Dashboard = () => {
 
   const [data, setData] = useState({})
   const [work, setWork] = useState([])
   const [open, setOpen] = useState(false);
+  const [opens, setOpens] = useState(false);
   const handleClose = () => {
     setOpen(false)
+    setOpens(false)
   }
 
   const style = {
@@ -40,6 +42,7 @@ const Dashboard = () => {
     setWork(response.data)
 
   }
+
 
   const arrayDept = work.map((curr, index) => {
     return {
@@ -89,7 +92,7 @@ const Dashboard = () => {
     setOpen(true)
   }
   const openDeptLeave = () => {
-
+    setOpens(true)
   }
 
 
@@ -158,11 +161,7 @@ const Dashboard = () => {
 
   // console.log(leaveObj);
 
-  useEffect(() => {
-    getCounts();
-    getDasboardTotal();
-    // calculateWorkingHours();
-  }, []);
+
 
   var x = [];
   var y = [];
@@ -247,6 +246,7 @@ const Dashboard = () => {
     ]
   };
 
+  
 
   const department = {
 
@@ -312,7 +312,92 @@ const Dashboard = () => {
       }
     ]
   };
+  const [dashPending, setDashPending] = useState([])
+  const getDashPending = async () => {
+    const res = await getDashboardPending();
+    console.log(res.data);
+    setDashPending(res.data)
+  }
 
+  const dashPendingMap = dashPending.map((curr, index)=>{
+    var count = 0;
+    // console.log(curr);
+    curr.rounds.map((val,i)=>{
+      if(val==='Pending'){
+        count = count + 1;
+      }
+    })
+    // console.log(curr);
+    // console.log(curr._id);
+    // console.log(count);
+    return {
+      name : curr._id,
+      value : count
+    }
+  })
+
+  var names = []
+  var valuess = []
+
+  dashPendingMap.map((curr, index)=>{
+    names.push(curr.name);
+    valuess.push({ 
+      value : curr.value,
+      itemStyle: {
+        color: colorPalette[index+1]
+      }
+    })
+  })
+
+  const dashesPending = {
+    legend: {
+      bottom: '10%',
+      left: '15%'
+    },
+    color: ['#00DDFF'],
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'shadow',
+        label: {
+          backgroundColor: '#00000'
+        },
+        animation: true
+      }
+    },
+    xAxis: {
+      type: 'category',
+      data: names,
+    },
+    yAxis: {
+      type: 'value',
+      nameTextStyle: {
+        fontStyle: 'oblique',
+        fontWeight: 500
+      }
+    },
+    series: [
+      {
+        // name: 'Leave Chart',
+        data: valuess,
+        type: 'bar',
+        showBackground: true,
+        backgroundStyle: {
+          color: 'rgba(180, 180, 180, 0.2)'
+        }
+      }
+    ]
+  };
+
+
+  console.log(dashPendingMap);
+
+  useEffect(() => {
+    getCounts();
+    getDasboardTotal();
+    getDashPending();
+    // calculateWorkingHours();
+  }, []);
 
   return (
     <>
@@ -377,6 +462,27 @@ const Dashboard = () => {
             </h5>
             <hr />
             <ReactECharts option={dashWH} style={{ height: '450px', width: '100%' }} />
+          </div>
+        </Box>
+      </Modal>
+      <Modal
+        open={opens}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Box sx={style}>
+
+          <div className="container">
+            <h5>
+              Working Hours for department
+            </h5>
+            <hr />
+            <ReactECharts option={dashesPending} style={{ height: '450px', width: '100%' }} />
           </div>
         </Box>
       </Modal>

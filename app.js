@@ -20,8 +20,8 @@ const corsOptions = {
 };
 
 app.use(express.json());
-app.use(cors(corsOptions))
 app.use(cookieParser())
+app.use(cors(corsOptions))
 app.use(bodyParser.json())
 app.use('/uploads', express.static(path.join(__dirname, "uploads")))
 app.use(require("./router/auth"));
