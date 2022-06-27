@@ -49,6 +49,8 @@ const LogIn = () => {
    
     if(data.message == "success"){
       window.alert("Success")
+      window.localStorage.setItem("loggedState", true)
+      window.location.reload()
       history.push("/")
     }else{
       window.alert("Not Success")

@@ -21,6 +21,7 @@ const EmployeeSidebar = () => {
   }
 
 
+  const value = window.localStorage.getItem("id")
 
 
 
@@ -39,13 +40,13 @@ const EmployeeSidebar = () => {
                 <div className="profile_name">Admin</div>
                 <div className="job">Admin Role</div>
               </div>
-              <NavLink to="/login">
+              <NavLink to="/logout">
                 <i className='bx bx-log-out'></i>
               </NavLink>
             </div>
           </li>
           <li>
-            <NavLink to='/employee/Dashboard'>
+            <NavLink to='/'>
               <i className='bx bxs-grid-alt'></i>
               <span className="link_name">Dashboard</span>
             </NavLink>
@@ -88,7 +89,7 @@ const EmployeeSidebar = () => {
               <span className="link_name">Payroll</span>
             </NavLink>
             <ul className="sub-menu blank">
-              <li><NavLink className="link_name" to="/employee/payroll">Payroll</NavLink></li>
+              <li><NavLink className="link_name" to={`/employee/payroll/${value}`}>Payroll</NavLink></li>
             </ul>
           </li>
           {/* <li>

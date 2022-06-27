@@ -726,3 +726,8 @@ select option {
   cursor : pointer;
   background-color: rgb(203, 201, 201);
 }
+
+.editLink, .editLink:hover{
+  color : white;
+  text-decoration-line: none;
+}

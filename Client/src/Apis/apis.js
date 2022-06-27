@@ -104,3 +104,13 @@ export const singleEmployeeAttendance = async (data) => {
     const res = await axios.post("http://localhost:5000/singleLeave", data, { withCredentials: true });
     return (res.data)
 }
+
+export const getAboutDetails = async() => {
+    const res = await axios.get('http://localhost:5000/about',{ withCredentials: true })
+    return res;
+}
+
+export const goLogOut = async () =>{
+    const res = await axios.get("http://localhost:5000/logout", { withCredentials: true })
+    return res;
+}

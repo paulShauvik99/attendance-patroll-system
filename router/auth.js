@@ -132,13 +132,13 @@ router.post("/addEmployee", async (req, res) => {
 router.post("/addAdmin", async (req, res) => {
     try {
         const { name, email, id, role, password, conpassword } = req.body;
+        console.log(req.body)
         if (password !== conpassword) {
             return res.json({ message: "Password and Confirm Password must be same" })
         } else {
-            const hashedPassword = await bcrypt.hash(password, 12);
             const response = new Admin({
                 name: name, email: email, adminId: id,
-                role: role, password: hashedPassword
+                role: role, password: password
             });
             const admin = await response.save();
             if (admin) {
@@ -179,6 +179,7 @@ router.post("/login", async (req, res) => {
         }
 
         if (type === "Employee") {
+            console.log(450000000);
             const response = await User.findOne({ employeeID: employeeId });
 
             if (response) {
@@ -191,7 +192,7 @@ router.post("/login", async (req, res) => {
                         expires: new Date(Date.now() + 3600000),
                         httpOnly: true
                     })
-                    return res.status(201).json({ message: "success" })
+                    return res.status(201).json({ message: "success", response : response })
                 } else {
                     console.log(1234)
                     return (res.json({ error: "Invalid Details1" }));   //.status(422)
@@ -202,6 +203,7 @@ router.post("/login", async (req, res) => {
             }
 
         } else if (type === "Admin") {
+            console.log(1000000000);
             const response = await Admin.findOne({ employeeID: employeeId });
 
             if (response) {
@@ -214,7 +216,7 @@ router.post("/login", async (req, res) => {
                         expires: new Date(Date.now() + 3600000),
                         httpOnly: true
                     })
-                    return res.status(201).json({ message: "success" })
+                    return res.status(201).json({ message: "success", response : response })
                 } else {
                     console.log(1234)
                     return (res.json({ error: "Invalid Details1" }));   //.status(422)
@@ -918,7 +920,7 @@ router.get("/dashboardCount", async (req, res) => {
 
 
 // group working hours
-router.get("/totalWorkingHours",authenticate, async (req, res) => {
+router.get("/totalWorkingHours", authenticate, async (req, res) => {
     try {
         const response = await Attendance.aggregate([
             { $group: { _id: "$dept", total: { $sum: 1 }, rounds: { $push: "$records" } } }
@@ -944,28 +946,63 @@ router.get("/totalDeptLeaves", async (req, res) => {
 })
 
 
-router.post("/employeeLeaveStatus", async (req,res)=> {
+router.post("/employeeLeaveStatus", async (req, res) => {
     try {
-        const response = await Leave.find({empId: '858575'})
-        const responseBalance =await Leave.aggregate([
-            { $match: { empId: '858575'} },
+        const response = await Leave.find({ empId: '858575' })
+        const responseBalance = await Leave.aggregate([
+            { $match: { empId: '858575' } },
             { $group: { "_id": "$status", "value": { $sum: 1 } } }
         ])
-        const balanceStatus = await LeaveCount.find({ empId : '858575'})
-        res.json({employeeLeave : response, leftBalance : responseBalance, balanceStats : balanceStatus})
+        const balanceStatus = await LeaveCount.find({ empId: '858575' })
+        res.json({ employeeLeave: response, leftBalance: responseBalance, balanceStats: balanceStatus })
 
     } catch (error) {
         console.log(error);
     }
 })
 
-router.post("/singleLeave",async (req,res)=> {
+router.post("/singleLeave", async (req, res) => {
     try {
-        const response = await Attendance.findOne({empId : req.body.empId});
+        const response = await Attendance.findOne({ empId: req.body.empId });
         res.send(response)
     } catch (error) {
         console.log(error);
     }
+})
+
+// change password
+router.post("/editPassword", async (req, res) => {
+    try {
+        const { _id, password, type } = req.body;
+        // type = 'Employee'
+        if (type === "Employee") {
+            const hashedPassword = await bcrypt.hash(password, 12);
+            const response = await User.updateOne({ _id: _id }, {
+                $set: {
+                    password: hashedPassword
+                }
+            })
+            console.log(response);
+            res.send(response)
+        } else if (type === "Admin") {
+            const hashedPassword = await bcrypt.hash(password, 12);
+            const response = await Admin.updateOne({ _id: _id }, {
+                $set: {
+                    password: hashedPassword
+                }
+            })
+            console.log(response);
+            res.send(response)
+        }
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+
+// about us 
+router.get("/about", authenticate, async(req,res)=>{
+    res.send(req.rootUser)
 })
 
 
