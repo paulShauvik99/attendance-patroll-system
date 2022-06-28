@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 
 
-const EmployeeSidebar = () => {
+const EmployeeSidebar = ({response}) => {
 
 
 
@@ -40,7 +40,7 @@ const EmployeeSidebar = () => {
                 <div className="profile_name">Admin</div>
                 <div className="job">Admin Role</div>
               </div>
-              <NavLink to="/logout">
+              <NavLink onClick={response} to="/">
                 <i className='bx bx-log-out'></i>
               </NavLink>
             </div>
