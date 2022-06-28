@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect} from 'react'
 import Heading from './SubComponents/Heading'
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import WorkIcon from '@mui/icons-material/Work';
@@ -7,8 +7,28 @@ import EditIcon from '@mui/icons-material/Edit';
 import PersonIcon from '@mui/icons-material/Person';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import WorkRoundedIcon from '@mui/icons-material/WorkRounded';
+import {Link} from 'react-router-dom'; 
+import {getAboutDetails} from "../Apis/apis";
+// import Cookies from 'js-cookie'
 
 const EmployeeDashboard = () => {
+    // console.log(Cookies.get('lmstoken'))
+    const [value, setValue] = useState({})
+    const getInfo = async()=> {
+        const res = await getAboutDetails();
+        console.log(res.data);
+       setValue(res.data)
+    }
+
+    console.log(value);
+
+    window.localStorage.setItem("role",value.role)
+    window.localStorage.setItem("id" , value._id)
+
+    useEffect(() => {
+        getInfo();
+    }, [])
+    
     return (
         <>
             <div className="container mt-5 mb-5 nempMain bg-light">
@@ -25,7 +45,7 @@ const EmployeeDashboard = () => {
                         <h5 className="mb-2"> <PersonRoundedIcon /> Sarahan Kumar</h5>
                         <p> <LocationOnIcon /> Kolkata </p> 
                         <p> <WorkIcon /> Faculty </p>
-                        <Button variant="contained" href="edit?id=21" startIcon={<EditIcon fontSize='inherit' />} > Edit </Button>   
+                        <Button variant="contained" startIcon={<EditIcon fontSize='inherit' />} > <Link className="editLink" to={`/viewemployee/edit/${'234'}`}>Edit</Link>  </Button>   
                     </div>
                     
                     {/* ---------------------- RIGHT SIDE ----------------------- */}
@@ -36,7 +56,7 @@ const EmployeeDashboard = () => {
                             <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#personal" type="button" role="tab" aria-controls="personal" aria-selected="true">Personal Details</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#employment" type="button" role="tab" aria-controls="employment" aria-selected="false">Emplyment Details</button>
+                            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#employment" type="button" role="tab" aria-controls="employment" aria-selected="false">Employment Details</button>
                         </li>
                         
                         </ul>

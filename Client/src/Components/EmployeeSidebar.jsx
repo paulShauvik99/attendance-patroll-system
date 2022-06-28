@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 
 
-const EmployeeSidebar = () => {
+const EmployeeSidebar = ({response}) => {
 
 
 
@@ -21,6 +21,7 @@ const EmployeeSidebar = () => {
   }
 
 
+  const value = window.localStorage.getItem("id")
 
 
 
@@ -39,7 +40,7 @@ const EmployeeSidebar = () => {
                 <div className="profile_name">Admin</div>
                 <div className="job">Admin Role</div>
               </div>
-              <NavLink to="/login">
+              <NavLink onClick={response} to="/">
                 <i className='bx bx-log-out'></i>
               </NavLink>
             </div>
@@ -78,7 +79,7 @@ const EmployeeSidebar = () => {
             </div>
             <ul className="sub-menu">
               <li><NavLink className="link_name" to="#">Leaves</NavLink></li>
-              <li><NavLink to="/viewleave">View Leaves</NavLink></li>
+              <li><NavLink to="/employeeviewleaves">View Leaves</NavLink></li>
               <li><NavLink to="/leaveapplication">Leave Application </NavLink></li>
             </ul>
           </li>
@@ -88,7 +89,7 @@ const EmployeeSidebar = () => {
               <span className="link_name">Payroll</span>
             </NavLink>
             <ul className="sub-menu blank">
-              <li><NavLink className="link_name" to="/payroll">Payroll</NavLink></li>
+              <li><NavLink className="link_name" to={`/employee/payroll/${value}`}>Payroll</NavLink></li>
             </ul>
           </li>
           {/* <li>

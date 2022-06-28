@@ -5,7 +5,7 @@ import axios from "axios"
 
 const ViewUser = () => {
 
-  // const history = useHistory();
+  const history = useHistory();
   // console.log(history.location.pathname);
 
   const [list, setList] = useState([])
@@ -18,6 +18,19 @@ const ViewUser = () => {
   useEffect(() => {
     getList();
   }, [])
+
+  const deleteUser = async (event) => {
+    console.log(event.target.value)
+    const response = await axios.post("http://localhost:5000/deleteUser",{
+      _id : event.target.value
+    })
+    if(response.data.deletedCount == 1){
+      window.alert("Deleted Successfully")
+      history.push("/viewuser")
+    }else{
+      window.alert("Cannot be Deleted")
+    }
+  }
 
   return (
     <>
@@ -90,7 +103,7 @@ const ViewUser = () => {
                             <Link className="dropdown-item" to={`/viewuser/edituser/${curr._id}`}><i className="fa fa-edit"></i>  Edit Role</Link>
                           </li>
                           <li>
-                            <Link className="dropdown-item" to="#"><i className="fa fa-trash"></i>  Delete</Link>
+                            <button className="dropdown-item" value={curr._id} onClick={deleteUser}><i className="fa fa-trash"></i>  Delete</button>
                           </li>
                          
                         </ul>

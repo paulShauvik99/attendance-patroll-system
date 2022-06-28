@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { Link, NavLink, useHistory } from 'react-router-dom';
 import Heading from './SubComponents/Heading';
 import axios from "axios"
+import {allEmployeeList} from "../Apis/apis"
 
 
 const ViewEmployee = () => {
 
   const [list, setList] = useState([])
   const getList = async () => {
-    const res = await axios.get("http://localhost:5000/findEmployee")
-    console.log(res.data);
+    const res = await allEmployeeList();
     setList(res.data)
   }
 
@@ -47,10 +47,9 @@ const ViewEmployee = () => {
           <thead className="bg-dark text-light">
 
             <tr className='text-center'>
-              <th class="th-sm">Name
+              <th class="th-sm" style={{width: "16%"}}>Name
               </th>
-              <th class="th-sm">Birthday
-              </th>
+              
               <th class="th-sm">Address
               </th>
               <th class="th-sm">Email
@@ -59,7 +58,7 @@ const ViewEmployee = () => {
               </th>
               <th class="th-sm">Department
               </th>
-              <th class="th-sm">Joining Date
+              <th class="th-sm" style={{width: "12%"}}>Joining Date
               </th>
               <th class="th-sm">Gender
               </th>
@@ -73,7 +72,7 @@ const ViewEmployee = () => {
                 return (
                   <tr className="text-center" key={index}>
                     <td>{curr.firstname} {curr.lastname}</td>
-                    <td>{curr.birthday}</td>
+                    
                     <td>{curr.streetAdd}, {curr.city}, {curr.state}</td>
                     <td>{curr.email}</td>
                     <td>{curr.mobile}</td>

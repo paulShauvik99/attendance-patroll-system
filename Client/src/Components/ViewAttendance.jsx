@@ -21,17 +21,22 @@ const ViewAttendance = () => {
 
     const [list, setList] = useState([])
 
+
+
     const getAttendance = async () => {
         const res = await axios.get("http://localhost:5000/viewAttendanceList")
-        // console.log(res.data);
+        // console.log(res);
         setList(res.data)
+        // const dayName = getDayName(dayIndex)
+        // console.log(dayName);
     }
 
     console.log(list);
 
     useEffect(() => {
-        getAttendance()
-    },[])
+        getAttendance();
+
+    }, [])
 
     var hours = 0;
     var minutes = 0;
@@ -55,35 +60,59 @@ const ViewAttendance = () => {
                             <tr className='text-center'>
                                 <th class="th-sm">Name
                                 </th>
-                                <th class="th-sm">Date
-                                </th>
-                                <th class="th-sm">Time In
-                                </th>
-                                <th class="th-sm">Time Out
-                                </th>
-                                <th class="th-sm">Working Hours
-                                </th>
+
                             </tr>
                         </thead>
-                        <tbody className="mb-1">
+                        <tbody className="mb-1 bodyAttendanceList">
                             {
                                 list.map((curr, index) => {
-                                    const [hoursin, minutein] = curr.time_in.split(':');
-                                    const [hoursout, minuteout] = curr.time_out.split(':');
-                                   return(<>
-                                       <tr className="text-center">
-                                           <td>{curr.name}</td>
-                                           <td>{(curr.date).substring(0,10)}</td>
-                                           <td>{curr.time_in}</td>
-                                           <td>{curr.time_out}</td>
-                                           <td>{hoursout-hoursin} hours {minuteout-minutein} minutes</td>
-                                       </tr>
-                                   </>)
+
+                                    return (<>
+                                        <tr className="text-center">
+                                            <td className="attendanceNameHeading">{curr.name}</td>
+                                            <table className="mb-5 table table-hover table-responsive " >
+                                                <thead className="bg-dark text-light">
+                                                    <tr className='text-center'>
+
+                                                    <th class="th-sm">Day
+                                                        </th>
+                                                        <th class="th-sm">Date
+                                                        </th>
+                                                        <th class="th-sm">Time In
+                                                        </th>
+                                                        <th class="th-sm">Time Out
+                                                        </th>
+                                                        <th class="th-sm">Working Hours
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody className="mb-1">
+                                                    {
+                                                        curr.records.map((val, index) => {
+                                                            return (
+                                                                <>
+                                                                    <tr className="text-center">
+                                                                        <td>{val.day}</td>
+                                                                        <td>{val.date}</td>
+                                                                        <td>{val.time_in}</td>
+                                                                        <td>{val.time_out}</td>
+                                                                        <td>{val.workingHours}</td>
+                                                                    </tr>
+
+                                                                </>
+                                                            )
+                                                        })
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </tr>
+                                    </>)
                                 })
                             }
                         </tbody>
 
                     </table>
+                    
                     <div className='pagination'>
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">

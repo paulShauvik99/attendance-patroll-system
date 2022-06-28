@@ -6,12 +6,13 @@ import LoginImage from "../Images/login-img.png"
 
 const LogIn = () => {
   
-
+  const history = useHistory();
   let name, value
 
   const [userLog, setUserLog] = useState({
     email: "",
-    password: ""
+    password: "",
+    type : ""
   })
 
 
@@ -38,7 +39,7 @@ const LogIn = () => {
         "Content-Type" : "application/json"
       },
       body:JSON.stringify({
-        email : email, password:password
+        employeeId : email, password:password , type : "Employee"
       })
     })
 
@@ -47,10 +48,12 @@ const LogIn = () => {
     console.log(data.message)
    
     if(data.message == "success"){
-    
-
+      window.alert("Success")
+      window.localStorage.setItem("loggedState", true)
+      window.location.reload()
+      history.push("/")
     }else{
-      
+      window.alert("Not Success")
     }
 
   }

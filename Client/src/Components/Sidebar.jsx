@@ -1,6 +1,9 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
-const Sidebar = () => {
+
+
+
+const Sidebar = ({response}) => {
 
 
 
@@ -35,7 +38,7 @@ const Sidebar = () => {
                 <div className="profile_name">Admin</div>
                 <div className="job">Admin Role</div>
               </div>
-              <NavLink to="/login">
+              <NavLink onClick={response} to="/login">
                 <i className='bx bx-log-out'></i>
               </NavLink>
             </div>

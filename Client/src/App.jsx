@@ -1,5 +1,6 @@
-import React from 'react';
-import {Route,Switch} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Route, Switch, useHistory } from 'react-router-dom';
+import LoginImage from "./Images/login-img.png"
 import Sidebar from './Components/Sidebar';
 import Dashboard from './Components/Dashboard';
 import ViewEmployee from './Components/ViewEmployee';
@@ -25,71 +26,221 @@ import EmployeeDashboard from './Components/EmployeeDashboard';
 import LeaveApplication from './Components/LeaveApplication';
 import EmployeeViewAttendance from './Components/EmployeeViewAttendance';
 import EmployeeEditAttendance from './Components/EmployeeEditAttendance';
-import LeaveSettings from './Components/LeaveSettings';
+import LeaveSettings from './Components/LeaveSettings'
+import EmployeePayroll from "./Components/EmployeePayroll"
+import EmployeeViewLeaves from './Components/EmployeeViewLeaves'
+import { goLogOut } from "./Apis/apis"
+
+
 
 
 const App = () => {
+  // const history = useHistory();
+
+  const [sets, setSets] = useState(true)
+  const [localstore, setLocalStore] = useState("systems admin")
+
+  // setSets(window.localStorage.getItem("loggedState"))
+
+  // console.log(localstore)
+  // console.log(sets)
+
+
+
+
+  // login
+  const history = useHistory();
+  let name, value
+
+  const [userLog, setUserLog] = useState({
+    email: "",
+    password: "",
+    type: ""
+  })
+
+
+  const handleInputs = (event) => {
+    // event.preventDefault()
+    name = event.target.name
+    value = event.target.value
+
+    setUserLog({ ...userLog, [name]: value })
+  }
+
+
+  const PostData = async (event) => {
+    event.preventDefault()
+    const { email, password } = userLog;
+    // const res = await axios.post("http://localhost:5000/login",{
+    //   email:email, password:password
+    // })
+
+    const res = await fetch("http://localhost:5000/login", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        employeeId: email, password: password, type: "Employee"
+      })
+    })
+
+    console.log(res);
+    const data = await res.json()
+    console.log(data.message)
+
+    if (data.message == "success") {
+      window.alert("Success")
+      // window.localStorage.setItem("loggedState", true)
+      // window.location.reload()
+      setSets(true)
+      history.push("/")
+    } else {
+      window.alert("Not Success")
+    }
+
+  }
+
+  const response = async () => {
+    const res = await goLogOut();
+    console.log(res)
+    // window.localStorage.setItem("loggedState", false)
+    setSets(false)
+    history.push("/")
+  }
+
+  useEffect(() => {
+
+  }, [sets])
+
+
   return (
+
     <>
-        {/* <Payslip /> */}
-        
-        <Sidebar />
-        {/* <EmployeeSidebar /> */}
-        <Switch>
-          {/* -------------- DASHBOARD ---------------- */}
-          {/* <Route exact path='/' component={Dashboard} /> */}
-          <Route exact path='/' component={EmployeeDashboard} />
-          <Route exact path='/leaveapplication' component={LeaveApplication} />
-          <Route exact path='/employeeviewattendance' component={EmployeeViewAttendance} />
-          <Route exact path='/employeeviewattendance/edit' component={EmployeeEditAttendance} />
+      {
 
-          {/* ---------------- VIEW EMPLOYEE ----------------- */}
-          <Route exact path='/viewemployee' component={ViewEmployee} />
-          
-          {/* ------------------- VIEW EMPLOYEE ---> PROFILE ------------------ */}
-          <Route exact path='/viewemployee/profile' component={EmployeeProfile} />
+        (sets === true) ?
+          <>
+           
+           
+            <Switch>
+              <div>
+                {
+                  (localstore === "system admin") ?
+                    <div>
+                    <Sidebar response={response}/>
+                      <Switch>
+                        <Route exact path='/' component={EmployeeDashboard} />
+                        <Route exact path='/' component={Dashboard} />
+                        {/* ---------------- VIEW EMPLOYEE ----------------- */}
+                        <Route exact path='/viewemployee' component={ViewEmployee} />
+                        {/* ------------------- VIEW EMPLOYEE ---> PROFILE ------------------ */}
+                        <Route exact path='/viewemployee/profile/:id' component={EmployeeProfile} />
+                        {/* ------------------ NEW EMPLOYEE ------------------ */}
+                        <Route exact path='/newemployee' component={NewEmployee} />
 
-          {/* ---------------------- VIEW EMPLOYEE ---> EDIT PROFILE ------------------ */}
-          <Route exact path='/viewemployee/edit' component={ProfileEdit} />
-          
-          {/* ------------------ NEW EMPLOYEE ------------------ */}
-          <Route exact path='/newemployee' component={NewEmployee} />
+                        {/* -------------- MANUAL ATTENDANCE ----------------- */}
+                        <Route exact path='/attendance' component={ManualAttendance} />
 
-          {/* -------------- MANUAL ATTENDANCE ----------------- */}
-          <Route exact path='/attendance' component={ManualAttendance} />
+                        {/* -------------------- PAYROLL --------------------- */}
+                        <Route exact path='/payroll' component={Payroll} />
 
-          {/* -------------------- PAYROLL --------------------- */}
-          <Route exact path='/payroll' component={Payroll} />
+                        {/* ---------------- ADD NEW USER -------------------    */}
+                        <Route exact path='/adduser' component={NewUser} />
 
-          {/* ---------------- ADD NEW USER -------------------    */}
-          <Route exact path='/adduser' component={NewUser} />
+                        {/* -------------------- ADD ROLE -----------------------  */}
+                        <Route exact path='/addrole' component={AddRole} />
 
-          {/* -------------------- ADD ROLE -----------------------  */}
-          <Route exact path='/addrole' component={AddRole} />
+                        {/* ------------------ VIEW USER -------------------- */}
+                        <Route exact path='/viewuser' component={ViewUser} />
 
-          {/* ------------------ VIEW USER -------------------- */}
-          <Route exact path='/viewuser' component={ViewUser} />
+                        {/* -------------------- VIEW ROLE --------------------  */}
+                        <Route exact path='/viewrole' component={ViewRole} />
 
-          {/* -------------------- VIEW ROLE --------------------  */}
-          <Route exact path='/viewrole' component={ViewRole} />
+                        {/* ------------------------- VIEW ATTENDANCE ----------------------- */}
+                        <Route exact path='/viewattendance' component={ViewAttendance} />
+                        {/* ------------------------ VIEW LEAVE ---------------------- */}
+                        <Route exact path='/viewleave' component={ViewLeave} />
+                        <Route exact path='/leavesetting' component={LeaveSettings} />
+                        <Route exact path='/viewuser/edituser/:id' component={EditUser} />
+                        <Route exact path='/reportattendance' component={ReportAttendance} />
 
-          {/* ------------------------- VIEW ATTENDANCE ----------------------- */}
-          <Route exact path='/viewattendance' component={ViewAttendance} />
+                        {/* --------------------- REPORT -----> LEAVES ---------------------- */}
+                        <Route exact path='/reportleaves' component={ReportLeave} />
+                        <Route exact path='/payroll/payslip/:id' component={Payslip} />
+                        <Route exact path='/employee/payroll/payslip/:id' component={Payslip} />
+                      </Switch>
+                    </div>
+                    :
+                    <div>
+                    <EmployeeSidebar response={response} />
+                      <Switch>
+                        <Route exact path='/adduser' component={NewUser} />
+                        <Route exact path='/' component={EmployeeDashboard} />
+                        <Route exact path='/leaveapplication' component={LeaveApplication} />
+                        <Route exact path='/employee/payroll/:id' component={Payslip} />
+                        <Route exact path='/employeeviewattendance' component={EmployeeViewAttendance} />
+                        <Route exact path='/employeeviewattendance/edit' component={EmployeeEditAttendance} />
+                        <Route exact path='/employeeviewleaves' component={EmployeeViewLeaves} />
+                        {/* ---------------------- VIEW EMPLOYEE ---> EDIT PROFILE ------------------ */}
+                        <Route exact path='/viewemployee/edit/:id' component={ProfileEdit} />
+                        {/* -------------- MANUAL ATTENDANCE ----------------- */}
+                        <Route exact path='/attendance' component={ManualAttendance} />
+                        <Route exact path='/logout' component={Logout} />
+                      </Switch>
+                    </div>
+                }
+              </div>
+            </Switch>
+          </>
+          :
 
-          {/* ------------------------ VIEW LEAVE ---------------------- */}
-          <Route exact path='/viewleave' component={ViewLeave} />
-          <Route exact path='/leavesetting' component={LeaveSettings} />
-          <Route exact path='/viewuser/edituser/:id' component={EditUser} />
-          <Route exact path='/reportattendance' component={ReportAttendance} />
-          
-          {/* --------------------- REPORT -----> LEAVES ---------------------- */}
-          <Route exact path='/reportleaves' component={ReportLeave} />
-          <Route exact path='/payroll/payslip/:id' component={Payslip} />
+          <div>
+            {/* <Switch>
+              <Route path='/' component={Login} />
+            </Switch> */}
+            <section className="signup">
+              <div className="container">
+                <div className="signup-content">
+                  <div className="signup-image">
+                    <figure>
+                      <img src={LoginImage} alt="Book Image" srcSet="" />
+                    </figure>
 
-          <Route exact path='/login' component={Login} />
-          <Route exact path='/logout' component={Logout} />
-        </Switch>
-    </> 
+                  </div>
+                  <div className="signup-form">
+                    <h2 className="form-title">
+                      Log In  Here
+                    </h2>
+                    <form method="POST" id="addBooks" className="register-form">
+                      <div className="form-group">
+                        <label htmlFor="email"></label>
+                        <input type="text" name="email" id="email" autoComplete="off" value={userLog.email}
+                          onChange={handleInputs} placeholder="Employee Id" />
+                      </div>
+
+                      <div className="form-group">
+                        <label htmlFor="password"></label>
+                        <input type="password" name="password" id="password" autoComplete="off" value={userLog.password}
+                          onChange={handleInputs} placeholder="Password" />
+                      </div>
+
+                      <div className="form-group form-button">
+                        <input type="submit" name="register" id='register' className="form-submit" onClick={PostData} value="Log In" />
+                      </div>
+                    </form>
+
+                  </div>
+
+                </div>
+              </div>
+            </section>
+          </div>
+
+      }
+
+    </>
   )
 }
 

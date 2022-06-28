@@ -2,21 +2,23 @@ import React, { useState, useEffect } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import Heading from './SubComponents/Heading'
 import { Button, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, TextField } from '@mui/material'
-import axios from "axios"
+import axios from "axios";
+
 
 const EditUser = () => {
 
     const history = useHistory();
+    // let navigate = useNavigate();
     // console.log(history.location.pathname)
     const {id} = useParams()
 
     const [values, setValues] = useState({
-        fullName: 'user',
-        email: 'user@rmail.com',
+        fullName: '',
+        email: '',
         role: '',
     });
 
-    const [emp, setEmp] = useState()
+    const [emp, setEmp] = useState({})
 
     const handleChange = (prop) => (e) => {
         setValues({
@@ -30,8 +32,12 @@ const EditUser = () => {
             id : id
         })
 
-        console.log(response)
+        console.log(response.data)
         setEmp(response.data)
+        values.fullName = response.data.firstname + " " + response.data.lastname
+        values.email = response.data.email
+
+        console.log(values.fullName);
     }
 
     useEffect(() => {
@@ -39,9 +45,21 @@ const EditUser = () => {
     }, [])
     
 
+    const updateUser = async() =>{
+        const response = await axios.post("http://localhost:5000/updateUserRole",{
+            _id : id,
+            role : values.role
+        })
+
+        if(response.data.modifiedCount==1){
+            window.alert("Updated Successfully");
+           history.push("/viewuser")
+        }else{
+            window.alert("Cannot be updated");
+        }
+    }
+
     console.log(emp);
-
-
     return (
           <>
             <div className="container mt-5 employee nempMain">
@@ -61,10 +79,13 @@ const EditUser = () => {
                                 <div className="col-md-5 me-5">
                                     <TextField
                                         variant='outlined'
-                                        disabled
+                                        // disabled
                                         label="Full Name"
                                         fullWidth
-                                        // value={emp.firstname + " "+ emp.lastname}
+                                        inputProps={
+                                            {readOnly: true}
+                                        }
+                                        value={emp.firstname + " " + emp.lastname}
                                     // onChange={handleChange('fullName')}
                                     />
                                 </div>
@@ -73,13 +94,19 @@ const EditUser = () => {
                             <div className="row form-group justify-content-center d-flex">
                                 <label className="col-md-3 ps-5 text-center control-label"> Email: </label>
                                 <div className="col-md-5 me-5">
-                                    <TextField
+                                <TextField
                                         variant='outlined'
-                                        disabled
+                                        // disabled
                                         label="Email"
                                         fullWidth
-                                        // onChange={handleChange('email')}
-                                        // value={emp.email}
+                                        InputLabelProps={{
+                                            shrink:true
+                                        }}
+                                        inputProps={
+                                            {readOnly: true}
+                                        }
+                                        value={emp.email}
+                                    // onChange={handleChange('fullName')}
                                     />
                                 </div>
                             </div>
@@ -115,7 +142,7 @@ const EditUser = () => {
                             </div>
                             <br />
                             <div className='mt-3 justify-content-center d-flex'>
-                            <Button variant='contained'  className="mb-5">
+                            <Button variant='contained'  className="mb-5" onClick={updateUser}>
                                 Update
                             </Button>
                         </div>
