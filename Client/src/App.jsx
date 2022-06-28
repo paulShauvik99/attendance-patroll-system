@@ -37,8 +37,8 @@ import { goLogOut } from "./Apis/apis"
 const App = () => {
   // const history = useHistory();
 
-  const [sets, setSets] = useState(true)
-  const [localstore, setLocalStore] = useState("system admin")
+  const [sets, setSets] = useState(false)
+  const [localstore, setLocalStore] = useState("")
 
   // setSets(window.localStorage.getItem("loggedState"))
 
@@ -88,13 +88,16 @@ const App = () => {
 
     console.log(res);
     const data = await res.json()
+    console.log(data);
     console.log(data.message)
+    console.log(data.response.role);
 
     if (data.message == "success") {
       window.alert("Success")
       // window.localStorage.setItem("loggedState", true)
       // window.location.reload()
       setSets(true)
+      setLocalStore(data.response.role)
       history.push("/")
     } else {
       window.alert("Not Success")
@@ -107,11 +110,17 @@ const App = () => {
     console.log(res)
     // window.localStorage.setItem("loggedState", false)
     setSets(false)
-    history.push("/")
+    setLocalStore("")
+    setUserLog({
+      email: "",
+      password: "",
+      type: ""
+    })
+    // history.push("/login")
   }
 
   useEffect(() => {
-
+    console.log(sets)
   }, [sets])
 
 
@@ -122,14 +131,12 @@ const App = () => {
 
         (sets === true) ?
           <>
-           
-           
             <Switch>
               <div>
                 {
                   (localstore === "system admin") ?
                     <div>
-                    <Sidebar response={response}/>
+                      <Sidebar response={response} />
                       <Switch>
                         <Route exact path='/' component={Dashboard} />
                         {/* ---------------- VIEW EMPLOYEE ----------------- */}
@@ -173,7 +180,7 @@ const App = () => {
                     </div>
                     :
                     <div>
-                    <EmployeeSidebar response={response} />
+                      <EmployeeSidebar response={response} />
                       <Switch>
                         <Route exact path='/adduser' component={NewUser} />
                         <Route exact path='/' component={EmployeeDashboard} />
@@ -193,11 +200,14 @@ const App = () => {
               </div>
             </Switch>
           </>
+
           :
 
           <div>
             {/* <Switch>
-              <Route path='/' component={Login} />
+              <Route path='/login' component={
+                
+              } />
             </Switch> */}
             <section className="signup">
               <div className="container">
@@ -235,6 +245,7 @@ const App = () => {
                 </div>
               </div>
             </section>
+
           </div>
 
       }
