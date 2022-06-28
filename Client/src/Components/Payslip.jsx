@@ -4,7 +4,7 @@ import React, { useState, useEffect} from 'react'
 import {useParams} from "react-router-dom"
 import img1 from '../Images/treva.png'
 import axios from "axios"
-import {ToWords} from "to-words"
+// import {ToWords} from "to-words"
 
 const Payslip = () => {
 
@@ -18,16 +18,16 @@ const Payslip = () => {
     var salaries;
 
     const [list,setList] = useState({})
-    const [salBreak, setSalBreak] = useState({
-        basic:0,
-        hra:0,
-        'splAll':0,
-        'pf':0,
-        'it':0,
-        'grat':0,
-        'medIns':0,
-        'grosstot':0,
-    })
+    // const [salBreak, setSalBreak] = useState({
+    //     basic:0,
+    //     hra:0,
+    //     'splAll':0,
+    //     'pf':0,
+    //     'it':0,
+    //     'grat':0,
+    //     'medIns':0,
+    //     'grosstot':0,
+    // })
 
     // const [salInWord,setSalInWord] = useState('');
     var perMon =0;
@@ -81,6 +81,7 @@ const Payslip = () => {
         getInfo();
         
     }, [])
+    
     console.log(list)
     salaries = list.salary
     console.log(salaries)

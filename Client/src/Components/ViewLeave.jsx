@@ -1,10 +1,11 @@
-import { Backdrop, Box, Button, FormControl, InputLabel, MenuItem, Modal, Select } from '@mui/material'
+import { Backdrop, Box, Button, FormControl, InputLabel, makeStyles, MenuItem, Modal, Select } from '@mui/material'
 import React,{ useState} from 'react'
 import Heading from './SubComponents/Heading'
 
 
-
 const ViewLeave = () => {
+
+
 
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -67,8 +68,15 @@ const ViewLeave = () => {
                     <td>2022-05-10</td>
                     <td>2022-05-15</td>
                     <td>
+                    {/* <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                        <option selected>Open this select menu</option>
+                        <option> <span className="badge rounded-pill bg-warning"> Pending </span></option>
+                        <option> <span className="badge rounded-pill bg-success"> Accepted </span></option>
+                        <option> <span className="badge rounded-pill bg-danger"> Rejected </span></option>
+                    </select> */}
+
                         
-                        <FormControl variant='filled'  fullWidth size="small" sx={{ m: 1, minWidth: 50, borderBottom:'none', }}>
+                        <FormControl variant='standard'  fullWidth size="small" sx={{ m: 1, minWidth: 50}}>
                                     <InputLabel id="demo-simple-select-label">Select Status: </InputLabel>
                                     <Select
                                         // labelId="demo-simple-select-label"
@@ -76,6 +84,7 @@ const ViewLeave = () => {
                                         // value={values.role}
                                         label="Select Status:"
                                         onChange={handleChange}
+                                       
                                     >
                                         <MenuItem value={"pending"}><span className="badge rounded-pill pl-5 bg-warning"> Pending </span></MenuItem>
                                         <MenuItem value={"accepted"}><span className="badge rounded-pill bg-success"> Accepted </span></MenuItem>
