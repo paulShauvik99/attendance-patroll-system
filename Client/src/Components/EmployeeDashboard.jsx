@@ -2,16 +2,71 @@ import React, { useState, useEffect} from 'react'
 import Heading from './SubComponents/Heading'
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import WorkIcon from '@mui/icons-material/Work';
-import { Button, TextField } from '@mui/material';
+import { Box, Button, FormControl, InputLabel,InputAdornment, Modal, OutlinedInput, TextField, IconButton } from '@mui/material';
+import KeyIcon from '@mui/icons-material/Key';
+import PasswordIcon from '@mui/icons-material/Password';
 import EditIcon from '@mui/icons-material/Edit';
 import PersonIcon from '@mui/icons-material/Person';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import WorkRoundedIcon from '@mui/icons-material/WorkRounded';
 import {Link} from 'react-router-dom'; 
 import {getAboutDetails} from "../Apis/apis";
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+
 // import Cookies from 'js-cookie'
 
+
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 700,
+    bgcolor: 'background.paper',
+    borderLeft: '2px solid #000',
+    borderBottom: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+    borderRadius: '15px',
+
+  };
+
+
 const EmployeeDashboard = () => {
+
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+    const [values, setValues] = useState({
+        password: '',
+        confirmPassword: '',
+        showPassword: false,
+        showConPassword: false
+    });
+
+    const handleChange = (prop) => (e) => {
+        setValues({
+            ...values,
+            [prop]: e.target.value
+        })
+    }
+
+    const handleClickShowPassword = () => {
+        setValues({
+            ...values,
+            showPassword: !values.showPassword,
+        });
+    };
+    const handleClickShowConPassword = () => {
+        setValues({
+            ...values,
+            showConPassword: !values.showConPassword,
+        });
+    };
+
+
     // console.log(Cookies.get('lmstoken'))
     const [value, setValue] = useState({})
     const getInfo = async()=> {
@@ -29,12 +84,89 @@ const EmployeeDashboard = () => {
         getInfo();
     }, [])
     
+
+    
     return (
         <>
             <div className="container mt-5 mb-5 nempMain bg-light">
                 
-                <div className="mt-4 pt-5 mb-3 container">
+                <div className="mt-4 pt-5 mb-3 container d-flex justify-content-between">
                     <h4 className="display-6">Employee Dashboard</h4>
+                    <div className="mt-1">
+                        <Button variant="contained" className="me-3" startIcon={<EditIcon fontSize='inherit' />} > <Link className="editLink" to={`/viewemployee/edit/${window.localStorage.getItem("id")}`}>Edit</Link>  </Button>
+                        <Button variant="contained"  onClick={handleOpen} startIcon={<PasswordIcon fontSize='inherit' />} > Change Password </Button>
+                        <Modal
+                            open={open}
+                            onClose={handleClose}
+                            aria-labelledby="modal-modal-title"
+                            aria-describedby="modal-modal-description"
+                        >
+                            <Box sx={style}>
+                                <div className="row mt-2 form-group justify-content-center d-flex">
+                                    <label className="col-md-5 text-center mt-2  control-label"> Password : </label>
+                                    <div className="col-md-7 ">
+
+                                        <FormControl sx={{ width: '30ch' }} variant="outlined">
+                                            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                            <OutlinedInput
+
+                                                id="outlined-adornment-password"
+                                                type={values.showPassword ? 'text' : 'password'}
+                                                value={values.password}
+                                                onChange={handleChange('password')}
+                                                endAdornment={
+                                                    <InputAdornment position="end">
+                                                        <IconButton
+                                                            aria-label="toggle password visibility"
+                                                            onClick={handleClickShowPassword}
+                                                            edge="end"
+                                                        >
+                                                            {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                                                        </IconButton>
+                                                    </InputAdornment>
+                                                }
+                                                fullWidth
+                                                label="Password"
+                                            />
+                                        </FormControl>
+                                    </div>
+                                </div>
+                                <br />
+                                <div className="row form-group justify-content-center d-flex">
+                                    <label className="col-md-5 text-center control-label">Confirm Password : </label>
+                                    <div className="col-md-7">
+
+                                        <FormControl sx={{ width: '30ch' }} variant="outlined">
+                                            <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
+                                            <OutlinedInput
+                                                id="outlined-adornment-password"
+                                                type={values.showConPassword ? 'text' : 'password'}
+                                                value={values.confirmPassword}
+                                                onChange={handleChange('confirmPassword')}
+                                                endAdornment={
+                                                    <InputAdornment position="end">
+                                                        <IconButton
+                                                            aria-label="toggle password visibility"
+                                                            onClick={handleClickShowConPassword}
+                                                            edge="end"
+                                                        >
+                                                            {values.showConPassword ? <VisibilityOff /> : <Visibility />}
+                                                        </IconButton>
+                                                    </InputAdornment>
+                                                }
+                                                fullWidth
+                                                label="Confirm Password"
+                                            />
+                                        </FormControl>
+                                    </div>
+                                </div>
+                                <br />
+                                <div className="d-flex justify-content-end me-5 pe-3">
+                                    <Button variant="contained"   onClick={handleClose} > Update </Button>
+                                </div>
+                            </Box>
+                        </Modal>
+                    </div>
                 </div>
                 <hr />
                 <div className="container mt-5 row">
@@ -42,10 +174,10 @@ const EmployeeDashboard = () => {
                     {/* ----------------- LEFT SIDE ------------------- */}
                     
                     <div className="left col-md-5">
-                        <h5 className="mb-2"> <PersonRoundedIcon /> Sarahan Kumar</h5>
-                        <p> <LocationOnIcon /> Kolkata </p> 
-                        <p> <WorkIcon /> Faculty </p>
-                        <Button variant="contained" startIcon={<EditIcon fontSize='inherit' />} > <Link className="editLink" to={`/viewemployee/edit/${'234'}`}>Edit</Link>  </Button>   
+                        <h5 className="mb-2"> <PersonRoundedIcon /> {value.firstname} {value.lastname}</h5>
+                        <p> <LocationOnIcon /> {value.state} </p> 
+                        <p> <WorkIcon /> {value.role} </p>
+                           
                     </div>
                     
                     {/* ---------------------- RIGHT SIDE ----------------------- */}

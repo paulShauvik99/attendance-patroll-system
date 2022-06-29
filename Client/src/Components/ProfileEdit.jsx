@@ -1,18 +1,27 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Heading from './SubComponents/Heading'
 import {Link, useHistory} from 'react-router-dom'
 import ReplayRoundedIcon from '@mui/icons-material/ReplayRounded';
 import { Button, FormControl, FormControlLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField } from '@mui/material';
-
+import {getAboutDetails} from '../Apis/apis'
 
 const ProfileEdit = () => {
+    
+    const [values,setValues] = useState({})
+
+    const getProfileInfo = async () =>{
+        const res =  await getAboutDetails();
+        console.log(res);
+        setValues(res.data);
+    }
+
+    useEffect(() => {
+        getProfileInfo();
+    
+    }, [])
+    
+    console.log(values);
   
-    const [values,setValues] = useState({
-        'fname':'',
-        'lname':'',
-        'mname':'',
-        'gender':'male'    
-    })
 
 
     const handleChange = (prop) => (e) =>{
@@ -29,7 +38,7 @@ const ProfileEdit = () => {
     <>
         <div className="container bg-light nempMain mt-5 mb-5">
             <Heading
-                heading="Edit Employee"
+                heading="Edit Employee Details  "
             />
             
             <div className="container mt-3 mb-3">
@@ -37,14 +46,7 @@ const ProfileEdit = () => {
             </div>
             <hr />
             <div className="container">
-            <nav>
-                <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <button class="nav-link active" id="edit-personal-tab" data-bs-toggle="tab" data-bs-target="#edit-personal" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Personal Details</button>
-                    <button class="nav-link" id="edit-employment-tab" data-bs-toggle="tab" data-bs-target="#edit-employment" type="button" role="tab" aria-controls="edit-employment" aria-selected="false">Employment Details</button>
-                    
-                </div>
-                </nav>
-                <div class="tab-content" id="nav-tabContent">
+            
 
                     {/* ----------------- PERSONAL DETAILS ------------------ */}
 
@@ -55,7 +57,7 @@ const ProfileEdit = () => {
                                             First Name:
                                     </label>
                                     <div className="col-md-7">
-                                        <TextField  variant="standard"  fullWidth label="First Name" size="small"  />
+                                        <TextField inputProps={{readOnly:true}} InputLabelProps={{shrink:true}} variant="standard" value={values.firstname} fullWidth label="First Name" size="small"  />
                                     </div>
                                 </div>
                                 <br />
@@ -64,18 +66,10 @@ const ProfileEdit = () => {
                                             Last Name:
                                     </label>
                                     <div className="col-md-7">
-                                        <TextField  variant="standard" label="Last Name"  fullWidth size="small"  />
+                                        <TextField inputProps={{readOnly:true}} InputLabelProps={{shrink:true}} variant="standard" value={values.lastname} label="Last Name"  fullWidth size="small"  />
                                     </div>
                                 </div>
-                                <br />
-                                <div className="row justify-content-center">
-                                    <label className="control-label d-flex align-items-center text-right col-md-2"> 
-                                            Middle Name:
-                                    </label>
-                                    <div className="col-md-7">
-                                        <TextField  variant="standard" label="Middle Name"fullWidth size="small"  />
-                                    </div>
-                                </div>
+                                
                                 <br />
                                 <div className="row justify-content-center">
                                     <label className="control-label d-flex align-items-center text-right col-md-2"> 
@@ -84,14 +78,16 @@ const ProfileEdit = () => {
                                     <div className="col-md-7">
                                         <FormControl>
                                             <RadioGroup
-                                                onChange={handleChange('gender')}
+                                                inputProps={{readOnly:true}}
+                                                value="Female"
                                                 row
+                                                
                                                 aria-labelledby="demo-row-radio-buttons-group-label"
-                                                name="row-radio-buttons-group"
+                                                name="controlled-row-radio-buttons-group"
                                             >
-                                                <FormControlLabel value="female" control={<Radio />} label="Female" />
-                                                <FormControlLabel value="male" control={<Radio />} label="Male" />
-                                                <FormControlLabel value="other" control={<Radio />} label="Other" />
+                                                <FormControlLabel value="Female" control={<Radio />} label="Female" />
+                                                <FormControlLabel value="Male" control={<Radio />} label="Male" />
+                                                <FormControlLabel value="Other" control={<Radio />} label="Other" />
                                                 
                                             </RadioGroup>
                                         </FormControl>
@@ -103,25 +99,17 @@ const ProfileEdit = () => {
                                             Birthday:
                                     </label>
                                     <div className="col-md-7">
-                                        <TextField type="date" variant="standard" fullWidth size="small"  />
+                                        <TextField type="date" value={values.birthday} label="Birthday" InputLabelProps={{shrink:true}}   variant="standard" fullWidth size="small"  />
                                     </div>
                                 </div>
                                 <br />
-                                <div className="row justify-content-center">
-                                    <label className="control-label d-flex align-items-center text-right col-md-2"> 
-                                            Age:
-                                    </label>
-                                    <div className="col-md-7">
-                                        <TextField  disabled variant="standard" fullWidth size="small"  />
-                                    </div>
-                                </div>
-                                <br />
+                                
                                 <div className="row justify-content-center">
                                     <label className="control-label d-flex align-items-center text-right col-md-2"> 
                                             Email:
                                     </label>
                                     <div className="col-md-7">
-                                        <TextField label="Email"  variant="standard" fullWidth size="small"  />
+                                        <TextField label="Email" InputLabelProps={{shrink:true}}  value={values.email} variant="standard" fullWidth size="small"  />
                                     </div>
                                 </div>
                                 <br />
@@ -130,7 +118,7 @@ const ProfileEdit = () => {
                                             Mobile Number:
                                     </label>
                                     <div className="col-md-7">
-                                        <TextField label="Mobile Number"   variant="standard" fullWidth size="small"  />
+                                        <TextField label="Mobile Number"  value={values.mobile} InputLabelProps={{shrink:true}}  variant="standard" fullWidth size="small"  />
                                     </div>
                                 </div>
                                 <br />
@@ -144,14 +132,15 @@ const ProfileEdit = () => {
                                             <Select
                                                 labelId="demo-simple-select-label"
                                                 id="demo-simple-select"
-                                                // value={marStatus}
-                                                label="Maritial Status"
+                                                value={values.marital}
+                                                label="Marital Status"
+                                                InputLabelProps={{shrink:true}} 
                                                 // onChange={handleMarStatus}
                                             >
-                                                <MenuItem value={"single"}>Single</MenuItem>
-                                                <MenuItem value={"married"}>Married</MenuItem>
-                                                <MenuItem value={"divorced"}>Divorced</MenuItem>
-                                                <MenuItem value={"widowed"}>Widowed</MenuItem>
+                                                <MenuItem value={"Single"}>Single</MenuItem>
+                                                <MenuItem value={"Married"}>Married</MenuItem>
+                                                <MenuItem value={"Divorced"}>Divorced</MenuItem>
+                                                <MenuItem value={"Widowed"}>Widowed</MenuItem>
                                             </Select>   
                                         </FormControl>
                                     </div>
@@ -168,11 +157,12 @@ const ProfileEdit = () => {
                                                 
                                                 labelId="demo-simple-select-label"
                                                 id="demo-simple-select"
-                                                // value={marStatus}
+                                                value={values.education}
                                                 label="Education Level"
                                                 // onChange={handleMarStatus}
                                             >
                                                 <MenuItem value={"Under Graduate"}>Under Graduate</MenuItem>
+                                                <MenuItem value={'Bachelors Degree'}>Bachelors Degree</MenuItem>
                                                 <MenuItem value={"Post Graduate"}>Post Graduate</MenuItem>
                                                 <MenuItem value={"Associate"}>Associate</MenuItem>
                                             </Select>   
@@ -182,161 +172,10 @@ const ProfileEdit = () => {
                                 <br />
                         </div>
                         <hr />
-                        <div className="container d-flex mb-5 me-5 justify-content-end">
+                        <div className="container d-flex mb-3 me-5 justify-content-end">
                             <Button variant="contained" style={{width:"180px"}} > Update </Button>
-                        </div>
-                        <br />
-                    </div>
-
-
-                    {/* --------------------- EMPLOYMENT DETAILS ---------------------  */}
-
-
-                    <div class="tab-pane fade" id="edit-employment" role="tabpanel" aria-labelledby="edit-employment-tab">
-                            <div className="container mt-4 mb-5">
-
-                                <div className="row justify-content-center">
-                                    <label className="control-label d-flex text-right align-items-center col-md-2"> 
-                                           Employee ID:
-                                    </label>
-                                    <div className="col-md-7">
-                                        <TextField  variant="standard"  fullWidth label="Employee ID" size="small"  />
-                                    </div>
-                                </div>
-                                <br />
-                                <div className="row justify-content-center">
-                                    <label className="control-label d-flex align-items-center text-right col-md-2"> 
-                                            Department:
-                                    </label>
-                                    <div className="col-md-7">
-                                        <FormControl fullWidth variant="standard"  >
-                                            <InputLabel id="demo-simple-select-label">Department </InputLabel>
-                                            <Select
-                                                labelId="demo-simple-select-label"
-                                                id="demo-simple-select"
-                                                // value={marStatus}
-                                                label="Department"
-                                                // onChange={handleMarStatus}
-                                            >
-                                                <MenuItem value={"HR"}>HR</MenuItem>
-                                                <MenuItem value={"IT"}>IT</MenuItem>
-                                                <MenuItem value={"Software"}>Software</MenuItem>
-                                            </Select>   
-                                        </FormControl>
-                                    </div>
-                                </div>
-                                <br />
-                                <div className="row justify-content-center">
-                                    <label className="control-label d-flex align-items-center text-right col-md-2"> 
-                                            Role:
-                                    </label>
-                                    <div className="col-md-7">
-                                        <FormControl fullWidth variant="standard"  >
-                                            <InputLabel id="demo-simple-select-label">Role </InputLabel>
-                                            <Select
-                                                labelId="demo-simple-select-label"
-                                                id="demo-simple-select"
-                                                // value={marStatus}
-                                                label="Role"
-                                                // onChange={handleMarStatus}
-                                            >
-                                                <MenuItem value={"Faculty"}>Faculty</MenuItem>
-                                                <MenuItem value={"Engineer"}>Engineer</MenuItem>
-                                                <MenuItem value={"Manager"}>Manager</MenuItem>
-                                            </Select>   
-                                        </FormControl>
-                                    </div>
-                                </div>
-                                <br />
-                                <div className="row justify-content-center">
-                                    <label className="control-label d-flex align-items-center text-right col-md-2"> 
-                                           Employment Type:
-                                    </label>
-                                    <div className="col-md-7">
-                                        <FormControl fullWidth variant="standard"  >
-                                            <InputLabel id="demo-simple-select-label">Employment Type</InputLabel>
-                                            <Select
-                                                labelId="demo-simple-select-label"
-                                                id="demo-simple-select"
-                                                // value={marStatus}
-                                                label="Employment Type"
-                                                // onChange={handleMarStatus}
-                                            >
-                                                <MenuItem value={"Full Time"}>Full Time</MenuItem>
-                                                <MenuItem value={"Part Time"}>Part Time</MenuItem>
-                                            </Select>   
-                                        </FormControl>
-                                    </div>
-                                </div>
-                                <br />
-                                <div className="row justify-content-center">
-                                    <label className="control-label d-flex align-items-center text-right col-md-2"> 
-                                            Salary:
-                                    </label>
-                                    <div className="col-md-7">
-                                        <TextField type="number" label="Salary" variant="standard" fullWidth size="small"  />
-                                    </div>
-                                </div>
-                                <br />
-                                <div className="row justify-content-center">
-                                    <label className="control-label d-flex align-items-center text-right col-md-2"> 
-                                            Date Of Joining:
-                                    </label>
-                                    <div className="col-md-7">
-                                        <TextField  type="date"  variant="standard" fullWidth size="small"  />
-                                    </div>
-                                </div>
-                                <br />
-                                <div className="row justify-content-center">
-                                    <label className="control-label d-flex align-items-center text-right col-md-2"> 
-                                            Status:
-                                    </label>
-                                    <div className="col-md-7">
-                                        <FormControl fullWidth variant="standard"  >
-                                            <InputLabel id="demo-simple-select-label">Status</InputLabel>
-                                            <Select
-                                                labelId="demo-simple-select-label"
-                                                id="demo-simple-select"
-                                                // value={marStatus}
-                                                label="Status"
-                                                // onChange={handleMarStatus}
-                                            >
-                                                <MenuItem value={"Active"}>Active</MenuItem>
-                                                <MenuItem value={"In Active"}>In Active</MenuItem>
-                                            </Select>   
-                                        </FormControl>
-                                    </div>
-                                </div>
-                                <br />
-                                <div className="row justify-content-center">
-                                    <label className="control-label d-flex align-items-center text-right col-md-2"> 
-                                            Tenure:
-                                    </label>
-                                    <div className="col-md-7">
-                                        <FormControl variant="standard" fullWidth>
-                                            <InputLabel id="demo-simple-select-label">Tenure </InputLabel>
-                                            <Select
-                                                
-                                                labelId="demo-simple-select-label"
-                                                id="demo-simple-select"
-                                                // value={marStatus}
-                                                label="Tenure"
-                                                // onChange={handleMarStatus}
-                                            >
-                                                <MenuItem value={"Yes"}>Yes</MenuItem>
-                                                <MenuItem value={"No"}>No</MenuItem>
-                                            </Select>   
-                                        </FormControl>
-                                    </div>
-                                </div>
-                                <br />
-                        </div>
-                        <hr />
-                        <div className="container d-flex mb-5 me-5 justify-content-end">
-                            <Button variant="contained" style={{width:"180px"}} > Update </Button>
-                        </div>
-                        <br />
-                    </div>
+                        </div>   
+                        <br />                  
                     </div>
             </div>
             

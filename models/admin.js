@@ -1,4 +1,6 @@
 const mongoose = require ("mongoose");
+const bcrypt = require("bcryptjs")
+const jwt = require('jsonwebtoken')
  
 const adminSchema = new mongoose.Schema({
     name : {
@@ -32,10 +34,14 @@ const adminSchema = new mongoose.Schema({
 })
 
 adminSchema.pre('save', async function (next) {
-    // console.log("Hi hello")
+
+    console.log("Hi hello")
     if (this.isModified('password')) {
+        console.log("first")
         this.password = await bcrypt.hash(this.password, 12);
+        console.log(this.password);
     }
+    console.log("object");
     next();
 })
 

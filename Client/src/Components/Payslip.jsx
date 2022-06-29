@@ -182,6 +182,7 @@ const Payslip = () => {
                             </tbody>
                         </table>
                     </div>
+                    <br />
                     <div className="col-md-6 container">
                         <table className="table table-striped">
                             <thead>

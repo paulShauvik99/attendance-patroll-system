@@ -140,7 +140,9 @@ router.post("/addAdmin", async (req, res) => {
                 name: name, email: email, adminId: id,
                 role: role, password: password
             });
+            console.log("3",response)
             const admin = await response.save();
+            console.log("2",admin);
             if (admin) {
                 return res.status(201).json({ message: "Added Successfully" })
             } else {
@@ -204,14 +206,15 @@ router.post("/login", async (req, res) => {
 
         } else if (type === "Admin") {
             console.log(1000000000);
-            const response = await Admin.findOne({ employeeID: employeeId });
+            const response = await Admin.findOne({ adminId: employeeId });
+            console.log(response);
 
             if (response) {
                 const isMatch = await bcrypt.compare(password, response.password);
 
                 if (isMatch) {
                     const token = await response.generateAuthToken();
-                    console.log(token);
+                    console.log("here token",token);
                     res.cookie("lmstoken", token, {
                         expires: new Date(Date.now() + 3600000),
                         httpOnly: true
