@@ -4,13 +4,21 @@ import { LeaveDetails } from '../Data/DashboardCard'
 import { Link, useHistory } from "react-router-dom"
 import Cards from './SubComponents/Cards'
 import { FormControl, InputLabel, MenuItem, Select, TextField, Button } from '@mui/material'
-import { getLeaveTypes, allEmployeeList, getEmployeeData } from "../Apis/apis"
+import { getLeaveTypes, allEmployeeList, getEmployeeData, getAboutDetails } from "../Apis/apis"
 import axios from "axios"
-
+import Swal from 'sweetalert2'
 
 
 
 const LeaveApplication = () => {
+
+    const [change, setChange] = useState({})
+    const aboutInfo = async () => {
+        const res = await getAboutDetails();
+        console.log(res.data);
+        setChange(res.data)
+        // window.localStorage.setItem("e",res.data.employeeID)
+    }
 
     const [values, setValues] = useState({
         leaveType: '',
@@ -39,6 +47,8 @@ const LeaveApplication = () => {
         console.log(event.target.files[0]);
         setFile(event.target.files[0])
     }
+   
+
 
     const applyLeave = async () => {
         console.log(file);
@@ -46,9 +56,9 @@ const LeaveApplication = () => {
         formData.append("file", file)
 
         const res = await axios.post("http://localhost:5000/addNewLeave", {
-            name: "User Five",
-            empId : "530280",
-            dept : "Technical Lead",
+            name: change.firstname + " " + change.lastname,
+            empId: change.employeeID,
+            dept: change.role,
             leaveType: values.leaveType,
             mode: values.leaveMode,
             startDate: values.startDate,
@@ -64,7 +74,24 @@ const LeaveApplication = () => {
         })
 
         console.log(res);
-        window.alert(res.data.message)
+        // window.alert(res.data.message)
+        if (res.status == 200) {
+            Swal.fire({
+                icon: 'success',
+                title: "Success",
+                text: res.data.message
+
+            })
+
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: "Server Error!",
+                text: "Cannot apply for leave"
+
+            })
+
+        }
         setFile();
         setValues({
             ...values,
@@ -75,6 +102,7 @@ const LeaveApplication = () => {
             reason: '',
         })
         ref.current.value = "";
+        setTrigger(!trigger)
         history.push("/employeeviewleaves")
 
     }
@@ -129,56 +157,61 @@ const LeaveApplication = () => {
 
     const balance = async () => {
         const data = {
-            empId : '858575'
+            empId: window.localStorage.getItem("e")
         }
         const response = await getEmployeeData(data)
-        console.log(response);
+        console.log(response.leftBalance);
 
         setemployeeLeave(response.employeeLeave)
         setLeftBalance(response.leftBalance)
         setBalanceStats(response.balanceStats[0].counts)
-
+        (setTrigger(!trigger))
     }
 
-    console.log(employeeLeave);
+    // console.l/
+
     console.log(leftBalance);
-    console.log(balanceStats);
-    
 
     const leftBalanceFunc = () => {
         console.log(8888888888);
         var total = 0
-        leftBalance.map((curr,i)=>{
-            if(curr._id === 'Pending'){
+        console.log(leftBalance);
+        leftBalance.map((curr, i) => {
+            if (curr._id === 'Pending') {
                 setPending(curr.value)
             }
-            else if(curr._id === 'Accepted'){
+            else if (curr._id === 'Accepted') {
                 setAccepted(curr.value)
             }
-            else if(curr._id === 'Rejected'){
+            else if (curr._id === 'Rejected') {
                 setRejected(curr.value)
             }
             total = total + curr.value
         })
 
         setRequested(total)
-        setTrigger(!trigger)
+        // setTrigger(!trigger)
+        console.log(rejected);
     }
 
-    
+    // 
 
 
     useEffect(() => {
+       
         allLeaveTypes();
         getAllEmployeeList();
         balance();
-        setTrigger(!trigger)
+        aboutInfo();
+        // leftBalanceFunc()
+        // setTrigger(!trigger)
     }, [])
 
     useEffect(() => {
+        aboutInfo ();
         leftBalanceFunc();
     }, [trigger])
-    
+
 
 
     return (
@@ -332,7 +365,7 @@ const LeaveApplication = () => {
                                 <label className="control-label mb-3"> Reference Name </label>
                                 <FormControl fullWidth>
                                     <InputLabel id="demo-simple-select-label">Reference Name </InputLabel>
-                                    
+
                                     <Select
                                         labelId="demo-simple-select-label"
                                         id="demo-simple-select"

@@ -34,6 +34,9 @@ import { Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedIn
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import LoginIcon from '@mui/icons-material/Login';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 
@@ -64,19 +67,16 @@ const App = () => {
 
 
   const handleInputs = (props) => (event) => {
-    // event.preventDefault()
-    // name = event.target.name
-    // value = event.target.value
-
+    
     setUserLog({ ...userLog, [props]: event.target.value })
   }
 
   const handleClickShowPassword = () => {
     setUserLog({
-        ...userLog,
-        showPassword: !userLog.showPassword,
+      ...userLog,
+      showPassword: !userLog.showPassword,
     });
-};
+  };
 
 
   const PostData = async (event) => {
@@ -105,14 +105,34 @@ const App = () => {
     console.log(data.response.role);
 
     if (data.message == "success") {
-      window.alert("Success")
+      // toast.error("Successfully logged in")
+      toast.success('Successfully Logged In', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      // window.alert("Success")
       // window.localStorage.setItem("loggedState", true)
       // window.location.reload()
       setSets(true)
       setLocalStore(data.response.role)
       history.push("/")
+
     } else {
-      window.alert("Not Success")
+      // window.alert("Not Success")
+      toast.error('Log In Failed', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
 
   }
@@ -128,6 +148,28 @@ const App = () => {
       password: "",
       type: "Employee"
     })
+    if(res.data.message == "Logged out Successfully"){
+      window.localStorage.clear();
+      toast.success('Logged Out', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }else{
+      toast.error('Cannot logged out', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
     // history.push("/login")
   }
 
@@ -190,6 +232,7 @@ const App = () => {
                         <Route exact path='/employee/payroll/payslip/:id' component={Payslip} />
                         {/* <Route exact path='/viewemployee/edit/:id' component={ProfileEdit} /> */}
                       </Switch>
+
                     </div>
                     :
                     <div>
@@ -210,131 +253,109 @@ const App = () => {
                       </Switch>
                     </div>
                 }
+
               </div>
             </Switch>
+
           </>
 
           :
 
           <div>
-            
+
             {
-              
-              
-              <div className="container-fluid ">
 
-                  <div className="row ">
-                      <div className="col-md-6 container logLeftSide">
 
-                          <div className="content container d-flex flex-column align-items-center justify-content-center"> 
-                            <h2 className="display-5 mb-5" style={{textShadow: '1px 1px 10px rgba(0,0,0,0.8)'}}>
-                              Login Here
-                            </h2>
-                            <div className="container d-flex justify-content-center mt-2 mb-4">
-                              <ToggleButtonGroup
-                                color="primary"
-                                value={userLog.type}
-                                exclusive
-                                name="type"
-                                onChange={handleInputs('type')}
-                              >
-                                <ToggleButton value="Employee">Employee</ToggleButton>
-                                <ToggleButton value="Admin">Admin</ToggleButton>
-                              </ToggleButtonGroup>
-                            </div>
+              <div className="logInDiv">
 
-                            <div className="row mt-4 form-group w-100 justify-content-center d-flex">
-                              <label className="col-md-3 text-center mt-2  control-label"> Employee ID : </label>
-                              <TextField  
-                                variant="outlined" 
-                                label="Employee ID" 
-                                value={userLog.email}
-                                name="email"
-                                onChange={handleInputs('email')}
-                                className="form-control col-md-9"  style={{ width : '35ch'}}  />
-                            </div>
-                            <div className="row mt-4 form-group w-100 justify-content-center d-flex">
-                            <label className="col-md-3 text-center mt-2  control-label"> Password : </label>
-                            <FormControl className="col-md-9" sx={{ width: '35ch' }} variant="outlined">
-                                              <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                                              <OutlinedInput
-                                                  style={{background:"white"}}   
-                                                  id="outlined-adornment-password"
-                                                  type={userLog.showPassword ? 'text' : 'password'}
-                                                  value={userLog.password}
-                                                  onChange={handleInputs('password')}
-                                                  endAdornment={
-                                                      <InputAdornment position="end">
-                                                          <IconButton
-                                                              aria-label="toggle password visibility"
-                                                              onClick={handleClickShowPassword}
-                                                              edge="end"
-                                                          >
-                                                              {userLog.showPassword ? <VisibilityOff /> : <Visibility />}
-                                                          </IconButton>
-                                                      </InputAdornment>
-                                                  }
-                                                  fullWidth
-                                                  label="Password"
-                                              />
-                            </FormControl>
-                            </div>
-                            <div className="container d-flex justify-content-center mt-5 ">
-                              <Button name="register" id='register' className="form-submit" sx={{ width : '30ch' }} variant="contained" onClick={PostData} startIcon={<LoginIcon fontSize='inherit' />} > Log In </Button>
-                            </div>                       
-                            
-                          </div>
+                <div className="row ">
+                  <div className="col-md-6  logLeftSide">
+
+                    <div className="content container d-flex flex-column align-items-center justify-content-center">
+                      <h2 className="display-5 mb-5" style={{ textShadow: '1px 1px 10px rgba(0,0,0,0.8)' }}>
+                        Login Here
+                      </h2>
+                      <div className="container d-flex justify-content-center mt-2 mb-4">
+                        <ToggleButtonGroup
+                          color="primary"
+                          value={userLog.type}
+                          exclusive
+                          name="type"
+                          onChange={handleInputs('type')}
+                        >
+                          <ToggleButton value="Employee">Employee</ToggleButton>
+                          <ToggleButton value="Admin">Admin</ToggleButton>
+                        </ToggleButtonGroup>
                       </div>
-                      <div className="col-md-6 logRightSide">
-                          <img src={LoginImage} alt="img" />
+
+                      <div className="row mt-4 form-group w-100 justify-content-center d-flex">
+                        <label className="col-md-3 text-center mt-2  control-label"> User ID : </label>
+                        <TextField
+                          variant="outlined"
+                          label="User ID"
+                          value={userLog.email}
+                          name="email"
+                          onChange={handleInputs('email')}
+                          className="form-control col-md-9" style={{ width: '35ch' }} />
                       </div>
+                      <div className="row mt-4 form-group w-100 justify-content-center d-flex">
+                        <label className="col-md-3 text-center mt-2  control-label"> Password : </label>
+                        <FormControl className="col-md-9" sx={{ width: '35ch' }} variant="outlined">
+                          <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                          <OutlinedInput
+                            style={{ background: "white" }}
+                            id="outlined-adornment-password"
+                            type={userLog.showPassword ? 'text' : 'password'}
+                            value={userLog.password}
+                            onChange={handleInputs('password')}
+                            endAdornment={
+                              <InputAdornment position="end">
+                                <IconButton
+                                  aria-label="toggle password visibility"
+                                  onClick={handleClickShowPassword}
+                                  edge="end"
+                                >
+                                  {userLog.showPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                              </InputAdornment>
+                            }
+                            fullWidth
+                            label="Password"
+                          />
+                        </FormControl>
+                      </div>
+                      <div className="container d-flex justify-content-center mt-5 ">
+                        <Button name="register" id='register' className="form-submit" sx={{ width: '30ch' }} variant="contained" onClick={PostData} startIcon={<LoginIcon fontSize='inherit' />} > Log In </Button>
+                      </div>
+
+                    </div>
                   </div>
-
-
-
-              </div>
-              
-              
-              /* <section className="signup">
-              <div className="container">
-                <div className="signup-content">
-                  <div className="signup-image">
-                    <figure>
-                      <img src={LoginImage} alt="Book Image" srcSet="" />
-                    </figure>
-
+                  <div className="col-md-6 logRightSide">
+                    <img src={LoginImage} alt="img" />
                   </div>
-                  <div className="signup-form">
-                    <h2 className="form-title">
-                      Log In  Here
-                    </h2>
-                    <form method="POST" id="addBooks" className="register-form">
-                      <div className="form-group">
-                        <label htmlFor="email"></label>
-                        <input type="text" name="email" id="email" autoComplete="off" value={userLog.email}
-                          onChange={handleInputs} placeholder="Employee Id" />
-                      </div>
-
-                      <div className="form-group">
-                        <label htmlFor="password"></label>
-                        <input type="password" name="password" id="password" autoComplete="off" value={userLog.password}
-                          onChange={handleInputs} placeholder="Password" />
-                      </div>
-
-                      <div className="form-group form-button">
-                        <input type="submit" name="register" id='register' className="form-submit" onClick={PostData} value="Log In" />
-                      </div>
-                    </form>
-
-                  </div>
-
                 </div>
-              </div>
-            </section>*/
-          }
-      
-        </div> }
 
+
+                {/* <ToastContainer /> */}
+
+
+              </div>
+
+            }
+
+          </div>}
+
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </>
   )
 }

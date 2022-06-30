@@ -3,7 +3,7 @@ import { useHistory, useParams } from 'react-router-dom'
 import Heading from './SubComponents/Heading'
 import { Button, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, TextField } from '@mui/material'
 import axios from "axios";
-
+import Swal from 'sweetalert2'
 
 const EditUser = () => {
 
@@ -51,11 +51,23 @@ const EditUser = () => {
             role : values.role
         })
 
-        if(response.data.modifiedCount==1){
-            window.alert("Updated Successfully");
+        if(response.data.modifiedCount == 1){
+            // window.alert("Updated Successfully");
+            Swal.fire({
+                icon: 'success',
+                title: "Success",
+                text: "Updated Successfully"
+
+            })
            history.push("/viewuser")
         }else{
-            window.alert("Cannot be updated");
+            // window.alert("Cannot be updated");
+            Swal.fire({
+                icon: 'error',
+                title: "Error",
+                text: "Cannot be updated"
+
+            })
         }
     }
 

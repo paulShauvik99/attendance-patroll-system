@@ -761,6 +761,11 @@ select option {
 }
 // ;
 
+.logInDiv{
+  overflow-x : hidden;
+  overflow-y : hidden;
+}
+
 .logRightSide{
   width: 45vw !important;
   height:100vh;

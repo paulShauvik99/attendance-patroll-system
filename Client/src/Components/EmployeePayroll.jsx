@@ -4,11 +4,12 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Heading from './SubComponents/Heading'
 import axios from 'axios'
-
+import Swal from 'sweetalert2'
 
 const EmployeePayroll = () => {
 
     // const navigate = useNavigate()
+    const [toggle, setToggle] = useState(true)
 
     const [list, setList] = useState([])
     const getList = async () => {
@@ -20,6 +21,10 @@ const EmployeePayroll = () => {
     useEffect(() => {
         getList();
     }, [])
+    useEffect(() => {
+        getList();
+    }, [toggle])
+    
 
     useEffect(() => {
 
@@ -66,9 +71,16 @@ const EmployeePayroll = () => {
             salary: sal
         })
         if (res.data.modifiedCount == 1) {
-            window.alert("Salary Updated")
+            // window.alert("Salary Updated")
+            Swal.fire({
+                icon: 'success',
+                title: "Success",
+                text: "Salary Updated"
+        
+            })
+            setToggle(!toggle)
             // navigate("/payroll")
-            window.location.reload()
+            // window.location.reload()
         }
     }
     const style = {

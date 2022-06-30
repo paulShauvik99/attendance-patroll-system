@@ -3,10 +3,17 @@ import React, { useState, useEffect, } from 'react'
 import Heading from './SubComponents/Heading';
 import axios from "axios"
 import { useHistory } from "react-router-dom"
+import {getAboutDetails} from "../Apis/apis"
 
+import Swal from 'sweetalert2'
 
 const ManualAttendance = () => {
-
+  
+  const [list, setList] = useState({})
+  const aboutInfo = async ()=>{
+    const res = await getAboutDetails();
+    setList(res.data)
+  }
 
 
   const history = useHistory();
@@ -52,13 +59,19 @@ const ManualAttendance = () => {
     console.log(123456);
     const date = new Date();
     const store = date.getHours()
-    if (store < 11 && store > 0) {
+    if (store < 11 && store > 8) {
       setTimeIn(date.getHours() + ":" + date.getMinutes())
       setDisable(true)
     }
     else {
       setDisable(false);
-      window.alert("Time In cannot be before 8 a.m. and after 11 a.m.")
+      // window.alert("Time In cannot be before 8 a.m. and after 11 a.m.")
+      Swal.fire({
+        icon: 'error',
+        title: "Error",
+        text: "Time In cannot be before 8 a.m. and after 11 a.m."
+
+    })
     }
     setTrigger(!trigger)
   }
@@ -69,14 +82,20 @@ const ManualAttendance = () => {
     const date = new Date();
     const store = date.getHours()
     console.log(date.getHours())
-    if (store > 17 && store < 22) {
+    if (store > 16 && store < 22) {
       setTimeOut(date.getHours() + ":" + date.getMinutes())
       setDisables(true)
       setDisabling(false)
     } else {
       setDisables(false)
       setDisabling(true)
-      window.alert("Time out cannot be before 5 p.m. and after 10p.m.")
+      // window.alert("Time out cannot be before 5 p.m. and after 10p.m.")
+      Swal.fire({
+        icon: 'error',
+        title: "Error",
+        text: "Time out cannot be before 5 p.m. and after 10p.m."
+
+    })
     }
     setTrigger(!trigger)
   }
@@ -86,15 +105,20 @@ const ManualAttendance = () => {
     window.localStorage.setItem('In', timeIn)
     window.localStorage.setItem('out', timeOut)
   }, [trigger])
+
+  useEffect(() => {
+    aboutInfo();
+  }, [])
+  
  
 
 
   const addAttendance = async (event) => {
     const res = await axios.post("http://localhost:5000/addAttendance", {
       // name, date, time_in, time_out
-      name: name,
-      empId: "638797",
-      dept : 'UI/UX Design',
+      name: list.firstname + " " + list.lastname,
+      empId: list.employeeID,
+      dept : list.role,
       date: date,
       time_in: window.localStorage.getItem("In"),
       time_out: window.localStorage.getItem("out"),
@@ -102,10 +126,22 @@ const ManualAttendance = () => {
     })
     console.log(res);
     if (res.status === 201) {
-      window.alert(res.data.message)
+      // window.alert(res.data.message)
+      Swal.fire({
+        icon: 'success',
+        title: "Success",
+        text: res.data.message
+
+    })
       history.push("/viewattendance")
     } else {
-      window.alert(res.data.message)
+      // window.alert(res.data.message)
+      Swal.fire({
+        icon: 'error',
+        title: "Error",
+        text: res.data.message
+
+    })
     }
     window.localStorage.removeItem("In")
     window.localStorage.removeItem("out")

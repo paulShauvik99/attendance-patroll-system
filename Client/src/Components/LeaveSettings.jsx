@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Heading from './SubComponents/Heading'
 
 import { Backdrop, Box, Button, Modal, TextField } from '@mui/material'
-
+import Swal from 'sweetalert2'
 import axios from "axios"
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -52,10 +52,22 @@ const LeaveSettings = () => {
 
         console.log(response.status);
         if (response.status === 200) {
-            window.alert("New leave type added")
+            // window.alert("New leave type added")
+            Swal.fire({
+                icon: 'success',
+                title: "Success",
+                text: "New leave type added"
+
+            })
 
         } else {
-            window.alert("New Leave not added")
+            // window.alert("New Leave not added")
+            Swal.fire({
+                icon: 'error',
+                title: "Error",
+                text: "New Leave not added"
+
+            })
         }
 
         setValues({
@@ -87,9 +99,21 @@ const LeaveSettings = () => {
         })
 
        if(res.data.modifiedCount == 1){
-        window.alert("Updated successfully")
+        // window.alert("Updated successfully")
+        Swal.fire({
+            icon: 'success',
+            title: "Success",
+            text: "Updated successfully"
+
+        })
        }else{
-        window.alert("Failed to update")
+        // window.alert("Failed to update")
+        Swal.fire({
+            icon: 'error',
+            title: "Error",
+            text: "Failed to update"
+
+        })
        }
 
 
@@ -151,9 +175,21 @@ const LeaveSettings = () => {
 
        console.log(res);
        if(res.data.deletedCount == 1){
-        window.alert("Deleted Successfully")
+        // window.alert("Deleted Successfully")
+        Swal.fire({
+            icon: 'success',
+            title: "Success",
+            text: "Deleted Successfully"
+
+        })
        }else{
-        window.alert("Deletion failed")
+        // window.alert("Deletion failed")
+        Swal.fire({
+            icon: 'error',
+            title: "Error",
+            text: "Deletion failed"
+
+        })
        }
     }
 

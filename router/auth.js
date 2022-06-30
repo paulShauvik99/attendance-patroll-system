@@ -239,26 +239,19 @@ router.post("/login", async (req, res) => {
 
 router.post("/updateEmployee", async (req, res) => {
     try {
-        const { firstname, lastname, streetAdd, city, state, zip, gender, birthday,
-            email, phone, marital, education, password } = req.body;
-        const hashedPassword = await bcrypt.hash(password, 12);
+        const { 
+           _id, email,mobile, phone, marital, education,  } = req.body;
+           console.log(req.body);
+       
         const respond = await User.updateOne({ _id: _id },
             {
                 $set: {
-                    firstname: firstname,
-                    lastname: lastname,
-                    streetAdd: streetAdd,
-                    city: city,
-                    state: state,
-                    zip: zip,
-                    gender: gender,
-                    birthday: birthday,
                     email: email,
+                    mobile : mobile,
                     phone: phone,
                     marital: marital,
                     education: education,
-                    password: hashedPassword
-
+                    
                 }
             })
 
@@ -287,6 +280,7 @@ router.post("/updateAdminRole", async (req, res) => {
 })
 
 router.post("/updateUserRole", async (req, res) => {
+    console.log(req.body);
     try {
         const { _id, role } = req.body;
         const respond = await User.updateOne({ _id: _id }, {
@@ -294,6 +288,7 @@ router.post("/updateUserRole", async (req, res) => {
                 role: role
             }
         })
+        console.log(respond);
         res.send(respond);
         // console.log(req.body);
 
@@ -950,13 +945,14 @@ router.get("/totalDeptLeaves", async (req, res) => {
 
 
 router.post("/employeeLeaveStatus", async (req, res) => {
+    console.log(req.body);
     try {
-        const response = await Leave.find({ empId: '858575' })
+        const response = await Leave.find({ empId: req.body.empId })
         const responseBalance = await Leave.aggregate([
-            { $match: { empId: '858575' } },
+            { $match: { empId: req.body.empId } },
             { $group: { "_id": "$status", "value": { $sum: 1 } } }
         ])
-        const balanceStatus = await LeaveCount.find({ empId: '858575' })
+        const balanceStatus = await LeaveCount.find({ empId: req.body.empId })
         res.json({ employeeLeave: response, leftBalance: responseBalance, balanceStats: balanceStatus })
 
     } catch (error) {
