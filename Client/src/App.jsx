@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
-import LoginImage from "./Images/login-img.png"
+import LoginImage from "./Images/login-page.svg"
 import Sidebar from './Components/Sidebar';
 import Dashboard from './Components/Dashboard';
 import ViewEmployee from './Components/ViewEmployee';
@@ -30,7 +30,10 @@ import LeaveSettings from './Components/LeaveSettings'
 import EmployeePayroll from "./Components/EmployeePayroll"
 import EmployeeViewLeaves from './Components/EmployeeViewLeaves'
 import { goLogOut } from "./Apis/apis"
-
+import { Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import LoginIcon from '@mui/icons-material/Login';
 
 
 
@@ -55,22 +58,31 @@ const App = () => {
   const [userLog, setUserLog] = useState({
     email: "",
     password: "",
-    type: ""
+    type: "Employee",
+    showPassword: false,
   })
 
 
-  const handleInputs = (event) => {
+  const handleInputs = (props) => (event) => {
     // event.preventDefault()
-    name = event.target.name
-    value = event.target.value
+    // name = event.target.name
+    // value = event.target.value
 
-    setUserLog({ ...userLog, [name]: value })
+    setUserLog({ ...userLog, [props]: event.target.value })
   }
+
+  const handleClickShowPassword = () => {
+    setUserLog({
+        ...userLog,
+        showPassword: !userLog.showPassword,
+    });
+};
 
 
   const PostData = async (event) => {
     event.preventDefault()
-    const { email, password } = userLog;
+    const { email, password, type } = userLog;
+    console.log(userLog)
     // const res = await axios.post("http://localhost:5000/login",{
     //   email:email, password:password
     // })
@@ -82,7 +94,7 @@ const App = () => {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        employeeId: email, password: password, type: "Employee"
+        employeeId: email, password: password, type: type
       })
     })
 
@@ -114,7 +126,7 @@ const App = () => {
     setUserLog({
       email: "",
       password: "",
-      type: ""
+      type: "Employee"
     })
     // history.push("/login")
   }
@@ -138,7 +150,6 @@ const App = () => {
                     <div>
                       <Sidebar response={response} />
                       <Switch>
-                        <Route exact path='/' component={EmployeeDashboard} />
                         <Route exact path='/' component={Dashboard} />
                         {/* ---------------- VIEW EMPLOYEE ----------------- */}
                         <Route exact path='/viewemployee' component={ViewEmployee} />
@@ -177,15 +188,15 @@ const App = () => {
                         <Route exact path='/reportleaves' component={ReportLeave} />
                         <Route exact path='/payroll/payslip/:id' component={Payslip} />
                         <Route exact path='/employee/payroll/payslip/:id' component={Payslip} />
-                        <Route exact path='/viewemployee/edit/:id' component={ProfileEdit} />
+                        {/* <Route exact path='/viewemployee/edit/:id' component={ProfileEdit} /> */}
                       </Switch>
                     </div>
                     :
                     <div>
                       <EmployeeSidebar response={response} />
                       <Switch>
-                        <Route exact path='/adduser' component={NewUser} />
                         <Route exact path='/' component={EmployeeDashboard} />
+                        <Route exact path='/adduser' component={NewUser} />
                         <Route exact path='/leaveapplication' component={LeaveApplication} />
                         <Route exact path='/employee/payroll/:id' component={Payslip} />
                         <Route exact path='/employeeviewattendance' component={EmployeeViewAttendance} />
@@ -206,12 +217,85 @@ const App = () => {
           :
 
           <div>
-            {/* <Switch>
-              <Route path='/login' component={
-                
-              } />
-            </Switch> */}
-            <section className="signup">
+            
+            {
+              
+              
+              <div className="container-fluid ">
+
+                  <div className="row ">
+                      <div className="col-md-6 container logLeftSide">
+
+                          <div className="content container d-flex flex-column align-items-center justify-content-center"> 
+                            <h2 className="display-5 mb-5" style={{textShadow: '1px 1px 10px rgba(0,0,0,0.8)'}}>
+                              Login Here
+                            </h2>
+                            <div className="container d-flex justify-content-center mt-2 mb-4">
+                              <ToggleButtonGroup
+                                color="primary"
+                                value={userLog.type}
+                                exclusive
+                                name="type"
+                                onChange={handleInputs('type')}
+                              >
+                                <ToggleButton value="Employee">Employee</ToggleButton>
+                                <ToggleButton value="Admin">Admin</ToggleButton>
+                              </ToggleButtonGroup>
+                            </div>
+
+                            <div className="row mt-4 form-group w-100 justify-content-center d-flex">
+                              <label className="col-md-3 text-center mt-2  control-label"> Employee ID : </label>
+                              <TextField  
+                                variant="outlined" 
+                                label="Employee ID" 
+                                value={userLog.email}
+                                name="email"
+                                onChange={handleInputs('email')}
+                                className="form-control col-md-9"  style={{ width : '35ch'}}  />
+                            </div>
+                            <div className="row mt-4 form-group w-100 justify-content-center d-flex">
+                            <label className="col-md-3 text-center mt-2  control-label"> Password : </label>
+                            <FormControl className="col-md-9" sx={{ width: '35ch' }} variant="outlined">
+                                              <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                              <OutlinedInput
+                                                  style={{background:"white"}}   
+                                                  id="outlined-adornment-password"
+                                                  type={userLog.showPassword ? 'text' : 'password'}
+                                                  value={userLog.password}
+                                                  onChange={handleInputs('password')}
+                                                  endAdornment={
+                                                      <InputAdornment position="end">
+                                                          <IconButton
+                                                              aria-label="toggle password visibility"
+                                                              onClick={handleClickShowPassword}
+                                                              edge="end"
+                                                          >
+                                                              {userLog.showPassword ? <VisibilityOff /> : <Visibility />}
+                                                          </IconButton>
+                                                      </InputAdornment>
+                                                  }
+                                                  fullWidth
+                                                  label="Password"
+                                              />
+                            </FormControl>
+                            </div>
+                            <div className="container d-flex justify-content-center mt-5 ">
+                              <Button name="register" id='register' className="form-submit" sx={{ width : '30ch' }} variant="contained" onClick={PostData} startIcon={<LoginIcon fontSize='inherit' />} > Log In </Button>
+                            </div>                       
+                            
+                          </div>
+                      </div>
+                      <div className="col-md-6 logRightSide">
+                          <img src={LoginImage} alt="img" />
+                      </div>
+                  </div>
+
+
+
+              </div>
+              
+              
+              /* <section className="signup">
               <div className="container">
                 <div className="signup-content">
                   <div className="signup-image">
@@ -246,11 +330,10 @@ const App = () => {
 
                 </div>
               </div>
-            </section>
-
-          </div>
-
-      }
+            </section>*/
+          }
+      
+        </div> }
 
     </>
   )

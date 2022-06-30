@@ -54,7 +54,7 @@ const Sidebar = ({response}) => {
           </li>
           <li>
             <div className="iocn-link">
-              <NavLink to='#'>
+              <NavLink to='#' onClick={arrow}>
                 <i className='bx bxs-user'></i>
                 <span className="link_name">Employee</span>
               </NavLink>
@@ -68,7 +68,7 @@ const Sidebar = ({response}) => {
           </li>
           <li>
             <div className="iocn-link">
-              <NavLink to="#">
+              <NavLink to="#" onClick={arrow}>
                 <i className='bx bxs-time'></i>
                 <span className="link_name">Attendance</span>
               </NavLink>
@@ -82,7 +82,7 @@ const Sidebar = ({response}) => {
           </li>
           <li>
             <div className="iocn-link">
-              <NavLink to="#">
+              <NavLink to="#" onClick={arrow}>
                 <i className="fa fa-bed"></i>
                 <span className="link_name">Leaves</span>
               </NavLink>
@@ -105,7 +105,7 @@ const Sidebar = ({response}) => {
           </li>
           <li>
             <div className="iocn-link">
-              <NavLink to="#">
+              <NavLink to="#" onClick={arrow}>
                 <i className='bx bxs-bar-chart-alt-2'></i>
                 <span className="link_name">Reports</span>
               </NavLink>
@@ -118,22 +118,28 @@ const Sidebar = ({response}) => {
             </ul>
           </li>
           <li>
-            <NavLink to="#">
-              <i className='bx bxs-user-circle'></i>
-              <span className="link_name">Department</span>
-            </NavLink>
-            <ul className="sub-menu blank">
+            <div className="iocn-link">
+              <NavLink to="#" onClick={arrow}>
+                <i className='bx bxs-user-circle'></i>
+                <span className="link_name">Roles</span>
+              </NavLink>
+              <i className='bx bxs-chevron-down arrow' onClick={arrow} ></i>
+            </div>
+            <ul className="sub-menu">
               <li><NavLink className="link_name" to="#">Roles</NavLink></li>
               <li><NavLink to="/viewrole">View Role</NavLink></li>
               <li><NavLink to="/addrole">Add Role</NavLink></li>
             </ul>
           </li>
           <li>
-            <NavLink to="#">
-              <i className='bx bxs-user-rectangle'></i>
-              <span className="link_name">Users</span>
-            </NavLink>
-            <ul className="sub-menu blank">
+            <div className="iocn-link" >
+              <NavLink to="#" onClick={arrow}>
+                <i className='bx bxs-user-rectangle'></i>
+                <span className="link_name">Users</span>
+              </NavLink>
+              <i className='bx bxs-chevron-down arrow' onClick={arrow} ></i>
+            </div>
+            <ul className="sub-menu">
               <li><NavLink className="link_name" to="#">Users</NavLink></li>
               <li><NavLink to="/viewuser">View Users </NavLink></li>
               <li><NavLink to="/adduser">Add Admins</NavLink></li>

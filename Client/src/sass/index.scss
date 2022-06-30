@@ -731,3 +731,53 @@ select option {
   color : white;
   text-decoration-line: none;
 }
+
+
+
+
+//Login Page
+.logLeftSide{
+  width: 55vw !important; 
+  display: flex !important;
+  align-items: center;
+  background: linear-gradient(45deg, rgba(217,253,248,0.55), rgba(255,255,256,0.61))
+}
+
+.logLeftSide .content{
+  width: 600px !important;
+  height: 80vh;
+  // margin-top: 80px !important;
+  box-shadow: 8px 10px 20px  rgba(0,0,0,0.6),
+              inset 2px 2px 25px rgba(0,0,0,0.6) ,
+              inset -2px -2px 25px rgba(255,255,255,1) ;
+  border-radius: 15px;
+  border-left: 1px solid white;
+  border-right: 1px solid black ;
+  border-top: 1px solid black;
+  border-bottom: 1px solid white ;
+  backdrop-filter: blur(20px);
+  
+
+}
+// ;
+
+.logRightSide{
+  width: 45vw !important;
+  height:100vh;
+  background: linear-gradient(220deg, #e66465, #9198e5)
+}
+
+.logRightSide img{
+    margin-top: 150px !important;
+    margin-left: -60px !important;
+    animation: limg 5s  linear infinite;
+}
+
+@keyframes limg{
+   0%,100%{
+      transform : translateY(-10px);
+   }
+   50%{
+      transform : translateY(20px);
+   }
+}

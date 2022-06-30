@@ -12,7 +12,7 @@ const Payslip = () => {
     
     
     // const marginTop="10px"
-    const paddingRight="50px"
+    const paddingRight="20px"
     // const marginBottom="px"
     const marginLeft="-100px"
 

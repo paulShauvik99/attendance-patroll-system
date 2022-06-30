@@ -50,16 +50,13 @@ const EmployeeSidebar = ({response}) => {
               <i className='bx bxs-grid-alt'></i>
               <span className="link_name">Dashboard</span>
             </NavLink>
-            {/* <ul className="sub-menu blank">
-                <li><NavLink className="link_name" to="#">Dashboard</NavLink></li>
-              </ul> */}
           </li>
           
           <li>
             <div className="iocn-link">
-              <NavLink to="#">
+              <NavLink to="#" onClick={arrow}>
                 <i className='bx bxs-time'></i>
-                <span className="link_name">Attendance</span>
+                <span className="link_name"  >Attendance</span>
               </NavLink>
               <i className='bx bxs-chevron-down arrow' onClick={arrow} ></i>
             </div>
@@ -71,7 +68,7 @@ const EmployeeSidebar = ({response}) => {
           </li>
           <li>
             <div className="iocn-link">
-              <NavLink to="#">
+              <NavLink to="#" onClick={arrow}>
                 <i className="fa fa-bed"></i>
                 <span className="link_name">Leaves</span>
               </NavLink>
@@ -84,50 +81,15 @@ const EmployeeSidebar = ({response}) => {
             </ul>
           </li>
           <li>
-            <NavLink to="#">
+            <NavLink to={`/employee/payroll/${window.localStorage.getItem('id')}`}>
               <i className='bx bxs-wallet'></i>
               <span className="link_name">Payroll</span>
             </NavLink>
             <ul className="sub-menu blank">
-              <li><NavLink className="link_name" to={`/employee/payroll/${value}`}>Payroll</NavLink></li>
+              <li><NavLink className="link_name" to={`/employee/payroll/${window.localStorage.getItem('id')}`}>Payroll</NavLink></li>
             </ul>
           </li>
-          {/* <li>
-            <div className="iocn-link">
-              <NavLink to="#">
-                <i className='bx bxs-bar-chart-alt-2'></i>
-                <span className="link_name">Reports</span>
-              </NavLink>
-              <i className='bx bxs-chevron-down arrow' onClick={arrow} ></i>
-            </div>
-            <ul className="sub-menu">
-              <li><NavLink className="link_name" to="#">Reports</NavLink></li>
-              <li><NavLink to="/reportattendance">Attendance</NavLink></li>
-              <li><NavLink to="/reportleaves">Leaves</NavLink></li>
-            </ul>
-          </li> */}
-          {/* <li>
-            <NavLink to="#">
-              <i className='bx bxs-user-circle'></i>
-              <span className="link_name">Department</span>
-            </NavLink>
-            <ul className="sub-menu blank">
-              <li><NavLink className="link_name" to="#">Roles</NavLink></li>
-              <li><NavLink to="/viewrole">View Role</NavLink></li>
-              <li><NavLink to="/addrole">Add Role</NavLink></li>
-            </ul>
-          </li> */}
-          {/* <li>
-            <NavLink to="#">
-              <i className='bx bxs-user-rectangle'></i>
-              <span className="link_name">Users</span>
-            </NavLink>
-            <ul className="sub-menu blank">
-              <li><NavLink className="link_name" to="#">Users</NavLink></li>
-              <li><NavLink to="/viewuser">View Users </NavLink></li>
-              <li><NavLink to="/adduser">Add Admins</NavLink></li>
-            </ul>
-          </li> */}
+        
         </ul>
       </div>
     </>
