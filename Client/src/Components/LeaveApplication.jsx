@@ -160,7 +160,7 @@ const LeaveApplication = () => {
             empId: window.localStorage.getItem("e")
         }
         const response = await getEmployeeData(data)
-        console.log(response.leftBalance);
+        console.log(response.balanceStats);
 
         setemployeeLeave(response.employeeLeave)
         setLeftBalance(response.leftBalance)

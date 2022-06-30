@@ -81,12 +81,12 @@ const EmployeeSidebar = ({response}) => {
             </ul>
           </li>
           <li>
-            <NavLink to={`/employee/payroll/${window.localStorage.getItem('id')}`}>
+            <NavLink to={`/employee/payroll/${window.localStorage.getItem("id")}`}>
               <i className='bx bxs-wallet'></i>
               <span className="link_name">Payroll</span>
             </NavLink>
             <ul className="sub-menu blank">
-              <li><NavLink className="link_name" to={`/employee/payroll/${window.localStorage.getItem('id')}`}>Payroll</NavLink></li>
+              <li><NavLink className="link_name" to={`/employee/payroll/${window.localStorage.getItem("id")}`}>Payroll</NavLink></li>
             </ul>
           </li>
         
