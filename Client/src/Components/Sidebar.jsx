@@ -54,7 +54,7 @@ const Sidebar = ({response}) => {
           </li>
           <li>
             <div className="iocn-link">
-              <NavLink to='#' onClick={arrow}>
+              <NavLink to='#' onClick={arrow}r>
                 <i className='bx bxs-user'></i>
                 <span className="link_name">Employee</span>
               </NavLink>

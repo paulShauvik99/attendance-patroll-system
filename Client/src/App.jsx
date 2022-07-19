@@ -142,8 +142,9 @@ const App = () => {
       {
 
         (sets === true) ?
+        
           <>
-            <Switch>
+          
               <div>
                 {
                   (localstore === "system admin") ?
@@ -211,7 +212,7 @@ const App = () => {
                     </div>
                 }
               </div>
-            </Switch>
+            
           </>
 
           :
