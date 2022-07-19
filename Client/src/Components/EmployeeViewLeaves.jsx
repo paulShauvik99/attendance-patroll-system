@@ -1,7 +1,7 @@
 import { Backdrop, Box, Button, FormControl, InputLabel, MenuItem, Modal, Select } from '@mui/material'
 import React, { useState,useEffect } from 'react'
 import Heading from './SubComponents/Heading'
-import { viewEmployeeLeaves,singleEmployeeleaveDetails } from "../Apis/apis"
+import { viewEmployeeLeaves,singleEmployeeleaveDetails, getAboutDetails } from "../Apis/apis"
 import pdfImg from "../Images/file-pdf-solid-24.png"
 
 
@@ -79,12 +79,19 @@ const EmployeeViewLeaves = () => {
         setLeaveStatus(e.target.value)
     }
 
+    const [change,setChange] = useState("")
+    const aboutInfo = async ()=>{
+        const res = await getAboutDetails();
+        console.log(res.data);
+        setChange(res.data.employeeID)
+      }
 
 
     const [filePath, setFilePath] = useState([])
     let images = []
     const getLeaveList = async () => {
-        const res = await viewEmployeeLeaves("858575");
+        console.log(change);
+        const res = await viewEmployeeLeaves(window.localStorage.getItem("e"));
         setFilePath(res.data)
         console.log(res.data);
     }
@@ -93,6 +100,7 @@ const EmployeeViewLeaves = () => {
 
     useEffect(() => {
         getLeaveList();
+        aboutInfo();
     }, [])
 
     useEffect(() => {

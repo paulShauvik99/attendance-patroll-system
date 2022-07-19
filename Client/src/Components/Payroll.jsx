@@ -5,10 +5,12 @@ import { Link } from 'react-router-dom'
 import Heading from './SubComponents/Heading'
 import axios from 'axios'
 
+import Swal from 'sweetalert2'
 
 const Payroll = () => {
 
     // const navigate = useNavigate()
+    const [trigger, setTrigger] = useState(true)
 
     const [list, setList] = useState([])
     const getList = async () => {
@@ -66,11 +68,30 @@ const Payroll = () => {
             salary: sal
         })
         if (res.data.modifiedCount == 1) {
-            window.alert("Salary Updated")
+            // window.alert("Salary Updated")
+            Swal.fire({
+                icon: 'success',
+                title: "Success",
+                text: "Salary Updated"
+
+            })
             // navigate("/payroll")
-            window.location.reload()
+            setTrigger(!trigger)
+            // window.location.reload()
+        }else{
+            Swal.fire({
+                icon: 'error',
+                title: "Error",
+                text: "Salary Not  Updated"
+
+            })
         }
     }
+
+    useEffect(() => {
+        getList();
+    }, [trigger])
+    
     const style = {
         position: 'absolute',
         top: '50%',
@@ -167,7 +188,14 @@ const Payroll = () => {
         if (res.data.length != 0) {
             setList(res.data)
         } else {
-            window.alert("No such data found")
+            // window.alert("No such data found")
+            Swal.fire({
+                icon: 'error',
+                title: "Error",
+                text: "No such data found"
+
+            })
+
             setList([])
         }
 

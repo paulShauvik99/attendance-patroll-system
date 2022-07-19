@@ -30,7 +30,7 @@ export const updateLeaveStatuses = async (data) => {
 }
 
 export const viewEmployeeLeaves = async(data) => {
-    // console.log(data)
+    console.log(data)
     const res = await axios.post("http://localhost:5000/sendEmployeeLeaveList", { 
         empId : data
     },{ withCredentials: true } )
@@ -95,6 +95,7 @@ export const getDashboardPending = async () => {
 // console.log(arrayDept)
 
 export const getEmployeeData = async (data) => {
+    console.log(data)
     const res = await axios.post("http://localhost:5000/employeeLeaveStatus", data , { withCredentials: true })
     console.log(res.data);
     return (res.data)
@@ -112,5 +113,17 @@ export const getAboutDetails = async() => {
 
 export const goLogOut = async () =>{
     const res = await axios.get("http://localhost:5000/logout", { withCredentials: true })
+    return res;
+}
+
+
+export const updateEmployeeProfile = async (data) => {
+    console.log(data)
+    const res = await axios.post("http://localhost:5000/updateEmployee", data,  { withCredentials: true })
+    return res;
+}
+
+export const changePassword = async (data) =>{
+    const res = await axios.post("http://localhost:5000/editPassword" , data, { withCredentials: true })
     return res;
 }

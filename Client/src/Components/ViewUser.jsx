@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link, NavLink, useHistory } from 'react-router-dom';
 import Heading from './SubComponents/Heading';
 import axios from "axios"
+import Swal from 'sweetalert2'
 
 const ViewUser = () => {
 
@@ -25,10 +26,22 @@ const ViewUser = () => {
       _id : event.target.value
     })
     if(response.data.deletedCount == 1){
-      window.alert("Deleted Successfully")
+      // window.alert("Deleted Successfully")
+      Swal.fire({
+        icon: 'success',
+        title: "Success",
+        text: "Deleted Successfully"
+
+    })
       history.push("/viewuser")
     }else{
-      window.alert("Cannot be Deleted")
+      // window.alert("Cannot be Deleted")
+      Swal.fire({
+        icon: 'success',
+        title: "Success",
+        text:"Cannot be Deleted"
+
+    })
     }
   }
 

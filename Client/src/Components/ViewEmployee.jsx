@@ -4,6 +4,8 @@ import Heading from './SubComponents/Heading';
 import axios from "axios"
 import {allEmployeeList} from "../Apis/apis"
 
+import Swal from 'sweetalert2'
+
 
 const ViewEmployee = () => {
 
@@ -25,9 +27,24 @@ const ViewEmployee = () => {
     });
 
     if(res.data.deletedCount == 1){
-      window.alert("Deleted Successfully");
+      // window.alert("Deleted Successfully");
+      Swal.fire({
+        icon: 'success',
+        title: "Success",
+        text: "Deleted Successfully"
+
+    })
+
+      
     }else{
-      window.alert("Deletion Failed");
+      // window.alert("Deletion Failed");
+      Swal.fire({
+        icon: 'error',
+        title: "Error",
+        text: "Deletion Failed"
+
+    })
+
     }
   }
 

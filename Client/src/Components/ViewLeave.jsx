@@ -7,6 +7,8 @@ import { Link } from "react-router-dom"
 import { getAllLeaveList, singleEmployeeleaveDetails, updateLeaveStatuses } from "../Apis/apis"
 import pdfImg from "../Images/file-pdf-solid-24.png"
 
+import Swal from 'sweetalert2'
+
 const ViewLeave = () => {
 
 
@@ -56,9 +58,22 @@ const ViewLeave = () => {
         }
         const res = await updateLeaveStatuses(data);
         if(res.data.modifiedCount == 1){
-            window.alert("Leave status updated successfully")
+            // window.alert("Leave status updated successfully")
+            Swal.fire({
+                icon: 'success',
+                title: "Success",
+                text: "Leave status updated successfully"
+
+            })
         }else{
-            window.alert("Failed to update leave status")
+            // window.alert("Failed to update leave status")
+            Swal.fire({
+                icon: 'success',
+                title: "Success",
+                text: "Failed to update leave status"
+
+            })
+
         }
 
         setToggle(!toggle);

@@ -3,9 +3,16 @@ import axios from "axios"
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import { Link } from 'react-router-dom';
 import Heading from './SubComponents/Heading';
-import { singleEmployeeAttendance } from "../Apis/apis"
+import { singleEmployeeAttendance, getAboutDetails } from "../Apis/apis"
 
 const EmployeeViewAttendance = () => {
+
+    const [change,setChange] = useState({})
+    const aboutInfo = async ()=>{
+        const res = await getAboutDetails();
+        console.log(res.data);
+        setChange(res.data)
+      }
 
     const [values, setValues] = useState({
         employee: '',
@@ -22,11 +29,16 @@ const EmployeeViewAttendance = () => {
 
     const getAttendance = async () => {
         const data = {
-            empId: '638797'
+            empId: window.localStorage.getItem("e")
         }
         const res = await singleEmployeeAttendance(data);
-        // console.log(res.records);
-        setList(res.records);
+        console.log(res.records);
+        if(res.records == null){
+
+        }else{
+            setList(res.records);
+        }
+        // 
     }
 
     console.log(list);
@@ -34,6 +46,7 @@ const EmployeeViewAttendance = () => {
 
     useEffect(() => {
         getAttendance()
+        aboutInfo();
     }, [])
 
     var hours = 0;

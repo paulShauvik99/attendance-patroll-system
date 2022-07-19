@@ -5,6 +5,8 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import axios from "axios"
 
+import Swal from 'sweetalert2'
+
 const NewUser = () => {
 
     const Id = "Ad" + Math.trunc(performance.now())
@@ -51,7 +53,22 @@ const NewUser = () => {
             conpassword: values.confirmPassword
         })
 
-        window.alert(res.data.message)
+        // window.alert(res.data.message)
+        if(res.status == 200){
+            Swal.fire({
+                icon: 'success',
+                title: "Success",
+                text: res.data.message
+
+            })
+        }else{
+            Swal.fire({
+                icon: 'error',
+                title:"Error",
+                text: res.data.message
+
+            })
+        }
     }
 
     return (

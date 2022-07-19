@@ -15,6 +15,8 @@ import { Button } from '@mui/material';
 import Heading from './SubComponents/Heading'
 import axios from "axios"
 
+import Swal from 'sweetalert2'
+
 
 
 const NewEmployee = () => {
@@ -195,10 +197,22 @@ const NewEmployee = () => {
         })
 
        if(res.status===201){
-           window.alert("Employee added successfully")
+        //    window.alert("Employee added successfully")
+        Swal.fire({
+            icon: 'success',
+            title: "Success",
+            text: "Employee added successfully"
+
+        })
            history.push("/viewemployee");
        }else{
-        window.alert("Failed to add")
+        // window.alert("Failed to add")
+        Swal.fire({
+            icon: 'error',
+            title: "Error",
+            text: "Failed to add"
+
+        })
        }
     }
 
