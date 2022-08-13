@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-
+import {getAboutDetails} from "../Apis/apis"
 
 
 const EmployeeSidebar = ({response}) => {
@@ -19,6 +20,19 @@ const EmployeeSidebar = ({response}) => {
     sidebar.classList.toggle("close");
 
   }
+
+  const [aboutMe, setAboutMe] = useState("")
+
+  const about = async () => {
+      const res  = await getAboutDetails();
+      console.log(res.data)
+      setAboutMe(res.data._id)
+  }
+  
+  useEffect(() => {
+    about()
+  },[])
+
 
 
   const value = window.localStorage.getItem("id")
@@ -86,7 +100,7 @@ const EmployeeSidebar = ({response}) => {
               <span className="link_name">Payroll</span>
             </NavLink>
             <ul className="sub-menu blank">
-              <li><NavLink className="link_name" to={`/employee/payroll/${window.localStorage.getItem("id")}`}>Payroll</NavLink></li>
+              <li><NavLink className="link_name" to={`/employee/payroll/${aboutMe}`}>Payroll</NavLink></li>
             </ul>
           </li>
         
